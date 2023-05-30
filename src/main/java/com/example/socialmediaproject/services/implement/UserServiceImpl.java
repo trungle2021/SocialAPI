@@ -1,0 +1,67 @@
+package com.example.socialmediaproject.services.implement;
+
+
+import com.example.socialmediaproject.dtos.UserDTO;
+import com.example.socialmediaproject.entities.Users;
+import com.example.socialmediaproject.exceptions.ResourceNotFoundException;
+import com.example.socialmediaproject.exceptions.SocialAppException;
+import com.example.socialmediaproject.repositories.UserRepository;
+import com.example.socialmediaproject.services.UserService;
+import com.example.socialmediaproject.utils.EntityMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static com.example.socialmediaproject.utils.SD.ACCOUNT;
+
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
+
+    @Override
+    public List<UserDTO> getAll() {
+        return null;
+    }
+
+    @Override
+    public UserDTO getOneById(String id) {
+        return null;
+    }
+
+    @Override
+    public UserDTO create(String accountId) {
+        if(accountId.isBlank()){
+            throw new SocialAppException(HttpStatus.BAD_REQUEST,"AccountID is null");
+        }
+        Users user = Users.builder().accountId(accountId).build();
+        user.setIsDeleted(false);
+        userRepository.save(user);
+
+        return EntityMapper.mapToDto(user, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO getOneByAccountId(String accountId) {
+        Users person = userRepository.findByAccountId(accountId);
+        if(person == null){
+            throw new ResourceNotFoundException(ACCOUNT,"account_id",accountId);
+        }else{
+            return EntityMapper.mapToDto(person, UserDTO.class);
+        }
+    }
+
+    @Override
+    public UserDTO update(String id) {
+        return null;
+    }
+
+    @Override
+    public void delete(String id) {
+
+    }
+}
