@@ -38,6 +38,8 @@ public class Accounts implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Roles rolesByRoleId;
+    @OneToMany(mappedBy = "accountsByAccountId")
+    private Collection<RefreshTokens> refreshTokensById;
 
     @PrePersist
     public void prePersist() {

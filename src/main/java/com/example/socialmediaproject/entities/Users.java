@@ -14,8 +14,9 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Users {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = true, length = 36)
+    @Column(name = "id", nullable = false, length = 36)
     private String id;
     @Basic
     @Column(name = "first_name", nullable = true, length = 30)
@@ -77,10 +78,13 @@ public class Users {
     private Collection<Posts> postsById;
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<SharedPosts> sharedPostsById;
+    @Basic
+    @Column(name = "dOB", nullable = true)
+    private Date dOb;
+
+
     @PrePersist
     public void prePersist() {
         this.id = UUID.randomUUID().toString();
     }
-
-
 }

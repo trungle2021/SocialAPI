@@ -6,10 +6,8 @@ import com.example.socialmediaproject.entities.Accounts;
 import com.example.socialmediaproject.entities.Roles;
 import com.example.socialmediaproject.exceptions.SocialAppException;
 import com.example.socialmediaproject.securities.JWT.JwtService;
-import com.example.socialmediaproject.services.AccountService;
-import com.example.socialmediaproject.services.AuthService;
-import com.example.socialmediaproject.services.RoleService;
-import com.example.socialmediaproject.services.UserService;
+import com.example.socialmediaproject.services.*;
+import com.example.socialmediaproject.utils.SD;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,9 +34,12 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
         Accounts accounts = accountService.getOneByEmail(email);
         if(accounts != null){
-            String token = jwtService.generateToken(accounts);
+            String accessToken = jwtService.generateToken(SD.ACCESS_TOKEN,accounts);
+            String refreshToken = jwtService.generateToken(SD.REFRESH_TOKEN,accounts);
             return AuthResponse.builder()
-                    .accessToken(token).build();
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
         }
         return null;
     }
@@ -57,6 +58,11 @@ public class AuthServiceImpl implements AuthService {
         accounts = accountService.create(accounts);
         userService.create(accounts.getId());
 
+        return null;
+    }
+
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
         return null;
     }
 }

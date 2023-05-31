@@ -8,4 +8,5 @@ import com.example.socialmediaproject.dtos.RegisterDTO;
 public interface AuthService {
     AuthResponse login(LoginDTO loginDTO);
     RegisterDTO register(RegisterDTO registerDTO);
+    AuthResponse refreshToken(String refreshToken);
 }
