@@ -1,13 +1,17 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "user_marital_status", schema = "social")
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserMaritalStatus {
     @Id
     @Column(name = "user_id", nullable = false, length = 36)

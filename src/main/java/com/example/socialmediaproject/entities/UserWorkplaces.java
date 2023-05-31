@@ -2,12 +2,16 @@ package com.example.socialmediaproject.entities;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "user_workplaces", schema = "social")
 @IdClass(UserWorkplacesPK.class)
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserWorkplaces {
 
     @Id

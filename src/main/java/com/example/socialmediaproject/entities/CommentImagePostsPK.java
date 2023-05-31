@@ -1,12 +1,17 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-@Data
+
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommentImagePostsPK implements Serializable {
     @Column(name = "id", nullable = false, length = 36)
     @Id

@@ -10,5 +10,5 @@ import lombok.*;
 public class RegisterDTO {
     private String email;
     private String password;
-    private final String roleName = "Customer";
+    private String roleType;
 }

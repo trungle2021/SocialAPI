@@ -1,18 +1,17 @@
 package com.example.socialmediaproject.services;
 
 
-import com.example.socialmediaproject.dtos.RoleDTO;
+import com.example.socialmediaproject.entities.Roles;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface RoleService {
-    List<RoleDTO> getAll();
+    List<Roles> getAll();
 
-    RoleDTO getOneByRoleType(String roleType);
-    RoleDTO getOneById(String id);
-    RoleDTO getOneByAccountId(String accountId);
-    RoleDTO create(RoleDTO roleDTO);
-    RoleDTO update(String id);
+    Roles getOneByRoleType(String roleType);
+    Roles getOneById(String id);
+    Roles getOneByAccountId(String accountId);
+    Roles create(Roles role);
+    Roles update(String id);
     void delete(String id);
 }

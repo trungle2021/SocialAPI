@@ -1,13 +1,17 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Collection;
 import java.util.UUID;
 
 @Entity
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Workplaces {
     @Id
     @Column(name = "id", nullable = false, length = 36)

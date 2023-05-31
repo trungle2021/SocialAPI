@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
         scheme = "bearer"
 )
 public class SwaggerConfig {
-    final String securitySchemeName = "bearerAuth";
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

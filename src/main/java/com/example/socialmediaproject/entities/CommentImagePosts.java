@@ -1,7 +1,7 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -9,7 +9,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "comment_image_posts", schema = "social")
 @IdClass(CommentImagePostsPK.class)
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommentImagePosts {
     @Id
     @Column(name = "id", nullable = false, length = 36)

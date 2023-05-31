@@ -2,11 +2,15 @@ package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class FriendsPK implements Serializable {
     @Column(name = "user_id", nullable = false, length = 36)
     @Id

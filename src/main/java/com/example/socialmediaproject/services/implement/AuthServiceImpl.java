@@ -1,10 +1,10 @@
 package com.example.socialmediaproject.services.implement;
 
 
-import com.example.socialmediaproject.dtos.AccountDTO;
-import com.example.socialmediaproject.dtos.AuthResponse;
-import com.example.socialmediaproject.dtos.LoginDTO;
-import com.example.socialmediaproject.dtos.RegisterDTO;
+import com.example.socialmediaproject.dtos.*;
+import com.example.socialmediaproject.entities.Accounts;
+import com.example.socialmediaproject.entities.Roles;
+import com.example.socialmediaproject.exceptions.SocialAppException;
 import com.example.socialmediaproject.securities.JWT.JwtService;
 import com.example.socialmediaproject.services.AccountService;
 import com.example.socialmediaproject.services.AuthService;
@@ -12,6 +12,7 @@ import com.example.socialmediaproject.services.RoleService;
 import com.example.socialmediaproject.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,9 +34,9 @@ public class AuthServiceImpl implements AuthService {
         String password = loginDTO.getPassword();
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
-        AccountDTO accounts = accountService.getOneByEmail(email);
+        Accounts accounts = accountService.getOneByEmail(email);
         if(accounts != null){
-            String token = jwtService.generateToken((UserDetails) accounts);
+            String token = jwtService.generateToken(accounts);
             return AuthResponse.builder()
                     .accessToken(token).build();
         }
@@ -47,14 +48,14 @@ public class AuthServiceImpl implements AuthService {
     public RegisterDTO register(RegisterDTO registerDTO) {
         String email = registerDTO.getEmail();
         String password = registerDTO.getPassword();
-        String roleId = roleService.getOneByRoleType(registerDTO.getRoleName()).getRoleId();
+        Roles roleDTO = roleService.getOneByRoleType(registerDTO.getRoleType());
 
-        AccountDTO accountDTO = AccountDTO.builder()
+        Accounts accounts = Accounts.builder()
                 .email(email)
                 .password(password)
-                .roleId(roleId).build();
-        accountDTO = accountService.create(accountDTO);
-        userService.create(accountDTO.getAccountId());
+                .rolesByRoleId(roleDTO).build();
+        accounts = accountService.create(accounts);
+        userService.create(accounts.getId());
 
         return null;
     }

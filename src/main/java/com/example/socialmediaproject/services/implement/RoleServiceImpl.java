@@ -1,7 +1,6 @@
 package com.example.socialmediaproject.services.implement;
 
 
-import com.example.socialmediaproject.dtos.RoleDTO;
 import com.example.socialmediaproject.entities.Roles;
 import com.example.socialmediaproject.exceptions.ResourceNotFoundException;
 import com.example.socialmediaproject.exceptions.SocialAppException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.example.socialmediaproject.utils.SD.ROLE;
 
@@ -24,57 +22,52 @@ import static com.example.socialmediaproject.utils.SD.ROLE;
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     @Override
-    public List<RoleDTO> getAll(){
+    public List<Roles> getAll(){
         List<Roles> rolesList = roleRepository.findAll();
         if(rolesList.isEmpty()){
             throw new SocialAppException(HttpStatus.INTERNAL_SERVER_ERROR,"Role Data is empty");
         }
-        return rolesList.stream().map(role -> EntityMapper.mapToDto(role, RoleDTO.class)).toList();
+        return rolesList;
     }
 
     @Override
-    public RoleDTO getOneByRoleType(String roleName) {
+    public Roles getOneByRoleType(String roleName) {
         Roles role = roleRepository.findByRoleType(roleName).get(0);
         if(role == null){
             throw new ResourceNotFoundException(ROLE,"role_name",roleName);
         }
-        return EntityMapper.mapToDto(role, RoleDTO.class);
+        return role;
     }
 
     @Override
-    public RoleDTO getOneById(String id) {
-        Roles role = roleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ROLE,"id",id));
-        return EntityMapper.mapToDto(role,RoleDTO.class);
+    public Roles getOneById(String id) {
+        return roleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ROLE,"id",id));
     }
 
     @Override
-    public RoleDTO getOneByAccountId(String accountId) {
+    public Roles getOneByAccountId(String accountId) {
         Roles role = roleRepository.findByAccountId(accountId);
         if(role != null){
-            return EntityMapper.mapToDto(role,RoleDTO.class);
+            return role;
         }
-        throw new SocialAppException(HttpStatus.BAD_REQUEST,"User Not Allowed");
+        throw new SocialAppException(HttpStatus.BAD_REQUEST,"User Not Have Any Role");
     }
 
     @Override
-    public RoleDTO create(RoleDTO roleDTO) {
+    public Roles create(Roles roleDTO) {
         Roles role = new Roles();
-
         validateRoles(roleDTO);
-            role.setRoleType(roleDTO.getRoleType());
-            role = roleRepository.save(role);
-            return EntityMapper.mapToDto(role,RoleDTO.class);
+        role.setRoleType(roleDTO.getRoleType());
+        return roleRepository.save(role);
     }
 
     @Override
-    public RoleDTO update(String id) {
+    public Roles update(String id) {
         Roles role = roleRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(ROLE,"id",id));
-        RoleDTO roleDTO = EntityMapper.mapToDto(role,RoleDTO.class);
-
+        Roles roleDTO = EntityMapper.mapToDto(role,Roles.class);
         validateRoles(roleDTO);
-
-            role.setRoleType(roleDTO.getRoleType());
-            return EntityMapper.mapToDto(roleRepository.save(role),RoleDTO.class);
+        role.setRoleType(roleDTO.getRoleType());
+        return roleRepository.save(role);
     }
 
     @Override
@@ -83,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.delete(role);
     }
 
-    private void validateRoles(RoleDTO roleDTO){
+    private void validateRoles(Roles roleDTO){
 
         boolean roleNameIsExisted = roleRepository
                 .findAll().stream()

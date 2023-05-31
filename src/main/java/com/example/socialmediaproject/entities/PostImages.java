@@ -1,14 +1,18 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Collection;
 import java.util.UUID;
 
 @Entity
 @Table(name = "post_images", schema = "social")
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostImages {
 
     @Id

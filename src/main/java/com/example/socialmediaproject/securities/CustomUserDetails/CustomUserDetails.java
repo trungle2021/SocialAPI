@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Data
 public class CustomUserDetails implements UserDetails {
-   private AuthUserDTO authUser;
+   private  AuthUserDTO authUser;
 
     public CustomUserDetails(AuthUserDTO authUser) {
         this.authUser = authUser;

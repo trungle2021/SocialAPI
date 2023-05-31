@@ -1,22 +1,19 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.UUID;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Users {
-
     @Id
     @Column(name = "id", nullable = true, length = 36)
     private String id;
@@ -33,8 +30,8 @@ public class Users {
     @Column(name = "gender", nullable = true, length = 10)
     private String gender;
     @Basic
-    @Column(name = "dOB", nullable = true)
-    private Date dOb;
+    @Column(name = "dob", nullable = true)
+    private Date dob;
     @Basic
     @Column(name = "address", nullable = true, length = 45)
     private String address;

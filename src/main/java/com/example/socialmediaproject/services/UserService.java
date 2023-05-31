@@ -1,17 +1,17 @@
 package com.example.socialmediaproject.services;
 
 
-import com.example.socialmediaproject.dtos.UserDTO;
+import com.example.socialmediaproject.entities.Users;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserDTO> getAll();
-    UserDTO getOneById(String id);
+    List<Users> getAll();
+    Users getOneById(String id);
 
-    UserDTO create(String accountId);
+    Users create(String accountId);
 
-    UserDTO getOneByAccountId(String accountId);
-    UserDTO update(String id);
+    Users getOneByAccountId(String accountId);
+    Users update(String id);
     void delete(String id);
 }

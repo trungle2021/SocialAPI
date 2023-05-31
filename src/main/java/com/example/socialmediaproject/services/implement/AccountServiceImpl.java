@@ -1,8 +1,7 @@
 package com.example.socialmediaproject.services.implement;
 
-import com.example.socialmediaproject.dtos.AccountDTO;
-import com.example.socialmediaproject.dtos.RoleDTO;
 import com.example.socialmediaproject.entities.Accounts;
+import com.example.socialmediaproject.entities.Roles;
 import com.example.socialmediaproject.exceptions.SocialAppException;
 import com.example.socialmediaproject.exceptions.ResourceNotFoundException;
 import com.example.socialmediaproject.repositories.AccountRepository;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.example.socialmediaproject.utils.SD.ACCOUNT;
 
@@ -28,66 +26,60 @@ public class AccountServiceImpl implements AccountService {
 
 
     private final AccountRepository accountRepository;
-    private final RoleService roleService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public List<AccountDTO> getAll() {
+    public List<Accounts> getAll() {
         return null;
     }
 
     @Override
-    public AccountDTO getOneById(String id) {
+    public Accounts getOneById(String id) {
 
         return null;
     }
 
     @Override
-    public AccountDTO create(AccountDTO accountDTO) {
+    public Accounts create(Accounts accounts) {
         List<String> errorList = new ArrayList<>();
-        RoleDTO roleDTO;
-        Accounts accounts = new Accounts();
+        String email = accounts.getEmail();
+        String password = accounts.getPassword();
+        String roleId = accounts.getRolesByRoleId().getId();
 
-        if(accountDTO.getEmail().isEmpty()){
+        if(email.isEmpty()){
             errorList.add("Email is required");
-        }else if(accountDTO.getPassword().isEmpty()){
+        }else if(password.isEmpty()){
             errorList.add("Password is required");
         }
-
         if(!errorList.isEmpty()){
             throw new SocialAppException(HttpStatus.BAD_REQUEST,errorList.toString());
         }
-        if (accountDTO.getRoleId().isEmpty()) {
-            roleDTO = roleService.getOneByRoleType("CUSTOMER");
-            accounts.setId(roleDTO.getRoleId());
-        }else{
-            accounts.setId(accountDTO.getRoleId());
-        }
-        accounts.setEmail(accountDTO.getEmail());
-        accounts.setIsDeleted(false);
-        accounts.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
-        Accounts newAccount = accountRepository.save(accounts);
-        return EntityMapper.mapToDto(newAccount,AccountDTO.class);
+        Accounts newAccount = new Accounts();
+        newAccount.setEmail(accounts.getEmail());
+        newAccount.setIsDeleted(false);
+        newAccount.setPassword(passwordEncoder.encode(accounts.getPassword()));
+        newAccount.setRoleId(roleId);
+        return accountRepository.save(newAccount);
     }
 
     @Override
-    public AccountDTO getOneByEmail(String email) {
+    public Accounts getOneByEmail(String email) {
         Accounts accounts = accountRepository.findByEmail(email);
         if(accounts == null){
             throw new ResourceNotFoundException("Email not exists");
         }
-        return EntityMapper.mapToDto(accounts,AccountDTO.class);
+        return EntityMapper.mapToDto(accounts,Accounts.class);
     }
 
     @Override
     @Transactional
-    public AccountDTO update(AccountDTO accountDTO) {
-        String accountId = accountDTO.getAccountId();
-        Accounts accounts = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException(ACCOUNT,"id",accountId));
-        accounts.setEmail(accountDTO.getEmail() == null ? accounts.getEmail() : accountDTO.getEmail());
-        accounts.setPassword(accountDTO.getPassword() == null ? accounts.getPassword() : passwordEncoder.encode(accountDTO.getPassword()));
-        accounts.setId(accountDTO.getRoleId() == null ? accounts.getId() : accountDTO.getRoleId());
-        return EntityMapper.mapToDto(accountRepository.save(accounts), AccountDTO.class);
+    public Accounts update(Accounts account) {
+        String accountId = account.getId();
+        Accounts currentAccount = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException(ACCOUNT,"id",accountId));
+        currentAccount.setEmail(account.getEmail() == null ? currentAccount.getEmail() : account.getEmail());
+        currentAccount.setPassword(account.getPassword() == null ? currentAccount.getPassword() : passwordEncoder.encode(account.getPassword()));
+        currentAccount.setRoleId(account.getRoleId() == null ? currentAccount.getId() : account.getId());
+        return accountRepository.save(currentAccount);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -9,7 +9,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "like_posts", schema = "social")
 @IdClass(LikePostPK.class)
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LikePost {
 
     @Id

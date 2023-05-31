@@ -1,7 +1,6 @@
 package com.example.socialmediaproject.services.implement;
 
 
-import com.example.socialmediaproject.dtos.UserDTO;
 import com.example.socialmediaproject.entities.Users;
 import com.example.socialmediaproject.exceptions.ResourceNotFoundException;
 import com.example.socialmediaproject.exceptions.SocialAppException;
@@ -24,39 +23,37 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<UserDTO> getAll() {
+    public List<Users> getAll() {
         return null;
     }
 
     @Override
-    public UserDTO getOneById(String id) {
+    public Users getOneById(String id) {
         return null;
     }
 
     @Override
-    public UserDTO create(String accountId) {
+    public Users create(String accountId) {
         if(accountId.isBlank()){
             throw new SocialAppException(HttpStatus.BAD_REQUEST,"AccountID is null");
         }
         Users user = Users.builder().accountId(accountId).build();
         user.setIsDeleted(false);
-        userRepository.save(user);
-
-        return EntityMapper.mapToDto(user, UserDTO.class);
+        return userRepository.save(user);
     }
 
     @Override
-    public UserDTO getOneByAccountId(String accountId) {
+    public Users getOneByAccountId(String accountId) {
         Users person = userRepository.findByAccountId(accountId);
         if(person == null){
             throw new ResourceNotFoundException(ACCOUNT,"account_id",accountId);
         }else{
-            return EntityMapper.mapToDto(person, UserDTO.class);
+            return person;
         }
     }
 
     @Override
-    public UserDTO update(String id) {
+    public Users update(String id) {
         return null;
     }
 

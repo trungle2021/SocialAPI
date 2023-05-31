@@ -1,8 +1,8 @@
 package com.example.socialmediaproject.securities.CustomUserDetailServices;
 
 
-import com.example.socialmediaproject.dtos.AccountDTO;
 import com.example.socialmediaproject.dtos.AuthUserDTO;
+import com.example.socialmediaproject.entities.Accounts;
 import com.example.socialmediaproject.securities.CustomUserDetails.CustomUserDetails;
 import com.example.socialmediaproject.services.AccountService;
 import com.example.socialmediaproject.services.UserService;
@@ -26,16 +26,16 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AccountDTO account = accountService.getOneByEmail(email);
+        Accounts account = accountService.getOneByEmail(email);
         if(account == null){
             throw new UsernameNotFoundException("Email not exists");
         }else{
-            String accountId = account.getAccountId();
+            String accountId = account.getId();
             AuthUserDTO authUserDTO = new AuthUserDTO();
-            String roleName = String.valueOf(roleService.getOneByAccountId(accountId));
-            String userId = userService.getOneByAccountId(accountId).getUserId();
+            String roleType = String.valueOf(roleService.getOneByAccountId(accountId));
+            String userId = userService.getOneByAccountId(accountId).getId();
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(roleName));
+            authorities.add(new SimpleGrantedAuthority(roleType));
             authUserDTO.setEmail(account.getEmail());
             authUserDTO.setPassword(account.getPassword());
             authUserDTO.setAuthorities(authorities);

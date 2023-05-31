@@ -1,7 +1,7 @@
 package com.example.socialmediaproject.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Accounts implements UserDetails {
 
     @Id
@@ -21,15 +25,18 @@ public class Accounts implements UserDetails {
     @Column(name = "email", nullable = true, length = 20)
     private String email;
     @Basic
-    @Column(name = "password", nullable = true, length = 30)
+    @Column(name = "password", nullable = true, length = 70)
     private String password;
     @OneToMany(mappedBy = "accountsByAccountId")
     private Collection<Users> usersById;
     @Basic
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;
+    @Basic
+    @Column(name = "role_id", nullable = false, length = 36)
+    private String roleId;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Roles rolesByRoleId;
 
     @PrePersist
