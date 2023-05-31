@@ -10,5 +10,6 @@ public interface RefreshTokenService {
     List<RefreshTokens> getAll();
     RefreshTokens getOneById(String id);
     RefreshTokens save(RefreshTokens refreshTokens);
+    RefreshTokens findByRefreshToken(String token);
     void delete(String id);
 }

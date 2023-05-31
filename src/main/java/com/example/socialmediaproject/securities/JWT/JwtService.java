@@ -46,24 +46,24 @@ public class JwtService {
     }
 
     public String generateToken(String tokenType, Map<String,Object> extraClaims, UserDetails userDetails){
-        long timeExpired = 0;
+        Date timeExpired = null;
         Date issuedAt = new Date(System.currentTimeMillis());
         String email = userDetails.getUsername();
         if(tokenType == null) {
             throw new SocialAppException(HttpStatus.INTERNAL_SERVER_ERROR, "Token Type Is Required");
         }else if(tokenType.equals(SD.ACCESS_TOKEN)){
-            timeExpired = System.currentTimeMillis() + jwtExpiry;
+            timeExpired = new Date(System.currentTimeMillis() + jwtExpiry);
        }else if(tokenType.equals(SD.REFRESH_TOKEN)){
             //expiry time of refresh token greater than 3 times access token
             //example access token expiry time is 1 day so refresh token is 5 days.
-            timeExpired = System.currentTimeMillis() + jwtExpiry*3;
+            timeExpired = new Date(System.currentTimeMillis() + jwtExpiry*3);
        }
         String token = Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(email)
                 .setIssuedAt(issuedAt)
-                .setExpiration(new Date(timeExpired))
+                .setExpiration(timeExpired)
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
 
@@ -72,7 +72,7 @@ public class JwtService {
             Accounts account = accountService.getOneByEmail(email);
             RefreshTokens refreshTokens = RefreshTokens.builder()
                     .refreshToken(token)
-                    .expiryTime(new Date(timeExpired))
+                    .expiryTime(timeExpired)
                     .accountId(account.getId())
                     .createdAt(issuedAt)
                     .build();
