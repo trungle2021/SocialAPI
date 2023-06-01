@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -50,9 +52,9 @@ public class Users {
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<CommentPosts> commentPostsById;
     @OneToMany(mappedBy = "usersByUserId")
-    private Collection<Friends> friendsById;
+    private Set<Friends> friendsById = new HashSet<>();
     @OneToMany(mappedBy = "usersByUserFriendId")
-    private Collection<Friends> friendsById_0;
+    private Set<Friends> friendsById_0 = new HashSet<>();
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<LikeCommentPosts> likeCommentPostsById;
     @OneToMany(mappedBy = "usersByUserId")
