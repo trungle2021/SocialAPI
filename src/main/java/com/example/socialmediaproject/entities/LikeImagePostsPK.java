@@ -11,6 +11,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class LikeImagePostsPK implements Serializable {
     @Column(name = "id", nullable = false, length = 36)
     @Id

@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class FriendsPK implements Serializable {
     @Column(name = "user_id", nullable = false, length = 36)
     @Id
