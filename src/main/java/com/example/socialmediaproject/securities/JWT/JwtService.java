@@ -55,7 +55,7 @@ public class JwtService {
             timeExpired = System.currentTimeMillis() + jwtExpiry;
        }else if(tokenType.equals(SD.REFRESH_TOKEN)){
             //expiry time of refresh token greater than 3 times access token
-            //example access token expiry time is 1 day so refresh token is 5 days.
+            //example access token expiry time is 1 day so refresh token is 3 days.
             timeExpired = System.currentTimeMillis() + jwtExpiry*3;
        }
         String token = Jwts

@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface FriendRepository extends JpaRepository<Friends,String> {
     @Query("Select f from Friends f where f.userId = :userId")
-    List<Friends> getFriendList(String userId);
+    HashSet<Friends> getFriendList(String userId);
 }

@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,8 +55,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
-<<<<<<< Updated upstream
-=======
     public RefreshTokens findByRefreshToken(String refreshToken) {
         RefreshTokens token = refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new ResourceNotFoundException(REFRESH_TOKEN,"token",refreshToken));
         Date now = new Date(System.currentTimeMillis());
@@ -74,7 +74,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
->>>>>>> Stashed changes
     public void delete(String id) {
         RefreshTokens refreshToken = refreshTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(REFRESH_TOKEN,"id",id));
         refreshTokenRepository.delete(refreshToken);
