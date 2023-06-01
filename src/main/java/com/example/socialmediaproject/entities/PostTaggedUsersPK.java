@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class PostTaggedUsersPK implements Serializable {
     @Column(name = "tagged_user_id", nullable = false, length = 36)
     @Id

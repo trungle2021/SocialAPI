@@ -3,17 +3,15 @@ package com.example.socialmediaproject.services.implement;
 
 import com.example.socialmediaproject.dtos.*;
 import com.example.socialmediaproject.entities.Accounts;
+import com.example.socialmediaproject.entities.RefreshTokens;
 import com.example.socialmediaproject.entities.Roles;
-import com.example.socialmediaproject.exceptions.SocialAppException;
 import com.example.socialmediaproject.securities.JWT.JwtService;
 import com.example.socialmediaproject.services.*;
 import com.example.socialmediaproject.utils.SD;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
     private final AccountService accountService;
     private final UserService userService;
     private final RoleService roleService;
@@ -63,6 +62,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse refreshToken(String refreshToken) {
-        return null;
+        RefreshTokens token = refreshTokenService.findByRefreshToken(refreshToken);
+       String newAccessToken = jwtService.generateToken(SD.ACCESS_TOKEN,token.getAccountsByAccountId());
+        return AuthResponse.builder()
+                   .accessToken(newAccessToken)
+                   .build();
     }
 }
