@@ -51,9 +51,9 @@ public class Users {
     private Collection<CommentImagePosts> commentImagePostsById;
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<CommentPosts> commentPostsById;
-    @OneToMany(mappedBy = "usersByUserId")
+    @OneToMany(mappedBy = "usersByUserId", fetch = FetchType.LAZY)
     private Set<Friends> friendsById = new HashSet<>();
-    @OneToMany(mappedBy = "usersByUserFriendId")
+    @OneToMany(mappedBy = "usersByUserFriendId", fetch = FetchType.LAZY)
     private Set<Friends> friendsById_0 = new HashSet<>();
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<LikeCommentPosts> likeCommentPostsById;

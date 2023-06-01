@@ -15,6 +15,10 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class FriendServiceImpl implements FriendService {
     private final FriendRepository friendRepository;
+
+
+
+
     @Override
     public HashSet<Friends> getFriendList(String userId) {
         return friendRepository.getFriendList(userId);
@@ -25,12 +29,12 @@ public class FriendServiceImpl implements FriendService {
         List<Friends> mutualFriendList = new ArrayList<>();
         HashSet<Friends> userFriendList = getFriendList(userId);
         HashSet<Friends> partnerFriendList = getFriendList(partnerId);
-        HashSet<Friends> shorterList = userFriendList.size() > partnerFriendList.size() ? userFriendList : partnerFriendList;
+        HashSet<Friends> shorterList = userFriendList.size() < partnerFriendList.size() ? userFriendList : partnerFriendList;
         for (int i = 0;i< shorterList.size();i++)
         {
-            boolean isMutualFriend = !userFriendList.add((Friends) shorterList.toArray()[i]);
+            boolean isMutualFriend = userFriendList.add(shorterList.stream().fin(x->x.getUserFriendId()));
             if(isMutualFriend){
-                mutualFriendList.add((Friends) shorterList.toArray()[i]);
+                mutualFriendList.add((Friends)shorterList.toArray()[i]);
             }
         }
         return mutualFriendList;
