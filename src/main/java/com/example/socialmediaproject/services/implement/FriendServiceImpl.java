@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
 public class FriendServiceImpl implements FriendService {
     private final FriendRepository friendRepository;
+
 
 
 
@@ -26,22 +29,25 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<Friends> getMutualFriend(String userId, String partnerId) {
-        List<Friends> mutualFriendList = new ArrayList<>();
-        HashSet<Friends> userFriendList = getFriendList(userId);
         HashSet<Friends> partnerFriendList = getFriendList(partnerId);
-        HashSet<Friends> shorterList = userFriendList.size() < partnerFriendList.size() ? userFriendList : partnerFriendList;
-        for (int i = 0;i< shorterList.size();i++)
-        {
-            boolean isMutualFriend = userFriendList.add(shorterList.stream().fin(x->x.getUserFriendId()));
-            if(isMutualFriend){
-                mutualFriendList.add((Friends)shorterList.toArray()[i]);
+        HashSet<Friends> userFriendList = getFriendList(userId);
+        HashSet<Friends> shorterFriendList = (userFriendList.size() < partnerFriendList.size()) ? userFriendList : partnerFriendList;
+        HashSet<Friends> longerFriendList = (userFriendList.size() > partnerFriendList.size()) ? userFriendList : partnerFriendList;
+        List<Friends> result = new ArrayList<>();
+
+        shorterFriendList.forEach(friends -> {
+            if(!longerFriendList.add(friends)){
+                result.add(friends);
             }
-        }
-        return mutualFriendList;
+        });
+
+        return result;
     }
 
     @Override
     public int countMutualFriend(String userId, String partnerId) {
         return 0;
     }
+
+
 }

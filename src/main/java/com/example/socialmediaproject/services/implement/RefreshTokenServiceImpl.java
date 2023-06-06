@@ -56,7 +56,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public RefreshTokens findByRefreshToken(String refreshToken) {
-        RefreshTokens token = refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new ResourceNotFoundException(REFRESH_TOKEN,"token",refreshToken));
+        RefreshTokens token =
+                refreshTokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(()->new ResourceNotFoundException(REFRESH_TOKEN,"token",refreshToken));
+
+
         Date now = new Date(System.currentTimeMillis());
         Date tokenExpiryTime;
         try {
