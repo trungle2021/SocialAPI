@@ -1,5 +1,7 @@
 package com.example.socialmediaproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -26,12 +28,7 @@ public class Friends {
     @Basic
     @Column(name = "establish_at", nullable = true)
     private Timestamp establishAt;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    private Users usersByUserId;
-    @ManyToOne
-    @JoinColumn(name = "user_friend_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    private Users usersByUserFriendId;
+
 
     @Override
     public boolean equals(Object o) {

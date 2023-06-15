@@ -1,8 +1,14 @@
 package com.example.socialmediaproject.services.implement;
 
+import com.example.socialmediaproject.dtos.FriendDTO;
+import com.example.socialmediaproject.dtos.FriendListDTO;
+import com.example.socialmediaproject.dtos.MutualFriendDTO;
 import com.example.socialmediaproject.entities.Friends;
+import com.example.socialmediaproject.entities.Users;
 import com.example.socialmediaproject.repositories.FriendRepository;
+import com.example.socialmediaproject.repositories.UserRepository;
 import com.example.socialmediaproject.services.FriendService;
+import com.example.socialmediaproject.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,35 +25,46 @@ public class FriendServiceImpl implements FriendService {
     private final FriendRepository friendRepository;
 
 
-
-
-
     @Override
-    public HashSet<Friends> getFriendList(String userId) {
-        return friendRepository.getFriendList(userId);
+    public FriendListDTO getFriendList(String userId) {
+        List<Users> friendList = friendRepository.getFriendList(userId);
+
+        if(friendList.isEmpty()){
+            return null;
+        }
+        List<FriendDTO> friendDTOList = friendList.stream()
+                .map(user->EntityMapper.mapToDto(user,FriendDTO.class))
+                .toList();
+        return  FriendListDTO.builder()
+                .friendList(friendDTOList)
+                .friendListOwnerId(userId)
+                .numberOfFriend(friendDTOList.size())
+                .build();
+
     }
 
     @Override
-    public List<Friends> getMutualFriend(String userId, String partnerId) {
-        HashSet<Friends> partnerFriendList = getFriendList(partnerId);
-        HashSet<Friends> userFriendList = getFriendList(userId);
-        HashSet<Friends> shorterFriendList = (userFriendList.size() < partnerFriendList.size()) ? userFriendList : partnerFriendList;
-        HashSet<Friends> longerFriendList = (userFriendList.size() > partnerFriendList.size()) ? userFriendList : partnerFriendList;
-        List<Friends> result = new ArrayList<>();
+    public MutualFriendDTO getMutualFriend(String userId, String partnerId) {
+       List<Users> mutualFriends = friendRepository.getMutualFriend(userId,partnerId);
 
-        shorterFriendList.forEach(friends -> {
-            if(!longerFriendList.add(friends)){
-                result.add(friends);
-            }
-        });
+       if(mutualFriends.isEmpty()){
+           return null;
+       }
+        List<FriendDTO> friendDTOList = mutualFriends
+                .stream()
+                .map(user -> EntityMapper.mapToDto(user, FriendDTO.class))
+                .toList();
 
-        return result;
+        return MutualFriendDTO.builder()
+                        .mutualFriendList(friendDTOList)
+                        .ownerId(userId)
+                        .partnerId(partnerId)
+                        .numberOfMutualFriend(friendDTOList.size())
+                        .build();
+
     }
 
-    @Override
-    public int countMutualFriend(String userId, String partnerId) {
-        return 0;
-    }
+
 
 
 }
