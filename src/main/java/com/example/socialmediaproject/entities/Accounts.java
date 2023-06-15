@@ -1,5 +1,7 @@
 package com.example.socialmediaproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,12 +24,13 @@ public class Accounts implements UserDetails {
     @Column(name = "id",  length = 36)
     private String id;
     @Basic
-    @Column(name = "email", nullable = true, length = 20)
+    @Column(name = "email", nullable = true, length = 40)
     private String email;
     @Basic
     @Column(name = "password", nullable = true, length = 70)
     private String password;
     @OneToMany(mappedBy = "accountsByAccountId")
+    @JsonManagedReference
     private Collection<Users> usersById;
     @Basic
     @Column(name = "is_deleted", nullable = true)

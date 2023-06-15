@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `social` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `social`;
--- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for macos10.15 (x86_64)
 --
 -- Host: localhost    Database: social
 -- ------------------------------------------------------
--- Server version	8.0.27
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `accounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `accounts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `email` varchar(45) DEFAULT NULL,
-  `password` varchar(30) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  `role_id` varchar(36) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `accounts_roles_id_fk` (`role_id`),
-  CONSTRAINT `accounts_roles_id_fk` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+                            `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                            `email` varchar(20) DEFAULT NULL,
+                            `password` varchar(70) DEFAULT NULL,
+                            `is_deleted` bit(1) DEFAULT NULL,
+                            `role_id` varchar(36) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            UNIQUE KEY `email` (`email`),
+                            KEY `accounts_roles_id_fk` (`role_id`),
+                            CONSTRAINT `accounts_roles_id_fk` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -43,7 +43,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('0d108b1d-fed0-11ed-9374-a8a15917434f','admin@gmail.com','123',_binary '\0','b1bdf197-fecd-11ed-9374-a8a15917434f'),('2a72c9ca-fed0-11ed-9374-a8a15917434f','normal@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('6b3276e9-fed0-11ed-9374-a8a15917434f','employee@gmail.com','123',_binary '\0','b7147983-fece-11ed-9374-a8a15917434f'),('7fce4bfe-fed7-11ed-9374-a8a15917434f','employee1@gmail.com','123',_binary '\0','b7147983-fece-11ed-9374-a8a15917434f');
+INSERT INTO `accounts` VALUES ('0d108b1d-fed0-11ed-9374-a8a15917434f','admin@gmail.com','123',_binary '\0','b1bdf197-fecd-11ed-9374-a8a15917434f'),('2a72c9ca-fed0-11ed-9374-a8a15917434f','normal@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('6b3276e9-fed0-11ed-9374-a8a15917434f','employee@gmail.com','123',_binary '\0','b7147983-fece-11ed-9374-a8a15917434f'),('7fce4bfe-fed7-11ed-9374-a8a15917434f','employee1@gmail.com','123',_binary '\0','b7147983-fece-11ed-9374-a8a15917434f'),('f0177b96-0078-11ee-9dd0-a4c2e120fb8e','normal1@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f01a1b8a-0078-11ee-9dd0-a4c2e120fb8e','normal2@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f01cbb10-0078-11ee-9dd0-a4c2e120fb8e','normal3@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f01f4bd2-0078-11ee-9dd0-a4c2e120fb8e','normal4@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f0220a02-0078-11ee-9dd0-a4c2e120fb8e','normal5@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f02445b0-0078-11ee-9dd0-a4c2e120fb8e','normal6@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f026edec-0078-11ee-9dd0-a4c2e120fb8e','normal7@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f02942f4-0078-11ee-9dd0-a4c2e120fb8e','normal8@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f02b7722-0078-11ee-9dd0-a4c2e120fb8e','normal9@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f02d5f4c-0078-11ee-9dd0-a4c2e120fb8e','normal10@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f02fb3c8-0078-11ee-9dd0-a4c2e120fb8e','normal11@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f03250c4-0078-11ee-9dd0-a4c2e120fb8e','normal12@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f0351f7a-0078-11ee-9dd0-a4c2e120fb8e','normal13@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f'),('f0372cac-0078-11ee-9dd0-a4c2e120fb8e','normal14@gmail.com','123',_binary '\0','7f6424d0-fecf-11ed-9374-a8a15917434f');
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,19 +55,19 @@ DROP TABLE IF EXISTS `comment_image_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment_image_posts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `user_id` varchar(36) DEFAULT NULL,
-  `image_id` varchar(36) NOT NULL,
-  `content` longtext,
-  `posted_at` datetime(6) DEFAULT NULL,
-  `update_at` datetime(6) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`,`image_id`),
-  KEY `user_id` (`user_id`),
-  KEY `image_id` (`image_id`),
-  CONSTRAINT `comment_image_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `comment_image_posts_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `post_images` (`id`),
-  CONSTRAINT `FK6q23h8y73kxbit1r8hqc5ih7y` FOREIGN KEY (`id`) REFERENCES `like_comments_image` (`comment_id`)
+                                       `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                                       `user_id` varchar(36) DEFAULT NULL,
+                                       `image_id` varchar(36) NOT NULL,
+                                       `content` longtext,
+                                       `posted_at` datetime(6) DEFAULT NULL,
+                                       `update_at` datetime(6) DEFAULT NULL,
+                                       `is_deleted` bit(1) DEFAULT NULL,
+                                       PRIMARY KEY (`id`,`image_id`),
+                                       KEY `user_id` (`user_id`),
+                                       KEY `image_id` (`image_id`),
+                                       CONSTRAINT `comment_image_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                                       CONSTRAINT `comment_image_posts_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `post_images` (`id`),
+                                       CONSTRAINT `FK6q23h8y73kxbit1r8hqc5ih7y` FOREIGN KEY (`id`) REFERENCES `like_comments_image` (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -88,19 +88,19 @@ DROP TABLE IF EXISTS `comment_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment_posts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `user_id` varchar(36) DEFAULT NULL,
-  `post_id` varchar(36) NOT NULL,
-  `content` longtext,
-  `posted_at` datetime(6) DEFAULT NULL,
-  `update_at` datetime(6) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`,`post_id`),
-  KEY `user_id` (`user_id`),
-  KEY `post_id` (`post_id`),
-  CONSTRAINT `comment_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `comment_posts_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
-  CONSTRAINT `FKesu6vpt74aefx0d9o0oqnrgtp` FOREIGN KEY (`id`) REFERENCES `like_comment_posts` (`comment_id`)
+                                 `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                                 `user_id` varchar(36) DEFAULT NULL,
+                                 `post_id` varchar(36) NOT NULL,
+                                 `content` longtext,
+                                 `posted_at` datetime(6) DEFAULT NULL,
+                                 `update_at` datetime(6) DEFAULT NULL,
+                                 `is_deleted` bit(1) DEFAULT NULL,
+                                 PRIMARY KEY (`id`,`post_id`),
+                                 KEY `user_id` (`user_id`),
+                                 KEY `post_id` (`post_id`),
+                                 CONSTRAINT `comment_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                                 CONSTRAINT `comment_posts_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
+                                 CONSTRAINT `FKesu6vpt74aefx0d9o0oqnrgtp` FOREIGN KEY (`id`) REFERENCES `like_comment_posts` (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -121,13 +121,13 @@ DROP TABLE IF EXISTS `friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `friends` (
-  `user_id` varchar(36) NOT NULL,
-  `user_friend_id` varchar(36) NOT NULL,
-  `establish_at` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`user_friend_id`),
-  KEY `user_friend_id` (`user_friend_id`),
-  CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`user_friend_id`) REFERENCES `users` (`id`)
+                           `user_id` varchar(36) NOT NULL,
+                           `user_friend_id` varchar(36) NOT NULL,
+                           `establish_at` datetime(6) DEFAULT NULL,
+                           PRIMARY KEY (`user_id`,`user_friend_id`),
+                           KEY `user_friend_id` (`user_friend_id`),
+                           CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                           CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`user_friend_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -137,6 +137,7 @@ CREATE TABLE `friends` (
 
 LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
+INSERT INTO `friends` VALUES ('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e0d685e-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e114618-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e13fdcc-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e1683c6-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e192234-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e1be528-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e1f1270-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e227b72-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e256c74-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e28e75a-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e2c0b42-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e2ee970-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','0e315318-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e2ee970-0079-11ee-9dd0-a4c2e120fb8e','0e114618-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000'),('0e2ee970-0079-11ee-9dd0-a4c2e120fb8e','0e13fdcc-0079-11ee-9dd0-a4c2e120fb8e','2023-06-01 19:39:52.000000');
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,15 +149,15 @@ DROP TABLE IF EXISTS `like_comment_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `like_comment_posts` (
-  `id` varchar(36) NOT NULL,
-  `comment_id` varchar(36) DEFAULT NULL,
-  `user_id` varchar(36) DEFAULT NULL,
-  `liked_at` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `comment_id` (`comment_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `like_comment_posts_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `comment_posts` (`id`),
-  CONSTRAINT `like_comment_posts_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+                                      `id` varchar(36) NOT NULL,
+                                      `comment_id` varchar(36) DEFAULT NULL,
+                                      `user_id` varchar(36) DEFAULT NULL,
+                                      `liked_at` datetime(6) DEFAULT NULL,
+                                      PRIMARY KEY (`id`),
+                                      KEY `comment_id` (`comment_id`),
+                                      KEY `user_id` (`user_id`),
+                                      CONSTRAINT `like_comment_posts_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `comment_posts` (`id`),
+                                      CONSTRAINT `like_comment_posts_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -177,15 +178,15 @@ DROP TABLE IF EXISTS `like_comments_image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `like_comments_image` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `comment_id` varchar(36) DEFAULT NULL,
-  `user_id` varchar(36) DEFAULT NULL,
-  `liked_at` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `comment_id` (`comment_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `like_comments_image_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `comment_image_posts` (`id`),
-  CONSTRAINT `like_comments_image_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+                                       `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                                       `comment_id` varchar(36) DEFAULT NULL,
+                                       `user_id` varchar(36) DEFAULT NULL,
+                                       `liked_at` datetime(6) DEFAULT NULL,
+                                       PRIMARY KEY (`id`),
+                                       KEY `comment_id` (`comment_id`),
+                                       KEY `user_id` (`user_id`),
+                                       CONSTRAINT `like_comments_image_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `comment_image_posts` (`id`),
+                                       CONSTRAINT `like_comments_image_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -206,15 +207,15 @@ DROP TABLE IF EXISTS `like_image_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `like_image_posts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `user_id` varchar(36) DEFAULT NULL,
-  `image_id` varchar(36) NOT NULL,
-  `liked_at` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`id`,`image_id`),
-  KEY `user_id` (`user_id`),
-  KEY `image_id` (`image_id`),
-  CONSTRAINT `like_image_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `like_image_posts_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `post_images` (`id`)
+                                    `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                                    `user_id` varchar(36) DEFAULT NULL,
+                                    `image_id` varchar(36) NOT NULL,
+                                    `liked_at` datetime(6) DEFAULT NULL,
+                                    PRIMARY KEY (`id`,`image_id`),
+                                    KEY `user_id` (`user_id`),
+                                    KEY `image_id` (`image_id`),
+                                    CONSTRAINT `like_image_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                                    CONSTRAINT `like_image_posts_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `post_images` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,15 +236,15 @@ DROP TABLE IF EXISTS `like_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `like_posts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `user_id` varchar(36) DEFAULT NULL,
-  `post_id` varchar(36) NOT NULL,
-  `liked_at` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`id`,`post_id`),
-  KEY `user_id` (`user_id`),
-  KEY `post_id` (`post_id`),
-  CONSTRAINT `like_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `like_posts_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+                              `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                              `user_id` varchar(36) DEFAULT NULL,
+                              `post_id` varchar(36) NOT NULL,
+                              `liked_at` datetime(6) DEFAULT NULL,
+                              PRIMARY KEY (`id`,`post_id`),
+                              KEY `user_id` (`user_id`),
+                              KEY `post_id` (`post_id`),
+                              CONSTRAINT `like_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                              CONSTRAINT `like_posts_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -264,9 +265,9 @@ DROP TABLE IF EXISTS `marital_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `marital_status` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `type` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                                  `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                                  `type` varchar(15) DEFAULT NULL,
+                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -287,13 +288,13 @@ DROP TABLE IF EXISTS `post_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_images` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `image_url` varchar(45) DEFAULT NULL,
-  `post_id` varchar(36) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `post_id` (`post_id`),
-  CONSTRAINT `post_images_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+                               `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                               `image_url` varchar(45) DEFAULT NULL,
+                               `post_id` varchar(36) DEFAULT NULL,
+                               `is_deleted` bit(1) DEFAULT NULL,
+                               PRIMARY KEY (`id`),
+                               KEY `post_id` (`post_id`),
+                               CONSTRAINT `post_images_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -314,14 +315,14 @@ DROP TABLE IF EXISTS `post_tagged_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_tagged_users` (
-  `tagged_user_id` varchar(36) NOT NULL,
-  `post_id` varchar(36) NOT NULL,
-  `tagged_at` datetime(6) DEFAULT NULL,
-  `update_at` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`tagged_user_id`,`post_id`),
-  KEY `post_id` (`post_id`),
-  CONSTRAINT `post_tagged_users_ibfk_1` FOREIGN KEY (`tagged_user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `post_tagged_users_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+                                     `tagged_user_id` varchar(36) NOT NULL,
+                                     `post_id` varchar(36) NOT NULL,
+                                     `tagged_at` datetime(6) DEFAULT NULL,
+                                     `update_at` datetime(6) DEFAULT NULL,
+                                     PRIMARY KEY (`tagged_user_id`,`post_id`),
+                                     KEY `post_id` (`post_id`),
+                                     CONSTRAINT `post_tagged_users_ibfk_1` FOREIGN KEY (`tagged_user_id`) REFERENCES `users` (`id`),
+                                     CONSTRAINT `post_tagged_users_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -342,18 +343,18 @@ DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `posts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `content` longtext,
-  `post_owner` varchar(36) DEFAULT NULL,
-  `privacy_status` varchar(36) DEFAULT NULL,
-  `posted_at` datetime(6) DEFAULT NULL,
-  `update_at` datetime(6) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `post_owner` (`post_owner`),
-  KEY `privacy_status` (`privacy_status`),
-  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_owner`) REFERENCES `users` (`id`),
-  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`privacy_status`) REFERENCES `privacies` (`id`)
+                         `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                         `content` longtext,
+                         `post_owner` varchar(36) DEFAULT NULL,
+                         `privacy_status` varchar(36) DEFAULT NULL,
+                         `posted_at` datetime(6) DEFAULT NULL,
+                         `update_at` datetime(6) DEFAULT NULL,
+                         `is_deleted` bit(1) DEFAULT NULL,
+                         PRIMARY KEY (`id`),
+                         KEY `post_owner` (`post_owner`),
+                         KEY `privacy_status` (`privacy_status`),
+                         CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_owner`) REFERENCES `users` (`id`),
+                         CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`privacy_status`) REFERENCES `privacies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -374,9 +375,9 @@ DROP TABLE IF EXISTS `privacies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `privacies` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `privacy_type` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                             `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                             `privacy_type` varchar(45) DEFAULT NULL,
+                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -390,6 +391,35 @@ LOCK TABLES `privacies` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `refresh_tokens`
+--
+
+DROP TABLE IF EXISTS `refresh_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `refresh_tokens` (
+                                  `id` varchar(36) NOT NULL,
+                                  `refresh_token` varchar(255) NOT NULL,
+                                  `expiry_time` datetime(6) NOT NULL,
+                                  `created_at` datetime(6) NOT NULL,
+                                  `account_id` varchar(36) NOT NULL,
+                                  PRIMARY KEY (`id`),
+                                  UNIQUE KEY `refresh_token_pk2` (`refresh_token`),
+                                  KEY `refresh_token_accounts_id_fk` (`account_id`),
+                                  CONSTRAINT `refresh_token_accounts_id_fk` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `refresh_tokens`
+--
+
+LOCK TABLES `refresh_tokens` WRITE;
+/*!40000 ALTER TABLE `refresh_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `refresh_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `roles`
 --
 
@@ -397,9 +427,9 @@ DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roles` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `role_type` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                         `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                         `role_type` varchar(20) DEFAULT NULL,
+                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -421,11 +451,11 @@ DROP TABLE IF EXISTS `schools`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `schools` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `school_name` varchar(45) DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `description` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                           `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                           `school_name` varchar(45) DEFAULT NULL,
+                           `address` varchar(45) DEFAULT NULL,
+                           `description` varchar(50) DEFAULT NULL,
+                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -446,16 +476,16 @@ DROP TABLE IF EXISTS `shared_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shared_posts` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `user_id` varchar(36) DEFAULT NULL,
-  `post_id` varchar(36) NOT NULL,
-  `shared_at` datetime(6) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`,`post_id`),
-  KEY `user_id` (`user_id`),
-  KEY `post_id` (`post_id`),
-  CONSTRAINT `shared_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `shared_posts_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+                                `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                                `user_id` varchar(36) DEFAULT NULL,
+                                `post_id` varchar(36) NOT NULL,
+                                `shared_at` datetime(6) DEFAULT NULL,
+                                `is_deleted` bit(1) DEFAULT NULL,
+                                PRIMARY KEY (`id`,`post_id`),
+                                KEY `user_id` (`user_id`),
+                                KEY `post_id` (`post_id`),
+                                CONSTRAINT `shared_posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                                CONSTRAINT `shared_posts_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -476,19 +506,19 @@ DROP TABLE IF EXISTS `user_marital_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_marital_status` (
-  `user_id` varchar(36) NOT NULL,
-  `user_partner_id` varchar(36) DEFAULT NULL,
-  `is_accepted` tinyint DEFAULT NULL,
-  `from_time` datetime(6) DEFAULT NULL,
-  `marital_status_id` varchar(36) DEFAULT NULL,
-  `privacy_status_id` varchar(36) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `user_partner_id` (`user_partner_id`),
-  KEY `marital_status_id` (`marital_status_id`),
-  KEY `privacy_status_id` (`privacy_status_id`),
-  CONSTRAINT `FKecibedqc27lpluhrcv8sy9lx1` FOREIGN KEY (`user_partner_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `user_marital_status_ibfk_3` FOREIGN KEY (`marital_status_id`) REFERENCES `marital_status` (`id`),
-  CONSTRAINT `user_marital_status_ibfk_4` FOREIGN KEY (`privacy_status_id`) REFERENCES `privacies` (`id`)
+                                       `user_id` varchar(36) NOT NULL,
+                                       `user_partner_id` varchar(36) DEFAULT NULL,
+                                       `is_accepted` tinyint DEFAULT NULL,
+                                       `from_time` datetime(6) DEFAULT NULL,
+                                       `marital_status_id` varchar(36) DEFAULT NULL,
+                                       `privacy_status_id` varchar(36) DEFAULT NULL,
+                                       PRIMARY KEY (`user_id`),
+                                       KEY `user_partner_id` (`user_partner_id`),
+                                       KEY `marital_status_id` (`marital_status_id`),
+                                       KEY `privacy_status_id` (`privacy_status_id`),
+                                       CONSTRAINT `FKecibedqc27lpluhrcv8sy9lx1` FOREIGN KEY (`user_partner_id`) REFERENCES `users` (`id`),
+                                       CONSTRAINT `user_marital_status_ibfk_3` FOREIGN KEY (`marital_status_id`) REFERENCES `marital_status` (`id`),
+                                       CONSTRAINT `user_marital_status_ibfk_4` FOREIGN KEY (`privacy_status_id`) REFERENCES `privacies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -509,15 +539,15 @@ DROP TABLE IF EXISTS `user_schools`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_schools` (
-  `user_id` varchar(36) NOT NULL,
-  `school_id` varchar(36) NOT NULL,
-  `privacy_status_id` varchar(36) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`school_id`),
-  KEY `privacy_status_id` (`privacy_status_id`),
-  KEY `userschools_ibfk_2` (`school_id`),
-  CONSTRAINT `user_schools_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `user_schools_ibfk_2` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
-  CONSTRAINT `user_schools_ibfk_3` FOREIGN KEY (`privacy_status_id`) REFERENCES `privacies` (`id`)
+                                `user_id` varchar(36) NOT NULL,
+                                `school_id` varchar(36) NOT NULL,
+                                `privacy_status_id` varchar(36) DEFAULT NULL,
+                                PRIMARY KEY (`user_id`,`school_id`),
+                                KEY `privacy_status_id` (`privacy_status_id`),
+                                KEY `userschools_ibfk_2` (`school_id`),
+                                CONSTRAINT `user_schools_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                                CONSTRAINT `user_schools_ibfk_2` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
+                                CONSTRAINT `user_schools_ibfk_3` FOREIGN KEY (`privacy_status_id`) REFERENCES `privacies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -538,15 +568,15 @@ DROP TABLE IF EXISTS `user_workplaces`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_workplaces` (
-  `user_id` varchar(36) NOT NULL,
-  `workplace_id` varchar(36) NOT NULL,
-  `privacy_status_id` varchar(36) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`workplace_id`),
-  KEY `privacy_status_id` (`privacy_status_id`),
-  KEY `user_workplaces_ibfk_2` (`workplace_id`),
-  CONSTRAINT `user_workplaces_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `user_workplaces_ibfk_2` FOREIGN KEY (`workplace_id`) REFERENCES `workplaces` (`id`),
-  CONSTRAINT `user_workplaces_ibfk_3` FOREIGN KEY (`privacy_status_id`) REFERENCES `privacies` (`id`)
+                                   `user_id` varchar(36) NOT NULL,
+                                   `workplace_id` varchar(36) NOT NULL,
+                                   `privacy_status_id` varchar(36) DEFAULT NULL,
+                                   PRIMARY KEY (`user_id`,`workplace_id`),
+                                   KEY `privacy_status_id` (`privacy_status_id`),
+                                   KEY `user_workplaces_ibfk_2` (`workplace_id`),
+                                   CONSTRAINT `user_workplaces_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                                   CONSTRAINT `user_workplaces_ibfk_2` FOREIGN KEY (`workplace_id`) REFERENCES `workplaces` (`id`),
+                                   CONSTRAINT `user_workplaces_ibfk_3` FOREIGN KEY (`privacy_status_id`) REFERENCES `privacies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -567,19 +597,19 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `first_name` varchar(30) DEFAULT NULL,
-  `last_name` varchar(30) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  `gender` varchar(10) DEFAULT NULL,
-  `dOB` date DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `origin` varchar(45) DEFAULT NULL,
-  `account_id` varchar(36) DEFAULT NULL,
-  `is_deleted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `account_id` (`account_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+                         `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                         `first_name` varchar(30) DEFAULT NULL,
+                         `last_name` varchar(30) DEFAULT NULL,
+                         `phone` varchar(15) DEFAULT NULL,
+                         `gender` varchar(10) DEFAULT NULL,
+                         `dob` date DEFAULT NULL,
+                         `address` varchar(45) DEFAULT NULL,
+                         `origin` varchar(45) DEFAULT NULL,
+                         `account_id` varchar(36) DEFAULT NULL,
+                         `is_deleted` bit(1) DEFAULT NULL,
+                         PRIMARY KEY (`id`),
+                         KEY `account_id` (`account_id`),
+                         CONSTRAINT `users_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -589,6 +619,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('0e0a6096-0079-11ee-9dd0-a4c2e120fb8e','Trung','Le','011223344','male','2023-06-01','12 Le Loi','Tphcm','f0177b96-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e0d685e-0079-11ee-9dd0-a4c2e120fb8e','Khoa','Trinh','011223344','male','2023-06-01','12 Le Loi','Tphcm','f01a1b8a-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e114618-0079-11ee-9dd0-a4c2e120fb8e','Nam','Le','011223344','male','2023-06-01','12 Le Loi','Tphcm','f01cbb10-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e13fdcc-0079-11ee-9dd0-a4c2e120fb8e','Khang','Nguyen','011223344','male','2023-06-01','12 Le Loi','Tphcm','f01f4bd2-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e1683c6-0079-11ee-9dd0-a4c2e120fb8e','Nguyen','Tran','011223344','male','2023-06-01','12 Le Loi','Tphcm','f0220a02-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e192234-0079-11ee-9dd0-a4c2e120fb8e','Bao','Le','011223344','male','2023-06-01','12 Le Loi','Tphcm','f02445b0-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e1be528-0079-11ee-9dd0-a4c2e120fb8e','Khoi','Nguyen','011223344','male','2023-06-01','12 Le Loi','Tphcm','f026edec-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e1f1270-0079-11ee-9dd0-a4c2e120fb8e','Trong','Tran','011223344','male','2023-06-01','12 Le Loi','Tphcm','f02942f4-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e227b72-0079-11ee-9dd0-a4c2e120fb8e','Thanh','Nguyen','011223344','male','2023-06-01','12 Le Loi','Tphcm','f02b7722-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e256c74-0079-11ee-9dd0-a4c2e120fb8e','Vinh','Nam','011223344','male','2023-06-01','12 Le Loi','Tphcm','f02d5f4c-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e28e75a-0079-11ee-9dd0-a4c2e120fb8e','Trang','Le','011223344','female','2023-06-01','12 Le Loi','Tphcm','f02fb3c8-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e2c0b42-0079-11ee-9dd0-a4c2e120fb8e','Hai','Nguyen','011223344','male','2023-06-01','12 Le Loi','Tphcm','f03250c4-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e2ee970-0079-11ee-9dd0-a4c2e120fb8e','Bao','Mai','011223344','male','2023-06-01','12 Le Loi','Tphcm','f0351f7a-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('0e315318-0079-11ee-9dd0-a4c2e120fb8e','Lan','Thai','011223344','female','2023-06-01','12 Le Loi','Tphcm','f0372cac-0078-11ee-9dd0-a4c2e120fb8e',_binary '\0'),('750df138-007c-11ee-9dd0-a4c2e120fb8e','Khuong','Ho','011223344','female','2023-06-01','12 Le Loi','Tphcm','2a72c9ca-fed0-11ed-9374-a8a15917434f',_binary '\0');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -600,12 +631,12 @@ DROP TABLE IF EXISTS `workplaces`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `workplaces` (
-  `id` varchar(36) NOT NULL DEFAULT (uuid()),
-  `company` varchar(45) DEFAULT NULL,
-  `position` varchar(20) DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                              `id` varchar(36) NOT NULL DEFAULT (uuid()),
+                              `company` varchar(45) DEFAULT NULL,
+                              `position` varchar(20) DEFAULT NULL,
+                              `address` varchar(45) DEFAULT NULL,
+                              `description` varchar(45) DEFAULT NULL,
+                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -627,4 +658,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-30 17:49:46
+-- Dump completed on 2023-06-01 22:05:59
