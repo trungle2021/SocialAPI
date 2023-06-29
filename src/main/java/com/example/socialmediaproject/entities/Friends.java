@@ -29,6 +29,10 @@ public class Friends {
     @Column(name = "establish_at", nullable = true)
     private Timestamp establishAt;
 
+    @Basic
+    @Column(name = "friend_status",nullable = true)
+    private String friendStatus;
+
 
     @Override
     public boolean equals(Object o) {

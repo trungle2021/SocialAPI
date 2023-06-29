@@ -10,29 +10,17 @@ import java.util.List;
 
 @Repository
 public interface FriendRepository extends JpaRepository<Friends,String> {
-    @Query("Select u from Friends f Join Users u on u.id = f.userFriendId where f.userId = :userId")
-    List<Users> getFriendList(String userId);
+    @Query("Select u from Friends f Join Users u on u.id = f.userFriendId where f.userId = :userId and f.friendStatus = :status")
+    List<Users> getFriendListByStatus(String userId,String status);
 
+    // This query selects user's profile  which are mutual friend in two sub-queries of two user in Friends table, from Users Table
     @Query("""
-        SELECT
-                    U
-                FROM
-                    Users AS U
-                WHERE
-                    EXISTS( SELECT
-                            1
-                        FROM
-                            Friends AS F
-                        WHERE
-                            F.userId = :userId
-                                AND EXISTS( SELECT
-                                    1
-                                FROM
-                                    Friends AS F1
-                                WHERE
-                                    F.userFriendId = F1.userFriendId
-                                        AND F1.userId = :partnerId)
-                                AND F.userFriendId = U.id)
+        select U from Users as U where exists (
+             select f1.userFriendId from Friends as f1
+                JOIN
+             Friends as f2
+                ON f1.userFriendId = f2.userFriendId
+                where f1.userId = :userId and f2.userId = :partnerId and f1.userFriendId = U.id)
         """)
     List<Users> getMutualFriend(String userId, String partnerId);
 }
