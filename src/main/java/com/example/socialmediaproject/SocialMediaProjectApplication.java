@@ -26,13 +26,4 @@ public class SocialMediaProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(SocialMediaProjectApplication.class, args);
     }
-
-    @Bean
-    CommandLineRunner commandLineRunner(KafkaTemplate kafkaTemplate){
-        return args -> {
-            for (int i = 0; i < 100; i++) {
-                kafkaTemplate.send("social","Hello From Intellij " + i);
-            }
-        };
-    }
 }
