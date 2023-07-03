@@ -1,12 +1,16 @@
 package com.example.socialmediaproject.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FriendDTO {
     private String id;
     private String firstName;

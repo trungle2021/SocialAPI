@@ -3,21 +3,14 @@ package com.example.socialmediaproject.services.implement;
 import com.example.socialmediaproject.dtos.FriendDTO;
 import com.example.socialmediaproject.dtos.FriendListDTO;
 import com.example.socialmediaproject.dtos.MutualFriendDTO;
-import com.example.socialmediaproject.entities.Friends;
 import com.example.socialmediaproject.entities.Users;
 import com.example.socialmediaproject.repositories.FriendRepository;
-import com.example.socialmediaproject.repositories.UserRepository;
 import com.example.socialmediaproject.services.FriendService;
 import com.example.socialmediaproject.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +19,8 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Override
-    public FriendListDTO getFriendList(String userId) {
-        List<Users> friendList = friendRepository.getFriendList(userId);
+    public FriendListDTO getFriendListByStatus(String userId,String status) {
+        List<Users> friendList = friendRepository.getFriendListByStatus(userId,status);
 
         if(friendList.isEmpty()){
             return null;
@@ -42,6 +35,7 @@ public class FriendServiceImpl implements FriendService {
                 .build();
 
     }
+
 
     @Override
     public MutualFriendDTO getMutualFriend(String userId, String partnerId) {
@@ -63,8 +57,5 @@ public class FriendServiceImpl implements FriendService {
                         .build();
 
     }
-
-
-
 
 }
