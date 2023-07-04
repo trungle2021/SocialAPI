@@ -1,12 +1,11 @@
-package com.example.socialmediaproject.securities.JWT;
+package com.social.server.securities.JWT;
 
-import com.example.socialmediaproject.entities.Accounts;
-import com.example.socialmediaproject.entities.RefreshTokens;
-import com.example.socialmediaproject.exceptions.SocialAppException;
-import com.example.socialmediaproject.services.AccountService;
-import com.example.socialmediaproject.services.RefreshTokenService;
-import com.example.socialmediaproject.services.UserService;
-import com.example.socialmediaproject.utils.SD;
+import com.social.server.entities.Accounts;
+import com.social.server.entities.RefreshTokens;
+import com.social.server.exceptions.SocialAppException;
+import com.social.server.services.AccountService;
+import com.social.server.services.RefreshTokenService;
+import com.social.server.utils.SD;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

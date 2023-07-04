@@ -1,6 +1,6 @@
-package com.example.socialmediaproject.exceptions;
+package com.social.server.exceptions;
 
-import com.example.socialmediaproject.dtos.ErrorDetails;
+import com.social.server.dtos.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

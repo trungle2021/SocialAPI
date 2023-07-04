@@ -1,6 +1,5 @@
-package com.example.socialmediaproject.entities;
+package com.social.server.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

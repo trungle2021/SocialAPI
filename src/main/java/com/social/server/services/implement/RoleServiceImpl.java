@@ -1,12 +1,12 @@
-package com.example.socialmediaproject.services.implement;
+package com.social.server.services.implement;
 
 
-import com.example.socialmediaproject.entities.Roles;
-import com.example.socialmediaproject.exceptions.ResourceNotFoundException;
-import com.example.socialmediaproject.exceptions.SocialAppException;
-import com.example.socialmediaproject.repositories.RoleRepository;
-import com.example.socialmediaproject.services.RoleService;
-import com.example.socialmediaproject.utils.EntityMapper;
+import com.social.server.entities.Roles;
+import com.social.server.exceptions.ResourceNotFoundException;
+import com.social.server.exceptions.SocialAppException;
+import com.social.server.repositories.RoleRepository;
+import com.social.server.services.RoleService;
+import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.socialmediaproject.utils.SD.ROLE;
+import static com.social.server.utils.SD.ROLE;
 
 
 @Service

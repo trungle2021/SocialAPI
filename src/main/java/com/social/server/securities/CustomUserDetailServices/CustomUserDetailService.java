@@ -1,12 +1,12 @@
-package com.example.socialmediaproject.securities.CustomUserDetailServices;
+package com.social.server.securities.CustomUserDetailServices;
 
 
-import com.example.socialmediaproject.dtos.AuthUserDTO;
-import com.example.socialmediaproject.entities.Accounts;
-import com.example.socialmediaproject.securities.CustomUserDetails.CustomUserDetails;
-import com.example.socialmediaproject.services.AccountService;
-import com.example.socialmediaproject.services.UserService;
-import com.example.socialmediaproject.services.RoleService;
+import com.social.server.dtos.AuthUserDTO;
+import com.social.server.entities.Accounts;
+import com.social.server.securities.CustomUserDetails.CustomUserDetails;
+import com.social.server.services.AccountService;
+import com.social.server.services.UserService;
+import com.social.server.services.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

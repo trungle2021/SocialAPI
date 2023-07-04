@@ -1,8 +1,7 @@
-package com.example.socialmediaproject.services;
+package com.social.server.services;
 
 
-import com.example.socialmediaproject.entities.Accounts;
-import com.example.socialmediaproject.entities.RefreshTokens;
+import com.social.server.entities.RefreshTokens;
 
 import java.util.List;
 

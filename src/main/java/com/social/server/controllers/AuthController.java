@@ -1,13 +1,12 @@
-package com.example.socialmediaproject.controllers;
+package com.social.server.controllers;
 
 
-import com.example.socialmediaproject.dtos.AuthResponse;
-import com.example.socialmediaproject.dtos.LoginDTO;
-import com.example.socialmediaproject.dtos.RegisterDTO;
-import com.example.socialmediaproject.services.AuthService;
+import com.social.server.dtos.AuthResponse;
+import com.social.server.dtos.LoginDTO;
+import com.social.server.dtos.RegisterDTO;
+import com.social.server.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

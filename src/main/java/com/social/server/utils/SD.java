@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.utils;
+package com.social.server.utils;
 
 public class SD {
 

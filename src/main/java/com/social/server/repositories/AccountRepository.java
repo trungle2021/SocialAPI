@@ -1,6 +1,6 @@
-package com.example.socialmediaproject.repositories;
+package com.social.server.repositories;
 
-import com.example.socialmediaproject.entities.Accounts;
+import com.social.server.entities.Accounts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package com.example.socialmediaproject.securities.JWT;
+package com.social.server.securities.JWT;
 
-import com.example.socialmediaproject.exceptions.SocialAppException;
-import com.example.socialmediaproject.securities.CustomUserDetailServices.CustomUserDetailService;
+import com.social.server.exceptions.SocialAppException;
+import com.social.server.securities.CustomUserDetailServices.CustomUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

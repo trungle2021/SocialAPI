@@ -1,22 +1,20 @@
-package com.example.socialmediaproject.services.implement;
+package com.social.server.services.implement;
 
 
-import com.example.socialmediaproject.entities.Users;
-import com.example.socialmediaproject.exceptions.ResourceNotFoundException;
-import com.example.socialmediaproject.exceptions.SocialAppException;
-import com.example.socialmediaproject.exceptions.UserNotFoundException;
-import com.example.socialmediaproject.repositories.UserRepository;
-import com.example.socialmediaproject.services.UserService;
-import com.example.socialmediaproject.utils.EntityMapper;
+import com.social.server.entities.Users;
+import com.social.server.exceptions.ResourceNotFoundException;
+import com.social.server.exceptions.SocialAppException;
+import com.social.server.exceptions.UserNotFoundException;
+import com.social.server.repositories.UserRepository;
+import com.social.server.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-import static com.example.socialmediaproject.utils.SD.ACCOUNT;
+import static com.social.server.utils.SD.ACCOUNT;
 
 @RequiredArgsConstructor
 @Service

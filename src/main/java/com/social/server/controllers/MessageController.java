@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.controllers;
+package com.social.server.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;

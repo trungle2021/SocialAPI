@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.exceptions;
+package com.social.server.exceptions;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,10 +1,9 @@
-package com.example.socialmediaproject.dtos;
+package com.social.server.dtos;
 
 
 import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Date;
 import java.util.List;
 
 @Data

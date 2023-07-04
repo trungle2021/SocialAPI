@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.entities;
+package com.social.server.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;

@@ -1,7 +1,7 @@
-package com.example.socialmediaproject.securities.AuthenticationProvider;
+package com.social.server.securities.AuthenticationProvider;
 
-import com.example.socialmediaproject.exceptions.UserNotFoundException;
-import com.example.socialmediaproject.securities.CustomUserDetailServices.CustomUserDetailService;
+import com.social.server.exceptions.UserNotFoundException;
+import com.social.server.securities.CustomUserDetailServices.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

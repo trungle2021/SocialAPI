@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.dtos;
+package com.social.server.dtos;
 
 import lombok.Builder;
 import lombok.Data;

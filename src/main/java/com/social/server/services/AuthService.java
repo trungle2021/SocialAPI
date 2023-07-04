@@ -1,9 +1,9 @@
-package com.example.socialmediaproject.services;
+package com.social.server.services;
 
 
-import com.example.socialmediaproject.dtos.AuthResponse;
-import com.example.socialmediaproject.dtos.LoginDTO;
-import com.example.socialmediaproject.dtos.RegisterDTO;
+import com.social.server.dtos.AuthResponse;
+import com.social.server.dtos.LoginDTO;
+import com.social.server.dtos.RegisterDTO;
 
 public interface AuthService {
     AuthResponse login(LoginDTO loginDTO);

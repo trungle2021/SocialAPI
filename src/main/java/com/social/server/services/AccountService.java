@@ -1,7 +1,7 @@
-package com.example.socialmediaproject.services;
+package com.social.server.services;
 
 
-import com.example.socialmediaproject.entities.Accounts;
+import com.social.server.entities.Accounts;
 
 import java.util.List;
 

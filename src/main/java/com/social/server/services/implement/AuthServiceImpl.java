@@ -1,13 +1,15 @@
-package com.example.socialmediaproject.services.implement;
+package com.social.server.services.implement;
 
 
-import com.example.socialmediaproject.dtos.*;
-import com.example.socialmediaproject.entities.Accounts;
-import com.example.socialmediaproject.entities.RefreshTokens;
-import com.example.socialmediaproject.entities.Roles;
-import com.example.socialmediaproject.securities.JWT.JwtService;
-import com.example.socialmediaproject.services.*;
-import com.example.socialmediaproject.utils.SD;
+import com.social.server.entities.Accounts;
+import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Roles;
+import com.social.server.securities.JWT.JwtService;
+import com.social.server.services.*;
+import com.social.server.utils.SD;
+import com.social.server.dtos.AuthResponse;
+import com.social.server.dtos.LoginDTO;
+import com.social.server.dtos.RegisterDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

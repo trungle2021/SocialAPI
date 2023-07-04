@@ -1,11 +1,9 @@
-package com.example.socialmediaproject.repositories;
+package com.social.server.repositories;
 
-import com.example.socialmediaproject.entities.Users;
+import com.social.server.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 @Repository

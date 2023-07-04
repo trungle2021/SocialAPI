@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.exceptions;
+package com.social.server.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

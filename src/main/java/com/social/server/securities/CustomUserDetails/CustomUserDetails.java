@@ -1,6 +1,6 @@
-package com.example.socialmediaproject.securities.CustomUserDetails;
+package com.social.server.securities.CustomUserDetails;
 
-import com.example.socialmediaproject.dtos.AuthUserDTO;
+import com.social.server.dtos.AuthUserDTO;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Data
 public class CustomUserDetails implements UserDetails {
-   private  AuthUserDTO authUser;
+   private AuthUserDTO authUser;
 
     public CustomUserDetails(AuthUserDTO authUser) {
         this.authUser = authUser;

@@ -1,6 +1,5 @@
-package com.example.socialmediaproject.dtos;
+package com.social.server.dtos;
 
-import com.example.socialmediaproject.entities.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.socialmediaproject.securities.JWT;
+package com.social.server.securities.JWT;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,11 +1,11 @@
-package com.example.socialmediaproject.controllers;
+package com.social.server.controllers;
 
-import com.example.socialmediaproject.dtos.FriendListDTO;
-import com.example.socialmediaproject.dtos.MutualFriendDTO;
-import com.example.socialmediaproject.entities.FriendRequest;
-import com.example.socialmediaproject.entities.Users;
-import com.example.socialmediaproject.services.FriendService;
-import com.example.socialmediaproject.services.UserService;
+import com.social.server.dtos.FriendListDTO;
+import com.social.server.dtos.MutualFriendDTO;
+import com.social.server.entities.FriendRequest;
+import com.social.server.entities.Users;
+import com.social.server.services.FriendService;
+import com.social.server.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
