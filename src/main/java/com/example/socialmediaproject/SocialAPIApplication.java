@@ -10,7 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class SocialMediaProjectApplication {
+public class SocialAPIApplication {
 
     @Bean
     public ModelMapper modelMapper(){
@@ -24,6 +24,6 @@ public class SocialMediaProjectApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(SocialMediaProjectApplication.class, args);
+        SpringApplication.run(SocialAPIApplication.class, args);
     }
 }
