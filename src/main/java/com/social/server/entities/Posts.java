@@ -19,7 +19,7 @@ public class Posts {
     @Column(name = "id", nullable = false, length = 36)
     private String id;
     @Basic
-    @Column(name = "content", nullable = true, length = -1)
+    @Column(name = "content", nullable = true, length = 300)
     private String content;
     @Basic
     @Column(name = "post_owner", nullable = true, length = 36)
