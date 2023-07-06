@@ -2,6 +2,7 @@ package com.social.server.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -38,4 +39,5 @@ public class PostImages {
     public void prePersist() {
         this.id = UUID.randomUUID().toString();
     }
+
 }

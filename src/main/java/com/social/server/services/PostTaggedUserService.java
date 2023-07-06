@@ -1,4 +1,4 @@
-package com.social.server.services.Post;
+package com.social.server.services;
 
 import com.social.server.entities.PostTaggedUsers;
 import com.social.server.entities.Users;

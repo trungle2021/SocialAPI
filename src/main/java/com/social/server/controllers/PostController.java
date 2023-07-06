@@ -1,14 +1,14 @@
 package com.social.server.controllers;
 
+import com.social.server.dtos.PostDTO;
+import com.social.server.entities.PostTaggedUsers;
 import com.social.server.entities.Posts;
-import com.social.server.services.Post.PostService;
+import com.social.server.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,6 +26,11 @@ public class PostController {
     @GetMapping("/pagination/{userId}/{offset}/{limit}/{field}")
     public ResponseEntity<Page<Posts>> getPostsWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit,@PathVariable(required = false) String field){
         return ResponseEntity.ok(postService.getPostsByUserIdWithPagination(userId,offset,limit, field));
+    }
+
+    @PostMapping
+    public ResponseEntity<PostDTO> createPost(Posts newPost, List<MultipartFile> files, List<PostTaggedUsers> postTaggedUsers){
+        return ResponseEntity.ok(postService.createPost(newPost,files,postTaggedUsers));
     }
 
 }

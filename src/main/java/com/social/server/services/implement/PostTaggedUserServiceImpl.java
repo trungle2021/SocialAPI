@@ -1,11 +1,12 @@
-package com.social.server.services.implement.Post;
+package com.social.server.services.implement;
 
 import com.social.server.entities.PostTaggedUsers;
 import com.social.server.entities.Posts;
 import com.social.server.entities.Users;
+import com.social.server.exceptions.ResourceNotFoundException;
+import com.social.server.repositories.Post.PostRepository;
 import com.social.server.repositories.Post.PostTaggedUserRepository;
-import com.social.server.services.Post.PostService;
-import com.social.server.services.Post.PostTaggedUserService;
+import com.social.server.services.PostTaggedUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostTaggedUserServiceImpl implements PostTaggedUserService {
     private final PostTaggedUserRepository postTaggedRepository;
-    private final PostService postService;
+    private final PostRepository postRepository;
     @Override
     public List<Users> getTaggedUsers(String postId) {
-        Posts post = postService.getPostByPostId(postId);
+        Posts post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post not found","id",postId));
         return postTaggedRepository.getUsersByPostId(post.getId());
     }
 
