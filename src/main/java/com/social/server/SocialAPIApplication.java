@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 @SpringBootApplication
 public class SocialAPIApplication {
@@ -20,6 +21,10 @@ public class SocialAPIApplication {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public S3Presigner generateS3Presigner(){
+        return S3Presigner.create();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SocialAPIApplication.class, args);

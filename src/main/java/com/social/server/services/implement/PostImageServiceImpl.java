@@ -43,18 +43,16 @@ public class PostImageServiceImpl implements PostImageService {
     }
 
     @Override
-    public List<String> updateImage(List<MultipartFile> files, String postId) {
+    public List<String> updateImage(List<MultipartFile> files, List<String> imageToDelete, String postId) {
+        // get ID list
+        //delete image
+
+
         //get image from db
         List<String> imageFileNames  = new ArrayList<>();
         for (var file : files) {
             imageFileNames.add(file.getOriginalFilename());
         }
-
-
-
-
-
-
 
         return null;
     }

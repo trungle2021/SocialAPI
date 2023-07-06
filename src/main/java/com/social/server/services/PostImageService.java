@@ -9,6 +9,6 @@ public interface PostImageService {
     PostImages getImagesByPostId(String postId);
     PostImages getImage(String postId,String imageId);
     List<String>  createImage(List<MultipartFile> files,String postId);
-    List<String>  updateImage(List<MultipartFile> files,String postId);
+    List<String>  updateImage(List<MultipartFile> files,List<String> imageToDelete, String postId);
     boolean deleteImage(String imageId);
 }

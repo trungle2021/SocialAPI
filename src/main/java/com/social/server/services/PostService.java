@@ -19,7 +19,7 @@ public interface PostService {
      Posts getPostById(String userId, String postId);
      PostDTO createPost(Posts newPost, List<MultipartFile> files, List<PostTaggedUsers> postTaggedUsers);
      Posts insertPost(Posts newPost);
-     PostDTO updatePost(Posts updatePost, List<MultipartFile> images, List<PostTaggedUsers> postTaggedUsers);
+     PostDTO updatePost(Posts updatePost, List<MultipartFile> images,List<String> imageToDelete, List<PostTaggedUsers> postTaggedUsers);
      Posts editPost(Posts updatePost);
      boolean deletePost(String postId);
 }

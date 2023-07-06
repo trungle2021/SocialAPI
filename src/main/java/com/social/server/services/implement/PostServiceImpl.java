@@ -93,7 +93,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO updatePost(Posts updatePost, List<MultipartFile> images, List<PostTaggedUsers> postTaggedUsers) {
+    public PostDTO updatePost(Posts updatePost, List<MultipartFile> images, List<String> imagesToDelete, List<PostTaggedUsers> postTaggedUsers) {
         Posts post;
         List<String> imageURLs = null;
         List<PostTaggedUsers> taggedUsers = null;
@@ -105,8 +105,12 @@ public class PostServiceImpl implements PostService {
           post = editPost(updatePost);
         }
 
+        if(imagesToDelete.isEmpty()){
+
+        }
+
         if(images.isEmpty()){
-            imageURLs = postImageService.updateImage(images, updatePost.getId());
+            imageURLs = postImageService.updateImage(images,imagesToDelete, updatePost.getId());
         }
         //update user tagged
         if(postTaggedUsers.isEmpty()){
