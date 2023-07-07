@@ -11,8 +11,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostRequestCreateDTO {
-    PostDTO newPost;
-    List<PostImageDTO> postImages;
+public class PostRequestUpdateDTO {
+    PostDTO updatePost;
+    List<PostImageDTO> postImagesToUpdate;
+    List<PostImageDTO> postImagesToDelete;
     List<PostTaggedUserDTO> postTaggedUsers;
 }

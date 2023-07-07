@@ -1,5 +1,6 @@
 package com.social.server.services.implement;
 
+import com.social.server.dtos.PostTaggedUserDTO;
 import com.social.server.entities.PostTaggedUsers;
 import com.social.server.entities.Posts;
 import com.social.server.entities.Users;
@@ -7,6 +8,7 @@ import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.repositories.Post.PostRepository;
 import com.social.server.repositories.Post.PostTaggedUserRepository;
 import com.social.server.services.PostTaggedUserService;
+import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +26,18 @@ public class PostTaggedUserServiceImpl implements PostTaggedUserService {
     }
 
     @Override
-    public List<PostTaggedUsers> createTaggedUsers(List<PostTaggedUsers> taggedUsersList) {
-        return postTaggedRepository.saveAll(taggedUsersList);
+    public List<PostTaggedUserDTO> createTaggedUsers(List<PostTaggedUserDTO> taggedUsersList) {
+        List<PostTaggedUsers> postUsers = taggedUsersList.stream().map(item -> EntityMapper.mapToEntity(item,PostTaggedUsers.class)).toList();
+        return postTaggedRepository.saveAll(postUsers).stream().map(item -> EntityMapper.mapToDto(item, PostTaggedUserDTO.class)).toList();
     }
 
     @Override
-    public List<PostTaggedUsers> updateTaggedUsers(List<PostTaggedUsers> taggedUsersList) {
+    public List<PostTaggedUserDTO> updateTaggedUsers(List<PostTaggedUserDTO> taggedUsersList) {
         return null;
     }
 
     @Override
-    public boolean deleteTaggedUsers(PostTaggedUsers taggedUser) {
+    public boolean deleteTaggedUsers(List<PostTaggedUserDTO> taggedUsers) {
         return false;
     }
 }

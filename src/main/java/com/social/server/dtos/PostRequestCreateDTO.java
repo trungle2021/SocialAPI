@@ -1,7 +1,5 @@
 package com.social.server.dtos;
 
-import com.social.server.entities.PostTaggedUsers;
-import com.social.server.entities.Posts;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +11,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostRequestDTO {
-    PostDTO newPost;
-    List<PostImageDTO> postImages;
-    List<PostTaggedUserDTO> postTaggedUsers;
+public class PostRequestCreateDTO {
+    private PostDTO newPost;
+    private List<PostImageDTO> postImages;
+    private List<PostTaggedUserDTO> postTaggedUsers;
 }

@@ -1,14 +1,13 @@
 package com.social.server.controllers;
 
-import com.social.server.dtos.PostDTO;
-import com.social.server.entities.PostTaggedUsers;
+import com.social.server.dtos.PostRequestCreateDTO;
+import com.social.server.dtos.PostResponseDTO;
 import com.social.server.entities.Posts;
 import com.social.server.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,8 +28,13 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(Posts newPost, List<MultipartFile> files, List<PostTaggedUsers> postTaggedUsers){
-        return ResponseEntity.ok(postService.createPost(newPost,files,postTaggedUsers));
+    public ResponseEntity<PostResponseDTO> createPost(PostRequestCreateDTO postRequestCreateDTO){
+        return ResponseEntity.ok(postService.createPost(postRequestCreateDTO));
     }
+
+//    @PutMapping
+//    public ResponseEntity<PostRequestCreateDTO> updatePost(){
+////        return ResponseEntity.ok(postService.updatePost());
+//    }
 
 }

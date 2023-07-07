@@ -1,7 +1,6 @@
 package com.social.server.services.implement;
 
-import com.social.server.dtos.PostDTO;
-import com.social.server.entities.PostTaggedUsers;
+import com.social.server.dtos.*;
 import com.social.server.entities.Posts;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
@@ -9,20 +8,18 @@ import com.social.server.repositories.Post.PostRepository;
 import com.social.server.services.PostImageService;
 import com.social.server.services.PostService;
 import com.social.server.services.PostTaggedUserService;
+import com.social.server.utils.EntityMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,24 +60,24 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostDTO createPost(Posts newPost, List<MultipartFile> postImages, List<PostTaggedUsers> postTaggedUsers) {
+    public PostResponseDTO createPost(PostRequestCreateDTO postRequestCreateDTO) {
          //insert a new post
-       Posts post = insertPost(newPost);
+       PostDTO postDTO = insertPost(postRequestCreateDTO.getNewPost());
         // insert images of the post
-        List<String> imageURLs = postImageService.createImage(postImages, newPost.getId());
+        List<PostImageDTO> imageURLs = postImageService.createImage(postRequestCreateDTO.getPostImages(), postRequestCreateDTO.getNewPost().getId());
        // insert users tagged in post
-        List<PostTaggedUsers> taggedUsers = postTaggedUserService.createTaggedUsers(postTaggedUsers);
+        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers());
 
-        return PostDTO.builder()
-                .newPost(post)
-                .imageOfPosts(imageURLs)
-                .usersTaggedOfPosts(taggedUsers)
+        return PostResponseDTO.builder()
+                .newPost(postDTO)
+                .postImages(imageURLs)
+                .postTaggedUsers(taggedUsers)
                 .build();
 
     }
 
     @Override
-    public Posts insertPost(Posts newPost) {
+    public PostDTO insertPost(PostDTO newPost) {
         Posts post = Posts.builder()
                 .id(newPost.getId())
                 .content(newPost.getContent())
@@ -89,44 +86,46 @@ public class PostServiceImpl implements PostService {
                 .postedAt(Timestamp.valueOf(LocalDateTime.now()))
                 .isDeleted(false)
                 .build();
-        return postRepository.save(post);
+        return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
     }
 
     @Override
-    public PostDTO updatePost(Posts updatePost, List<MultipartFile> images, List<String> imagesToDelete, List<PostTaggedUsers> postTaggedUsers) {
-        Posts post;
-        List<String> imageURLs = null;
-        List<PostTaggedUsers> taggedUsers = null;
+    public PostResponseDTO updatePost(PostRequestUpdateDTO postDTO) {
+        PostDTO _postDTO;
+        List<PostImageDTO> imageURLs = null;
+        List<PostTaggedUserDTO> taggedUsers = null;
         //select post by userid and postid
         //check if postId being attached to post object
-        if (updatePost.getId() == null) {
+        if (postDTO.getUpdatePost().getId() == null) {
             throw new SocialAppException(HttpStatus.BAD_REQUEST,"Missing PostId to update");
         }else{
-          post = editPost(updatePost);
+            _postDTO = editPost(postDTO.getUpdatePost());
         }
 
-        if(imagesToDelete.isEmpty()){
+        if(postDTO.getPostImagesToDelete().isEmpty()){
 
         }
 
-        if(images.isEmpty()){
-            imageURLs = postImageService.updateImage(images,imagesToDelete, updatePost.getId());
+
+
+        if(postDTO.getPostImagesToUpdate().isEmpty()){
+            imageURLs = postImageService.updateImage(postDTO.getPostImagesToUpdate(),postDTO.getPostImagesToDelete());
         }
         //update user tagged
-        if(postTaggedUsers.isEmpty()){
+        if(postDTO.getPostTaggedUsers().isEmpty()){
             //do something
-            taggedUsers =  postTaggedUserService.updateTaggedUsers(postTaggedUsers);
+            taggedUsers =  postTaggedUserService.updateTaggedUsers(postDTO.getPostTaggedUsers());
         }
-        return PostDTO.builder()
-                .newPost(post)
-                .imageOfPosts(imageURLs)
-                .usersTaggedOfPosts(taggedUsers)
+        return PostResponseDTO.builder()
+                .newPost(_postDTO)
+                .postImages(imageURLs)
+                .postTaggedUsers(taggedUsers)
                 .build();
 
     }
 
     @Override
-    public Posts editPost(Posts updatePost) {
+    public PostDTO editPost(PostDTO updatePost) {
         Posts post = getPostById(updatePost.getPostOwner(), updatePost.getId());
 
         String content = updatePost.getContent() == null ? post.getContent() : updatePost.getContent();
@@ -136,7 +135,7 @@ public class PostServiceImpl implements PostService {
         post.setContent(content);
         post.setPrivacyStatus(privacyStatus);
         post.setIsDeleted(isDeleted);
-       return postRepository.save(post);
+       return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
     }
 
 

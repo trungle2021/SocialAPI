@@ -23,10 +23,9 @@ public class StorageConfig {
     @Bean
     public S3Client s3Client(){
 
-        ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider.create();
+//        ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider.create();
         return S3Client.builder()
                 .region(Region.of(region))
-                .credentialsProvider(credentialsProvider)
                 .build();
     }
 

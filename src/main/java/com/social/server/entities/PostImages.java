@@ -28,6 +28,10 @@ public class PostImages {
     @Basic
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;
+    @Basic
+    @Column(name = "order")
+    private int order;
+
     @OneToMany(mappedBy = "postImagesByImageId")
     private Collection<CommentImagePosts> commentImagePostsById;
     @OneToMany(mappedBy = "postImagesByImageId")

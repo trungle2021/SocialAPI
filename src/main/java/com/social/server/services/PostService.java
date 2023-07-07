@@ -1,7 +1,9 @@
 package com.social.server.services;
 
 import com.social.server.dtos.PostDTO;
-import com.social.server.entities.PostImages;
+import com.social.server.dtos.PostRequestCreateDTO;
+import com.social.server.dtos.PostRequestUpdateDTO;
+import com.social.server.dtos.PostResponseDTO;
 import com.social.server.entities.PostTaggedUsers;
 import com.social.server.entities.Posts;
 import org.springframework.data.domain.Page;
@@ -17,9 +19,9 @@ public interface PostService {
 
      List<Posts> getPostsByUserIdWithSorting(String userId, String field);
      Posts getPostById(String userId, String postId);
-     PostDTO createPost(Posts newPost, List<MultipartFile> files, List<PostTaggedUsers> postTaggedUsers);
-     Posts insertPost(Posts newPost);
-     PostDTO updatePost(Posts updatePost, List<MultipartFile> images,List<String> imageToDelete, List<PostTaggedUsers> postTaggedUsers);
-     Posts editPost(Posts updatePost);
+     PostResponseDTO createPost(PostRequestCreateDTO postRequestCreateDTO);
+     PostDTO insertPost(PostDTO newPost);
+     PostResponseDTO updatePost(PostRequestUpdateDTO postRequestUpdateDTO);
+     PostDTO editPost(PostDTO updatePost);
      boolean deletePost(String postId);
 }

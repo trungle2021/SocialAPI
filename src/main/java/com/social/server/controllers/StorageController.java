@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/storage/files")
+@RequestMapping("/api/files")
 public class StorageController {
     private final StorageService storageService;
 

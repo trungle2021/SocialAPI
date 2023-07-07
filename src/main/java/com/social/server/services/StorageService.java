@@ -1,19 +1,18 @@
 package com.social.server.services;
 
-
 import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.swing.filechooser.FileSystemView;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -34,6 +33,8 @@ public class StorageService {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(fileName)
+                .contentType("image/jpg")
+                .contentDisposition("inline; filename=filename.jpg")
                 .acl("public-read")
                 .build();
 
@@ -42,19 +43,43 @@ public class StorageService {
     }
 
     public byte[] downloadFile(String fileName) {
-        S3Object s3Object = s3Client.getObject(bucketName, fileName);
-        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+
+        GetObjectRequest objectRequest = GetObjectRequest.builder()
+                .bucket(bucketName)
+                .key(fileName)
+                .build();
+
+        //get default download directory
+       String path = System.getProperty("user.home") + "\\Downloads"+fileName;
+
+
+       return getObjectBytes(s3Client,objectRequest,path);
+    }
+
+    public byte[] getObjectBytes(S3Client s3,GetObjectRequest objectRequest, String path){
+        ResponseBytes<GetObjectResponse> objectBytes = s3.getObjectAsBytes(objectRequest);
+        byte[] data = objectBytes.asByteArray();
+        // Write the data to a local file.
+        File myFile = new File(path);
         try {
-            byte[] content = IOUtils.toByteArray(inputStream);
-            return content;
+            OutputStream os = new FileOutputStream(myFile);
+            os.write(data);
+            System.out.println("Successfully obtained bytes from an S3 object");
+            os.close();
         } catch (IOException e) {
-            log.error("Cannot download file", e);
+            e.printStackTrace();
+        }catch(S3Exception e){
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
         }
-        return null;
+        return data;
     }
 
     public String deleteFile(String fileName) {
-        s3Client.(bucketName, fileName);
+        s3Client.deleteObject(builder -> {
+            builder.bucket(bucketName);
+            builder.key(fileName);
+        });
         return "File deleted: " + fileName;
     }
 
