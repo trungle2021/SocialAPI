@@ -1,19 +1,19 @@
 package com.social.server.services.implement;
 
-import com.social.server.dtos.PostDTO;
 import com.social.server.dtos.PostImageDTO;
-import com.social.server.dtos.PostRequestUpdateDTO;
 import com.social.server.entities.PostImages;
+import com.social.server.entities.Posts;
 import com.social.server.repositories.Post.PostImageRepository;
 import com.social.server.services.PostImageService;
 import com.social.server.services.StorageService;
 import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -46,22 +46,15 @@ public class PostImageServiceImpl implements PostImageService {
     }
 
     @Override
-    public List<PostImageDTO> updateImage(List<PostImageDTO> imagesToUpdate, List<PostImageDTO> imagesToDelete) {
-        // get ID list
-        //delete image
-
-//
-//        //get image from db
-//        List<String> imageFileNames  = new ArrayList<>();
-//        for (var file : files) {
-//            imageFileNames.add(file.getOriginalFilename());
-//        }
-
-        return null;
+    public List<PostImageDTO> updateImage(List<PostImageDTO> imagesToUpdate, String postId) {
+        List<PostImages> postsList = imagesToUpdate.stream().map(item -> EntityMapper.mapToEntity(item,PostImages.class)).toList();
+        return postImageRepository.saveAll(postsList).stream().map(item->EntityMapper.mapToDto(item,PostImageDTO.class)).toList();
     }
 
     @Override
-    public boolean deleteImage(String imageId) {
-        return false;
+    public boolean deleteImage(List<PostImageDTO> imagesToDelete, String id) {
+        List<PostImages> postsList = imagesToDelete.stream().map(item -> EntityMapper.mapToEntity(item,PostImages.class)).toList();
+         postImageRepository.deleteAll(postsList);
+        return true;
     }
 }

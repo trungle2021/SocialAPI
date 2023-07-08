@@ -11,11 +11,12 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
-import javax.swing.filechooser.FileSystemView;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +24,6 @@ import java.util.Objects;
 public class StorageService {
     private final String bucketName = "social-images-bucket";
     private final S3Client s3Client;
-    private final S3Presigner s3Presigner;
-    @Value("${cloud.aws.region.static}")
-    private String region;
 
     public String uploadFile(MultipartFile uploadFile) {
         String fileName = System.currentTimeMillis() + "_" + uploadFile.getOriginalFilename();
@@ -51,8 +49,6 @@ public class StorageService {
 
         //get default download directory
        String path = System.getProperty("user.home") + "\\Downloads"+fileName;
-
-
        return getObjectBytes(s3Client,objectRequest,path);
     }
 

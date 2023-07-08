@@ -1,6 +1,7 @@
 package com.social.server.controllers;
 
 import com.social.server.dtos.PostRequestCreateDTO;
+import com.social.server.dtos.PostRequestUpdateDTO;
 import com.social.server.dtos.PostResponseDTO;
 import com.social.server.entities.Posts;
 import com.social.server.services.PostService;
@@ -17,24 +18,26 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping(value = "/{userId}/{field}")
-    public ResponseEntity<List<Posts>> getPosts(@PathVariable String userId, @PathVariable String field){
-        return ResponseEntity.ok(postService.getPostsByUserIdWithSorting(userId,field));
+    @GetMapping(value = "/{userId}/{sortBy}")
+    public ResponseEntity<List<Posts>> getPosts(@PathVariable String userId, @PathVariable String sortBy){
+        return ResponseEntity.ok(postService.getPostsByUserIdWithSorting(userId,sortBy));
     }
-
-    @GetMapping("/pagination/{userId}/{offset}/{limit}/{field}")
-    public ResponseEntity<Page<Posts>> getPostsWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit,@PathVariable(required = false) String field){
-        return ResponseEntity.ok(postService.getPostsByUserIdWithPagination(userId,offset,limit, field));
+    @GetMapping("/pagination/{userId}/{offset}/{limit}/{sortBy}")
+    public ResponseEntity<Page<Posts>> getPostsWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit, @PathVariable(required = false) String sortBy){
+        return ResponseEntity.ok(postService.getPostsByUserIdWithPagination(userId,offset,limit, sortBy));
     }
-
     @PostMapping
     public ResponseEntity<PostResponseDTO> createPost(PostRequestCreateDTO postRequestCreateDTO){
         return ResponseEntity.ok(postService.createPost(postRequestCreateDTO));
     }
-
-//    @PutMapping
-//    public ResponseEntity<PostRequestCreateDTO> updatePost(){
-////        return ResponseEntity.ok(postService.updatePost());
-//    }
+    @PutMapping
+    public ResponseEntity<PostResponseDTO> updatePost(@RequestBody PostRequestUpdateDTO postRequestUpdateDTO){
+        return ResponseEntity.ok(postService.updatePost(postRequestUpdateDTO));
+    }
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable String postId){
+        postService.deletePost(postId);
+       return ResponseEntity.ok("Deleted successfully");
+    }
 
 }

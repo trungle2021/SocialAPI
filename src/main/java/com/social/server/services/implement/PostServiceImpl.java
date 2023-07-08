@@ -90,38 +90,44 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponseDTO updatePost(PostRequestUpdateDTO postDTO) {
-        PostDTO _postDTO;
-        List<PostImageDTO> imageURLs = null;
-        List<PostTaggedUserDTO> taggedUsers = null;
-        //select post by userid and postid
-        //check if postId being attached to post object
-        if (postDTO.getUpdatePost().getId() == null) {
+    public PostResponseDTO updatePost(PostRequestUpdateDTO updateDTO) {
+        String postId = updateDTO.getUpdatePost().getId();
+        PostDTO postToUpdate = updateDTO.getUpdatePost();
+        List<PostTaggedUserDTO> taggedUsersToUpdate = updateDTO.getPostTaggedUsers();
+        List<PostImageDTO> imagesToDelete = updateDTO.getPostImagesToDelete();
+        List<PostImageDTO> imagesToUpdate = updateDTO.getPostImagesToUpdate();
+
+        // Check if postId is present
+        if (postId == null) {
             throw new SocialAppException(HttpStatus.BAD_REQUEST,"Missing PostId to update");
+        }
+        PostDTO updatedPostDTO = editPost(postToUpdate);
+
+        //handle images updates
+        if(!imagesToDelete.isEmpty() && !imagesToUpdate.isEmpty()){
+            // Delete images first, then update (by creating new images)
+            postImageService.deleteImage(imagesToDelete,postId);
+            List<PostImageDTO> updatedImages =  postImageService.updateImage(imagesToUpdate,postId);
+            updateDTO.setPostImagesToUpdate(updatedImages);
+        }else if(!imagesToDelete.isEmpty()){
+            // Only delete images
+            postImageService.deleteImage(imagesToDelete,postId);
         }else{
-            _postDTO = editPost(postDTO.getUpdatePost());
+            // Only update images
+            List<PostImageDTO> updatedImages =  postImageService.updateImage(imagesToUpdate,postId);
+            updateDTO.setPostImagesToUpdate(updatedImages);
         }
 
-        if(postDTO.getPostImagesToDelete().isEmpty()){
-
-        }
-
-
-
-        if(postDTO.getPostImagesToUpdate().isEmpty()){
-            imageURLs = postImageService.updateImage(postDTO.getPostImagesToUpdate(),postDTO.getPostImagesToDelete());
-        }
         //update user tagged
-        if(postDTO.getPostTaggedUsers().isEmpty()){
-            //do something
-            taggedUsers =  postTaggedUserService.updateTaggedUsers(postDTO.getPostTaggedUsers());
+        List<PostTaggedUserDTO> updatedTaggedUsers = null;
+        if(!taggedUsersToUpdate.isEmpty()){
+            updatedTaggedUsers =  postTaggedUserService.updateTaggedUsers(updateDTO.getPostTaggedUsers());
         }
         return PostResponseDTO.builder()
-                .newPost(_postDTO)
-                .postImages(imageURLs)
-                .postTaggedUsers(taggedUsers)
+                .newPost(updatedPostDTO)
+                .postImages(updateDTO.getPostImagesToUpdate())
+                .postTaggedUsers(updatedTaggedUsers)
                 .build();
-
     }
 
     @Override
@@ -141,6 +147,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean deletePost(String postId) {
-        return false;
+        postRepository.deleteById(postId);
+        return true;
     }
 }

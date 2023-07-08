@@ -21,10 +21,7 @@ public class SocialAPIApplication {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public S3Presigner generateS3Presigner(){
-        return S3Presigner.create();
-    }
+
 
     public static void main(String[] args) {
         SpringApplication.run(SocialAPIApplication.class, args);
