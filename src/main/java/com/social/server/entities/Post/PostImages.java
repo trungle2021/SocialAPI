@@ -20,7 +20,7 @@ public class PostImages {
     @Column(name = "id", nullable = false, length = 36)
     private String id;
     @Basic
-    @Column(name = "image_url", nullable = true, length = 45)
+    @Column(name = "image_url", nullable = true, length = 300)
     private String imageUrl;
     @Basic
     @Column(name = "post_id", nullable = true, length = 36)
@@ -29,8 +29,8 @@ public class PostImages {
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;
     @Basic
-    @Column(name = "order")
-    private int order;
+    @Column(name = "order_image", nullable = true)
+    private Integer orderImage;
 
     @OneToMany(mappedBy = "postImagesByImageId")
     private Collection<CommentImagePosts> commentImagePostsById;
