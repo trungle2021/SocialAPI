@@ -1,4 +1,4 @@
-package com.social.server.entities;
+package com.social.server.entities.PK;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;

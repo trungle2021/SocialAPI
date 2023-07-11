@@ -1,7 +1,7 @@
 package com.social.server.services.implement;
 
 
-import com.social.server.entities.Accounts;
+import com.social.server.entities.User.Accounts;
 import com.social.server.entities.RefreshTokens;
 import com.social.server.entities.Roles;
 import com.social.server.securities.JWT.JwtService;

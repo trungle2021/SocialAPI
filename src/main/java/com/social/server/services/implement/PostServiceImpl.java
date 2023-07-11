@@ -1,7 +1,7 @@
 package com.social.server.services.implement;
 
 import com.social.server.dtos.*;
-import com.social.server.entities.Posts;
+import com.social.server.entities.Post.Posts;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.repositories.Post.PostRepository;
@@ -11,9 +11,7 @@ import com.social.server.services.PostTaggedUserService;
 import com.social.server.utils.EntityMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +19,7 @@ import org.springframework.util.StringUtils;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,32 +29,37 @@ public class PostServiceImpl implements PostService {
     private final PostTaggedUserService postTaggedUserService;
 
 
-    @Override
-    public List<Posts> getPostsByUserId(String userId) {
-        return postRepository.findAllPostsByUserId(userId);
-    }
+
 
     @Override
-    public Page<Posts> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field) {
+    public Page<PostDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field) {
+        Pageable pageable;
         if(StringUtils.hasText(field)){
-            return postRepository.findAll(PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC,field)));
+            pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC, field));
         }else{
-            return postRepository.findAll(PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC,"posted_at")));
+             pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC, "posted_at"));
         }
+        List<PostDTO> postDTOS = postRepository.findAll(pageable)
+                .stream()
+                .map(item -> EntityMapper.mapToDto(item,PostDTO.class))
+                .toList();
+        return new PageImpl<>(postDTOS);
     }
 
     @Override
-    public List<Posts> getPostsByUserIdWithSorting(String userId, String field) {
-        return postRepository.findAll(Sort.by(Sort.Direction.ASC,field));
+    public Page<PostDTO> getPostsByUserIdWithSorting(String userId, String field) {
+       List<PostDTO> postDTOS =  postRepository.findAll(Sort.by(Sort.Direction.ASC,field))
+               .stream()
+               .map(item -> EntityMapper.mapToDto(item,PostDTO.class))
+               .toList();
+        return new PageImpl<>(postDTOS);
     }
 
     @Override
     public Posts getPostById(String userId, String postId) {
-        Posts posts = postRepository.getPostById(userId,postId);
-        if (posts == null) {
-            throw new ResourceNotFoundException("No post with userId: " + userId + "and postId: " + postId);
-        }
-        return posts;
+        Optional.ofNullable(postId).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "PostId cannot be null"));
+        Optional.ofNullable(userId).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "UserId cannot be null"));
+        return postRepository.getPostById(userId,postId).orElseThrow(()->new ResourceNotFoundException("Post not found","id",postId));
     }
 
     @Override
@@ -64,9 +68,9 @@ public class PostServiceImpl implements PostService {
          //insert a new post
        PostDTO postDTO = insertPost(postRequestCreateDTO.getNewPost());
         // insert images of the post
-        List<PostImageDTO> imageURLs = postImageService.createImage(postRequestCreateDTO.getPostImages(), postRequestCreateDTO.getNewPost().getId());
+        List<PostImageDTO> imageURLs = postImageService.createImage(postRequestCreateDTO.getPostImages(), postDTO.getId());
        // insert users tagged in post
-        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers());
+        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers(),postDTO.getId());
 
         return PostResponseDTO.builder()
                 .newPost(postDTO)
@@ -98,9 +102,7 @@ public class PostServiceImpl implements PostService {
         List<PostImageDTO> imagesToUpdate = updateDTO.getPostImagesToUpdate();
 
         // Check if postId is present
-        if (postId == null) {
-            throw new SocialAppException(HttpStatus.BAD_REQUEST,"Missing PostId to update");
-        }
+        Optional.ofNullable(postId).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST,"Missing PostId to update"));
         PostDTO updatedPostDTO = editPost(postToUpdate);
 
         //handle images updates
@@ -130,14 +132,18 @@ public class PostServiceImpl implements PostService {
                 .build();
     }
 
+//        String postId = Optional.ofNullable(updatePost.getId()).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "UserId cannot be null"));
+//        String postId = Optional.ofNullable(updatePost.getId()).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "UserId cannot be null"));
+
     @Override
     public PostDTO editPost(PostDTO updatePost) {
-        Posts post = getPostById(updatePost.getPostOwner(), updatePost.getId());
+        String userId = updatePost.getPostOwner();
+        String postId = updatePost.getId();
 
+        Posts post = getPostById(userId, postId);
         String content = updatePost.getContent() == null ? post.getContent() : updatePost.getContent();
         String privacyStatus =  updatePost.getPrivacyStatus() == null ? post.getPrivacyStatus() : updatePost.getPrivacyStatus();
         Boolean isDeleted =  updatePost.getIsDeleted() == null ? post.getIsDeleted() : updatePost.getIsDeleted();
-
         post.setContent(content);
         post.setPrivacyStatus(privacyStatus);
         post.setIsDeleted(isDeleted);

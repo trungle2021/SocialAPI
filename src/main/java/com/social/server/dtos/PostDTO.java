@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class PostDTO {
-    String id;
+    private String id;
     private String content;
     private String postOwner;
     private String privacyStatus;

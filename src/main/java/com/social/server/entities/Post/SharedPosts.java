@@ -1,5 +1,7 @@
-package com.social.server.entities;
+package com.social.server.entities.Post;
 
+import com.social.server.entities.PK.SharedPostsPK;
+import com.social.server.entities.User.Users;
 import jakarta.persistence.*;
 import lombok.*;
 

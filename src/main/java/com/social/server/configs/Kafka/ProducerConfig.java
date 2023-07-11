@@ -23,7 +23,7 @@ public class ProducerConfig {
         props.put(org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(JsonSerializer.TYPE_MAPPINGS, "friendRequest:com.social.server.entities.FriendRequest");
+        props.put(JsonSerializer.TYPE_MAPPINGS, "friendRequest:com.social.server.entities.User.FriendRequest");
         return props;
     }
 

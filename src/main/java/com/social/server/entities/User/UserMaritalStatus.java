@@ -1,5 +1,7 @@
-package com.social.server.entities;
+package com.social.server.entities.User;
 
+import com.social.server.entities.MaritalStatus;
+import com.social.server.entities.Privacies;
 import jakarta.persistence.*;
 import lombok.*;
 

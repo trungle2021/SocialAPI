@@ -1,7 +1,6 @@
-package com.social.server.repositories.Post;
+package com.social.server.services;
 
-import com.social.server.entities.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SharePostRepository extends JpaRepository<SharePostRepository, String> {
+public interface SharePostService{
 }

@@ -1,8 +1,7 @@
-package com.social.server.entities;
+package com.social.server.entities.Post;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.UUID;

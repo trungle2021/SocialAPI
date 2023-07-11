@@ -1,11 +1,16 @@
 package com.social.server.dtos;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostTaggedUserDTO {
     private String taggedUserId;
     private String postId;

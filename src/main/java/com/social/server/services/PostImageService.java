@@ -1,7 +1,7 @@
 package com.social.server.services;
 
 import com.social.server.dtos.PostImageDTO;
-import com.social.server.entities.PostImages;
+import com.social.server.entities.Post.PostImages;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
-package com.social.server.entities;
+package com.social.server.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.social.server.entities.Post.*;
 import jakarta.persistence.*;
 import lombok.*;
 

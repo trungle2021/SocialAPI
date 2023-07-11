@@ -1,6 +1,6 @@
 package com.social.server.securities.JWT;
 
-import com.social.server.entities.Accounts;
+import com.social.server.entities.User.Accounts;
 import com.social.server.entities.RefreshTokens;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.services.AccountService;

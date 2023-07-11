@@ -1,5 +1,6 @@
-package com.social.server.entities;
+package com.social.server.entities.User;
 
+import com.social.server.entities.PK.FriendsPK;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;

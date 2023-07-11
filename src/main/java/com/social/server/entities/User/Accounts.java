@@ -1,6 +1,8 @@
-package com.social.server.entities;
+package com.social.server.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

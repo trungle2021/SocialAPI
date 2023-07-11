@@ -2,7 +2,7 @@ package com.social.server.securities.CustomUserDetailServices;
 
 
 import com.social.server.dtos.AuthUserDTO;
-import com.social.server.entities.Accounts;
+import com.social.server.entities.User.Accounts;
 import com.social.server.securities.CustomUserDetails.CustomUserDetails;
 import com.social.server.services.AccountService;
 import com.social.server.services.UserService;

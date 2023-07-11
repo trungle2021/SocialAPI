@@ -3,7 +3,7 @@ package com.social.server.services.implement;
 import com.social.server.dtos.FriendDTO;
 import com.social.server.dtos.FriendListDTO;
 import com.social.server.dtos.MutualFriendDTO;
-import com.social.server.entities.Users;
+import com.social.server.entities.User.Users;
 import com.social.server.repositories.FriendRepository;
 import com.social.server.services.FriendService;
 import com.social.server.utils.EntityMapper;

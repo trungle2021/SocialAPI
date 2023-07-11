@@ -1,8 +1,5 @@
 package com.social.server.dtos;
 
-import com.social.server.entities.PostImages;
-import com.social.server.entities.PostTaggedUsers;
-import com.social.server.entities.Posts;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

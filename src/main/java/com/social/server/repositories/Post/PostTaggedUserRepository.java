@@ -1,8 +1,7 @@
 package com.social.server.repositories.Post;
 
-import com.social.server.entities.PostTaggedUsers;
-import com.social.server.entities.Posts;
-import com.social.server.entities.Users;
+import com.social.server.entities.Post.PostTaggedUsers;
+import com.social.server.entities.User.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

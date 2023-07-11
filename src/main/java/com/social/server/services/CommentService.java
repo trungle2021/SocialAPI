@@ -1,8 +1,11 @@
-package com.social.server.repositories.Post;
+package com.social.server.services;
 
-import com.social.server.entities.CommentPosts;
-import com.social.server.entities.Posts;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.social.server.dtos.CommentPostDTO;
+import org.springframework.data.domain.Page;
 
-public interface CommentPostRepository extends JpaRepository<CommentPosts, String> {
+public interface CommentService {
+    Page<CommentPostDTO> getCommentByPostId(String postId,int offset, int limit);
+    CommentPostDTO createComment(CommentPostDTO comment);
+    CommentPostDTO updateComment(CommentPostDTO comment);
+    void deleteComment(String commentId);
 }

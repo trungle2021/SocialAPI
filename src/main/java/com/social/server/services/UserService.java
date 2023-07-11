@@ -1,7 +1,7 @@
 package com.social.server.services;
 
 
-import com.social.server.entities.Users;
+import com.social.server.entities.User.Users;
 
 import java.util.List;
 

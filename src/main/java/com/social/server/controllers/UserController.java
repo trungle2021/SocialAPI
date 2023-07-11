@@ -2,8 +2,8 @@ package com.social.server.controllers;
 
 import com.social.server.dtos.FriendListDTO;
 import com.social.server.dtos.MutualFriendDTO;
-import com.social.server.entities.FriendRequest;
-import com.social.server.entities.Users;
+import com.social.server.entities.User.FriendRequest;
+import com.social.server.entities.User.Users;
 import com.social.server.services.FriendService;
 import com.social.server.services.UserService;
 import lombok.RequiredArgsConstructor;

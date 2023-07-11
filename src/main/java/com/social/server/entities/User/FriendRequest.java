@@ -1,4 +1,4 @@
-package com.social.server.entities;
+package com.social.server.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

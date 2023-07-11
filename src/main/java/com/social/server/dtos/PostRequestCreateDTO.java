@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequestCreateDTO {
-    private PostDTO newPost;
-    private List<PostImageDTO> postImages;
-    private List<PostTaggedUserDTO> postTaggedUsers;
+     PostDTO newPost;
+     List<PostImageDTO> postImages;
+     List<PostTaggedUserDTO> postTaggedUsers;
 }
