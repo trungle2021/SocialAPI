@@ -7,10 +7,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostImageDTO {
+public class ImageDTO {
     private String id;
+    private String content;
     private String imageUrl;
-    private String postId;
+    private String parentType;
     private Boolean isDeleted;
     private Integer orderImage;
 }

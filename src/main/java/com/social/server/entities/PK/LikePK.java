@@ -12,16 +12,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class CommentPostsPK implements Serializable {
+public class LikePK implements Serializable {
     @Column(name = "id", nullable = false, length = 36)
     @Id
     private String id;
-    @Column(name = "post_id", nullable = false, length = 36)
+    @Basic
     @Id
-    private String postId;
+    @Column(name = "user_id", nullable = true, length = 36)
+    private String userId;
+    @Column(name = "post_base_id", nullable = false, length = 36)
+    @Id
+    private String postBaseId;
 
-    @PrePersist
-    public void prePersist() {
-        this.id = UUID.randomUUID().toString();
-    }
 }

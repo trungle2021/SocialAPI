@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostRequestUpdateDTO {
     PostDTO updatePost;
-    List<PostImageDTO> postImagesToUpdate;
-    List<PostImageDTO> postImagesToDelete;
+    List<ImageDTO> imagesToUpdate;
+    List<ImageDTO> imagesToDelete;
     List<PostTaggedUserDTO> postTaggedUsers;
 }

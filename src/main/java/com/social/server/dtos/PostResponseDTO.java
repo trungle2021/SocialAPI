@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PostResponseDTO {
     PostDTO newPost;
-    List<PostImageDTO> postImages;
+    List<ImageDTO> postImages;
     List<PostTaggedUserDTO> postTaggedUsers;
 }

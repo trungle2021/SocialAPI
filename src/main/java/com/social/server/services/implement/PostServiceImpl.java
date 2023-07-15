@@ -5,7 +5,7 @@ import com.social.server.entities.Post.Posts;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.repositories.Post.PostRepository;
-import com.social.server.services.PostImageService;
+import com.social.server.services.ImageService;
 import com.social.server.services.PostService;
 import com.social.server.services.PostTaggedUserService;
 import com.social.server.utils.EntityMapper;
@@ -25,7 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final PostImageService postImageService;
+
+    private final ImageService imageService;
     private final PostTaggedUserService postTaggedUserService;
 
 
@@ -68,7 +69,7 @@ public class PostServiceImpl implements PostService {
          //insert a new post
        PostDTO postDTO = insertPost(postRequestCreateDTO.getNewPost());
         // insert images of the post
-        List<PostImageDTO> imageURLs = postImageService.createImage(postRequestCreateDTO.getPostImages(), postDTO.getId());
+        List<ImageDTO> imageURLs = imageService.createImage(postRequestCreateDTO.getPostImages(), postDTO.getId());
        // insert users tagged in post
         List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers(),postDTO.getId());
 
@@ -83,9 +84,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO insertPost(PostDTO newPost) {
         Posts post = Posts.builder()
-                .id(newPost.getId())
                 .content(newPost.getContent())
-                .postOwner(newPost.getPostOwner())
+                .owner(newPost.getPostOwner())
                 .privacyStatus(newPost.getPrivacyStatus())
                 .postedAt(Timestamp.valueOf(LocalDateTime.now()))
                 .isDeleted(false)
@@ -98,8 +98,8 @@ public class PostServiceImpl implements PostService {
         String postId = updateDTO.getUpdatePost().getId();
         PostDTO postToUpdate = updateDTO.getUpdatePost();
         List<PostTaggedUserDTO> taggedUsersToUpdate = updateDTO.getPostTaggedUsers();
-        List<PostImageDTO> imagesToDelete = updateDTO.getPostImagesToDelete();
-        List<PostImageDTO> imagesToUpdate = updateDTO.getPostImagesToUpdate();
+        List<ImageDTO> imagesToDelete = updateDTO.getImagesToDelete();
+        List<ImageDTO> imagesToUpdate = updateDTO.getImagesToUpdate();
 
         // Check if postId is present
         Optional.ofNullable(postId).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST,"Missing PostId to update"));
@@ -108,16 +108,16 @@ public class PostServiceImpl implements PostService {
         //handle images updates
         if(!imagesToDelete.isEmpty() && !imagesToUpdate.isEmpty()){
             // Delete images first, then update (by creating new images)
-            postImageService.deleteImage(imagesToDelete,postId);
-            List<PostImageDTO> updatedImages =  postImageService.updateImage(imagesToUpdate,postId);
-            updateDTO.setPostImagesToUpdate(updatedImages);
+            imageService.deleteImage(imagesToDelete,postId);
+            List<ImageDTO> updatedImages =  imageService.updateImage(imagesToUpdate,postId);
+            updateDTO.setImagesToUpdate(updatedImages);
         }else if(!imagesToDelete.isEmpty()){
             // Only delete images
-            postImageService.deleteImage(imagesToDelete,postId);
+            imageService.deleteImage(imagesToDelete,postId);
         }else{
             // Only update images
-            List<PostImageDTO> updatedImages =  postImageService.updateImage(imagesToUpdate,postId);
-            updateDTO.setPostImagesToUpdate(updatedImages);
+            List<ImageDTO> updatedImages =  imageService.updateImage(imagesToUpdate,postId);
+            updateDTO.setImagesToUpdate(updatedImages);
         }
 
         //update user tagged
@@ -127,13 +127,11 @@ public class PostServiceImpl implements PostService {
         }
         return PostResponseDTO.builder()
                 .newPost(updatedPostDTO)
-                .postImages(updateDTO.getPostImagesToUpdate())
+                .postImages(updateDTO.getImagesToUpdate())
                 .postTaggedUsers(updatedTaggedUsers)
                 .build();
     }
 
-//        String postId = Optional.ofNullable(updatePost.getId()).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "UserId cannot be null"));
-//        String postId = Optional.ofNullable(updatePost.getId()).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "UserId cannot be null"));
 
     @Override
     public PostDTO editPost(PostDTO updatePost) {
