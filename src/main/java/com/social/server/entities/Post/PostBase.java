@@ -1,14 +1,18 @@
 package com.social.server.entities.Post;
 
 
-import com.social.server.entities.Privacies;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
+@Table (name = "post_base")
 @SuperBuilder
 @Getter
 @Setter
@@ -22,20 +26,16 @@ public abstract class PostBase {
     protected String id;
     @Column(name = "content")
     protected String content;
-    @Column(name = "content")
+    @Column(name = "owner")
     protected String owner;
     @Column(name = "parent_id")
     protected String parentId;
-    @Column(name = "parent_type")
-    protected String parentType;
     @Column(name = "is_deleted")
     protected Boolean isDeleted;
     @Column(name = "posted_at")
-    protected Timestamp postedAt;
+    protected Instant postedAt;
     @Column(name = "updated_at")
-    protected Timestamp updatedAt;
-//    @Column(name = "privacy")
-//    @ManyToOne
-//    public Privacies privacyStatus;
-
+    protected Instant updatedAt;
+    @Column(name = "like_count")
+    protected Integer likeCount;
 }

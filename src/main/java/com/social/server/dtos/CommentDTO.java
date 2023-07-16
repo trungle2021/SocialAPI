@@ -1,28 +1,23 @@
 package com.social.server.dtos;
 
-import com.social.server.entities.Post.Likes;
-import jakarta.persistence.Column;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@Getter
-@Setter
-public class PostDTO {
+@Data
+public class CommentDTO {
     private String id;
     private String content;
+    private String imageUrl;
     private String owner;
     private String parentId;
     private Integer likeCount;
-    private String privacyStatus;
     private Boolean isDeleted;
     private Instant postedAt;
     private Instant updatedAt;
     private List<LikeDTO> likesList;
-
+    private List<CommentDTO> replies;
 }

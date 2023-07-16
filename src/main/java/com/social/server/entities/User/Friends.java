@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -26,7 +27,7 @@ public class Friends {
     private String userFriendId;
     @Basic
     @Column(name = "establish_at", nullable = true)
-    private Timestamp establishAt;
+    private Instant establishAt;
 
     @Basic
     @Column(name = "friend_status",nullable = true)

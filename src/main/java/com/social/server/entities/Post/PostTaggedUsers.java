@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "post_tagged_users", schema = "social")
@@ -25,10 +26,10 @@ public class PostTaggedUsers {
     private String postId;
     @Basic
     @Column(name = "tagged_at", nullable = true)
-    private Timestamp taggedAt;
+    private Instant taggedAt;
     @Basic
     @Column(name = "update_at", nullable = true)
-    private Timestamp updateAt;
+    private Instant updateAt;
     @ManyToOne
     @JoinColumn(name = "tagged_user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Users usersByTaggedUserId;

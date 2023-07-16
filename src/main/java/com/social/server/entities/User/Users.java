@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Users {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     @Column(name = "id", nullable = false, length = 36)
     private String id;
@@ -44,41 +44,21 @@ public class Users {
     private String origin;
 
     @Basic
+    @Column(name = "username", nullable = true, length = 45)
+    private String username;
+
+    @Basic
     @Column(name = "account_id", nullable = true, length = 36)
     private String accountId;
     @Basic
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;
-    @OneToMany(mappedBy = "usersByUserId")
-    @JsonManagedReference
-    private Collection<CommentImagePosts> commentImagePostsById;
 
-    @OneToMany(mappedBy = "usersByUserId")
-    @JsonManagedReference
-    private Collection<CommentPosts> commentPostsById;
-
-
-
-
-    @OneToMany(mappedBy = "usersByUserId")
-    @JsonManagedReference
-    private Collection<LikeCommentPosts> likeCommentPostsById;
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByUserId")
-    private Collection<LikeCommentsImage> likeCommentsImagesById;
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByUserId")
-    private Collection<LikeImagePosts> likeImagePostsById;
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByUserId")
-    private Collection<LikePost> likePostsById;
     @JsonManagedReference
     @OneToMany(mappedBy = "usersByUserPartnerId")
     private Collection<UserMaritalStatus> userMaritalStatusesById;
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<UserWorkplaces> userWorkplacesById;
-
-
 
     @ManyToOne
     @JsonBackReference
@@ -90,9 +70,7 @@ public class Users {
     @JsonManagedReference
     @OneToMany(mappedBy = "usersByTaggedUserId")
     private Collection<PostTaggedUsers> postTaggedUsersById;
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByPostOwner")
-    private Collection<Posts> postsById;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<SharedPosts> sharedPostsById;

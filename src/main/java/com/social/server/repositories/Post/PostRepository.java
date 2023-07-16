@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Posts, String> {
-    @Query("Select p from Posts p where p.postOwner = :userId")
+    @Query("Select p from Posts p where p.owner = :userId")
     List<Posts> findAllPostsByUserId(String userId);
 
-    @Query("Select p from Posts p where p.postOwner = :userId and p.id = :postId")
+    @Query("Select p from Posts p where p.owner = :userId and p.id = :postId")
     Optional<Posts> getPostById(String userId, String postId);
 }

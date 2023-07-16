@@ -18,10 +18,11 @@ public class LikePK implements Serializable {
     private String id;
     @Basic
     @Id
-    @Column(name = "user_id", nullable = true, length = 36)
+    @Column(name = "user_id", length = 36)
     private String userId;
-    @Column(name = "post_base_id", nullable = false, length = 36)
+    @Basic
+    @Column(name = "parent_id", nullable = false, length = 36)
     @Id
-    private String postBaseId;
+    private String parentId;
 
 }

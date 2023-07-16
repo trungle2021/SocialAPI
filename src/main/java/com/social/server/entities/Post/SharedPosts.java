@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -29,7 +30,7 @@ public class SharedPosts {
     private String postId;
     @Basic
     @Column(name = "shared_at", nullable = true)
-    private Timestamp sharedAt;
+    private Instant sharedAt;
     @Basic
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;

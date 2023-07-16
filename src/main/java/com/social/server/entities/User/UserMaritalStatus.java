@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "user_marital_status", schema = "social")
@@ -23,10 +24,10 @@ public class UserMaritalStatus {
     private String userPartnerId;
     @Basic
     @Column(name = "is_accepted", nullable = true)
-    private Byte isAccepted;
+    private Boolean isAccepted;
     @Basic
     @Column(name = "from_time", nullable = true)
-    private Timestamp fromTime;
+    private Instant fromTime;
     @Basic
     @Column(name = "marital_status_id", nullable = true, length = 36)
     private String maritalStatusId;

@@ -12,7 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostResponseDTO {
+    //post
     PostDTO newPost;
+    //images of the post
     List<ImageDTO> postImages;
+    //tagged users of the post
     List<PostTaggedUserDTO> postTaggedUsers;
+    //comments of the post
+    List<CommentDTO> comments;
+
+
 }

@@ -15,4 +15,5 @@ public class PostRequestCreateDTO {
      PostDTO newPost;
      List<ImageDTO> postImages;
      List<PostTaggedUserDTO> postTaggedUsers;
+     List<CommentDTO> comments;
 }

@@ -30,8 +30,7 @@ public class Privacies {
     private Collection<UserWorkplaces> userWorkplacesById;
     @OneToMany(mappedBy = "privaciesByPrivacyStatusId")
     private Collection<UserSchools> userSchoolsById;
-    @OneToMany(mappedBy = "privaciesByPrivacyStatus")
-    private Collection<Posts> postsById;
+
     @PrePersist
     public void prePersist() {
         this.id = UUID.randomUUID().toString();

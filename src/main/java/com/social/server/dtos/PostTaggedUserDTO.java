@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -14,6 +15,6 @@ import java.sql.Timestamp;
 public class PostTaggedUserDTO {
     private String taggedUserId;
     private String postId;
-    private Timestamp taggedAt;
-    private Timestamp updateAt;
+    private Instant taggedAt;
+    private Instant updateAt;
 }

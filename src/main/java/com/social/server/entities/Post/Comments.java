@@ -12,8 +12,9 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorValue(value = "COMMENT")
 @Getter
 @Setter
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
 public class Comments extends PostBase {
+    private String imageUrl;
 }

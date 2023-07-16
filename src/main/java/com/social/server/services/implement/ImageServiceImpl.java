@@ -27,7 +27,10 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<ImageDTO> createImage(List<ImageDTO> data, String postId) {
 
-        List<Images> images = data.stream().map(item -> EntityMapper.mapToEntity(item,Images.class)).toList();
+        List<Images> images = data.stream()
+                .map(item -> EntityMapper.mapToEntity(item,Images.class))
+                .peek(item->item.setParentId(postId))
+                .toList();
 
         List<Images> listImagesAfterCreate = imageRepository.saveAll(images);
 

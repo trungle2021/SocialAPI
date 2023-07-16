@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -25,10 +26,10 @@ public class Likes {
     @Column(name = "user_id", nullable = true, length = 36)
     private String userId;
     @Id
-    @Column(name = "post_base_id", nullable = false, length = 36)
-    private String postBaseId;
+    @Column(name = "parent_id", nullable = false, length = 36)
+    private String parentId;
     @Basic
     @Column(name = "liked_at", nullable = true)
-    private Timestamp likedAt;
+    private Instant likedAt;
 
 }

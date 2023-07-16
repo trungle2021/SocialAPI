@@ -9,8 +9,6 @@ import java.util.List;
 
 @Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class PostRequestUpdateDTO {
     PostDTO updatePost;
     List<ImageDTO> imagesToUpdate;

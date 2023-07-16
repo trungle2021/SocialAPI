@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -85,10 +86,11 @@ public class PostServiceImpl implements PostService {
     public PostDTO insertPost(PostDTO newPost) {
         Posts post = Posts.builder()
                 .content(newPost.getContent())
-                .owner(newPost.getPostOwner())
+                .owner(newPost.getOwner())
                 .privacyStatus(newPost.getPrivacyStatus())
-                .postedAt(Timestamp.valueOf(LocalDateTime.now()))
+                .postedAt(Instant.now())
                 .isDeleted(false)
+                .likeCount(0)
                 .build();
         return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
     }
@@ -135,7 +137,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO editPost(PostDTO updatePost) {
-        String userId = updatePost.getPostOwner();
+        String userId = updatePost.getOwner();
         String postId = updatePost.getId();
 
         Posts post = getPostById(userId, postId);
