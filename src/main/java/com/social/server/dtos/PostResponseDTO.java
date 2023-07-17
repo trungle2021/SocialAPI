@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostResponseDTO {
     //post
-    PostDTO newPost;
+    PostDTO post;
     //images of the post
     List<ImageDTO> postImages;
     //tagged users of the post

@@ -3,7 +3,6 @@ package com.social.server.services.implement;
 import com.social.server.dtos.PostTaggedUserDTO;
 import com.social.server.entities.Post.PostTaggedUsers;
 import com.social.server.entities.Post.Posts;
-import com.social.server.entities.User.Users;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.repositories.Post.PostRepository;
 import com.social.server.repositories.Post.PostTaggedUserRepository;
@@ -20,9 +19,9 @@ public class PostTaggedUserServiceImpl implements PostTaggedUserService {
     private final PostTaggedUserRepository postTaggedRepository;
     private final PostRepository postRepository;
     @Override
-    public List<Users> getTaggedUsers(String postId) {
+    public List<PostTaggedUserDTO> getTaggedUsers(String postId) {
         Posts post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post not found","id",postId));
-        return postTaggedRepository.getUsersByPostId(post.getId());
+        return postTaggedRepository.getTaggedUsersByPostId(post.getId()).stream().map(item->EntityMapper.mapToDto(item,PostTaggedUserDTO.class)).toList();
     }
 
     @Override

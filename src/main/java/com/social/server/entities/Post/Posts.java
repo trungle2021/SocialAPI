@@ -15,5 +15,5 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorValue(value = "POST")
 public class Posts extends PostBase {
     @Column(name = "privacy_id")
-    public String privacyStatus;
+    public String privacyId;
 }

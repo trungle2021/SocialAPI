@@ -19,7 +19,7 @@ public class PostDTO {
     private String owner;
     private String parentId;
     private Integer likeCount;
-    private String privacyStatus;
+    private String privacyId;
     private Boolean isDeleted;
     private Instant postedAt;
     private Instant updatedAt;

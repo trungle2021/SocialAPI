@@ -6,9 +6,9 @@ import com.social.server.entities.Post.Images;
 import java.util.List;
 
 public interface ImageService {
-    Images getImagesByPostId(String postId);
-    Images getImage(String postId,String imageId);
-    List<ImageDTO> createImage(List<ImageDTO> files, String postId);
-    List<ImageDTO>  updateImage(List<ImageDTO> imagesToUpdate, String postId);
+    List<ImageDTO> getImagesByPostId(String postId);
+    ImageDTO getImage(String postId,String imageId);
+    List<ImageDTO> createImage(List<ImageDTO> files, String postId,String privacyId);
+    List<ImageDTO>  updateImage(List<ImageDTO> imagesToUpdate, String postId,String privacyId);
     void deleteImage(List<ImageDTO> imagesToDelete, String id);
 }

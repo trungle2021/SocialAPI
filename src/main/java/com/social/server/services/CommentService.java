@@ -1,11 +1,11 @@
 package com.social.server.services;
 
-import com.social.server.dtos.CommentPostDTO;
+import com.social.server.dtos.CommentDTO;
 import org.springframework.data.domain.Page;
 
 public interface CommentService {
-    Page<CommentPostDTO> getCommentByPostId(String postId,int offset, int limit);
-    CommentPostDTO createComment(CommentPostDTO comment);
-    CommentPostDTO updateComment(CommentPostDTO comment);
+    Page<CommentDTO> getCommentByParentId(String parentId, int offset, int limit);
+    CommentDTO createComment(String postId,CommentDTO comment);
+    CommentDTO updateComment(CommentDTO comment);
     void deleteComment(String commentId);
 }

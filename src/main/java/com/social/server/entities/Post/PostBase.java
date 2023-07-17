@@ -30,6 +30,8 @@ public abstract class PostBase {
     protected String owner;
     @Column(name = "parent_id")
     protected String parentId;
+    @Column(name = "post_id")
+    protected String postId;
     @Column(name = "is_deleted")
     protected Boolean isDeleted;
     @Column(name = "posted_at")

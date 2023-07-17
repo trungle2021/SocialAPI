@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ImageDTO {
     private String id;
+    private String postId;
     private Integer orderImage;
     private String content;
     private String imageUrl;
