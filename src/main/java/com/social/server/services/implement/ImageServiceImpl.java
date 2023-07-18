@@ -7,6 +7,7 @@ import com.social.server.repositories.Post.ImageRepository;
 import com.social.server.services.ImageService;
 import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     @Override
     public List<ImageDTO> getImagesByPostId(String postId) {
-        return imageRepository.findAllByPostId(postId);
+        return imageRepository.findAllByParentId(postId, Sort.by(Sort.Direction.ASC,"orderImage")).stream().map(item -> EntityMapper.mapToDto(item,ImageDTO.class)).toList();
     }
 
     @Override

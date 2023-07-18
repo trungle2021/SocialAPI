@@ -71,9 +71,6 @@ public class Users {
     @OneToMany(mappedBy = "usersByTaggedUserId")
     private Collection<PostTaggedUsers> postTaggedUsersById;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByUserId")
-    private Collection<SharedPosts> sharedPostsById;
     @PrePersist
     public void prePersist() {
         this.id = UUID.randomUUID().toString();

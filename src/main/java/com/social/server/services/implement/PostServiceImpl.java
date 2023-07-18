@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +32,9 @@ public class PostServiceImpl implements PostService {
     public Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field) {
         Pageable pageable;
         if(StringUtils.hasText(field)){
-            pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC, field));
+            pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.DESC, field));
         }else{
-             pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.ASC, "posted_at"));
+             pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.DESC, "posted_at"));
         }
 
         //get new Post
@@ -42,19 +43,37 @@ public class PostServiceImpl implements PostService {
                 .map(item -> EntityMapper.mapToDto(item,PostDTO.class))
                 .toList();
 
+        int shareCount = (int)postDTOS.stream().filter(item-> item.getParentId() != null).count();
+
+//        Map<String, Object> result = postRepository.findAllPostsByUserId(userId, pageable)
+//                .stream()
+//                .collect(Collectors.collectingAndThen(
+//                        Collectors.partitioningBy(
+//                                item -> item.getParentId() == null,
+//                                Collectors.mapping(item -> EntityMapper.mapToDto(item, PostDTO.class), Collectors.toList())
+//                        ),
+//                        map -> {
+//                            Map<String, Object> resultMap = new HashMap<>();
+//                            resultMap.put("shareCount", map.get(true).size());
+//                            resultMap.put("postDTOList", map.get(false));
+//                            return resultMap;
+//                        }
+//                ));
+
         String postId;
 
         postId = getPostId(postDTOS);
         //get images of post
         List<ImageDTO> imageDTOS = imageService.getImagesByPostId(postId);
         //get comments
-        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postId,1,2);
+        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postId,0,5);
         //get tagged users
-        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.getTaggedUsers(postId);
+        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.getTaggedUsersByPostId(postId);
+
 
 
         List<PostResponseDTO> postResponseDTO = postDTOS.parallelStream().map(
-                postDTO -> new PostResponseDTO(postDTO, getImageDTOS(imageDTOS, postDTO), taggedUsers,getComments(commentDTOS.stream().toList(), postDTO))
+                postDTO -> new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO),shareCount)
         ).toList();
         return new PageImpl<>(postResponseDTO);
     }
@@ -62,6 +81,7 @@ public class PostServiceImpl implements PostService {
     private static String getPostId(List<PostDTO> postDTOS) {
         String postId;
         Optional<PostDTO> firstPost = postDTOS.stream()
+                .filter(item -> item.getType().equals("POST"))
                 .findFirst();
 
         if(firstPost.isPresent()) {
@@ -72,12 +92,18 @@ public class PostServiceImpl implements PostService {
         return postId;
     }
 
-    private static List<CommentDTO> getComments(List<CommentDTO> commentDTOS, PostDTO postDTO) {
+    private static List<CommentDTO> getCommentsByPostId(Page<CommentDTO> commentDTOS, PostDTO postDTO) {
+        if(commentDTOS.isEmpty()){
+            return new ArrayList<>();
+        }
         return  commentDTOS.stream().filter(comment -> comment.getPostId().equals(postDTO.getId())).toList();
     }
 
-    private static List<ImageDTO> getImageDTOS(List<ImageDTO> imageDTOS, PostDTO postDTO) {
-        return imageDTOS.stream().filter(image -> image.getPostId().equals(postDTO.getId())).toList();
+    private static List<ImageDTO> getImagesByPostId(List<ImageDTO> imageDTOS, PostDTO postDTO) {
+        if(imageDTOS.isEmpty()){
+            return new ArrayList<>();
+        }
+        return imageDTOS.stream().filter(image -> image.getParentId().equals(postDTO.getId())).toList();
     }
 
     @Override
@@ -101,9 +127,15 @@ public class PostServiceImpl implements PostService {
          //insert a new post
        PostDTO postDTO = insertPost(postRequestCreateDTO.getNewPost());
         // insert images of the post
-        List<ImageDTO> imageURLs = imageService.createImage(postRequestCreateDTO.getPostImages(), postDTO.getId(),postDTO.getPrivacyId());
+      List<ImageDTO> imageURLs = null;
+      if(postRequestCreateDTO.getPostImages() != null){
+          imageURLs = imageService.createImage(postRequestCreateDTO.getPostImages(), postDTO.getId(),postDTO.getPrivacyId());
+      }
        // insert users tagged in post
-        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers(),postDTO.getId());
+      List<PostTaggedUserDTO> taggedUsers = null;
+      if(postRequestCreateDTO.getPostTaggedUsers() != null){
+          taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers(),postDTO.getId());
+      }
 
         return PostResponseDTO.builder()
                 .post(postDTO)
@@ -118,12 +150,19 @@ public class PostServiceImpl implements PostService {
         Posts post = Posts.builder()
                 .content(newPost.getContent())
                 .owner(newPost.getOwner())
+                .parentId(Optional.ofNullable(newPost.getParentId()).orElse(null))
+                .parentId(newPost.getParentId())
                 .privacyId(newPost.getPrivacyId())
                 .postedAt(Instant.now())
                 .isDeleted(false)
                 .likeCount(0)
                 .build();
         return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
+    }
+
+    @Override
+    public PostDTO sharePost(PostDTO sharePost) {
+        return insertPost(sharePost);
     }
 
     @Override
@@ -181,3 +220,4 @@ public class PostServiceImpl implements PostService {
     }
 
 }
+

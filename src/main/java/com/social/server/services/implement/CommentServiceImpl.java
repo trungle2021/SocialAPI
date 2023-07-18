@@ -25,8 +25,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Page<CommentDTO> getCommentByParentId(String parentId, int offset, int limit) {
-        Pageable page = PageRequest.of(offset, limit);
-        List<CommentDTO> comments = commentRepository.findAllByParentId(parentId,page).stream().map(item->EntityMapper.mapToDto(item,CommentDTO.class)).toList();
+        Pageable pageable = PageRequest.of(offset, limit);
+        List<CommentDTO> comments = commentRepository.findAllByParentId(parentId,pageable).stream().map(item->EntityMapper.mapToDto(item,CommentDTO.class)).toList();
         return new PageImpl<>(comments);
     }
 

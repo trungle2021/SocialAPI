@@ -36,6 +36,10 @@ public class PostController {
         return ResponseEntity.ok(postService.createPost(postRequestCreateDTO));
     }
 
+    @PostMapping("/share")
+    public ResponseEntity<PostDTO> sharePost(@RequestBody PostDTO sharePost){
+        return ResponseEntity.ok(postService.sharePost(sharePost));
+    }
     @PostMapping("/{postId}/comments")
     public ResponseEntity<CommentDTO> createComment(@PathVariable String postId, @RequestBody CommentDTO commentDTO){
         return ResponseEntity.ok(commentService.createComment(postId,commentDTO));

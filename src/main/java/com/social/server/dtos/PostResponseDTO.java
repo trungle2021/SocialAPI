@@ -20,6 +20,7 @@ public class PostResponseDTO {
     List<PostTaggedUserDTO> postTaggedUsers;
     //comments of the post
     List<CommentDTO> comments;
+    Integer shareCount;
 
 
 }

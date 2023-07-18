@@ -19,7 +19,7 @@ public class PostTaggedUserServiceImpl implements PostTaggedUserService {
     private final PostTaggedUserRepository postTaggedRepository;
     private final PostRepository postRepository;
     @Override
-    public List<PostTaggedUserDTO> getTaggedUsers(String postId) {
+    public List<PostTaggedUserDTO> getTaggedUsersByPostId(String postId) {
         Posts post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post not found","id",postId));
         return postTaggedRepository.getTaggedUsersByPostId(post.getId()).stream().map(item->EntityMapper.mapToDto(item,PostTaggedUserDTO.class)).toList();
     }

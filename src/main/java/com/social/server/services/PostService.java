@@ -12,6 +12,7 @@ public interface PostService {
      Posts getPostById(String postId);
      PostResponseDTO createPost(PostRequestCreateDTO postRequestCreateDTO);
      PostDTO insertPost(PostDTO newPost);
+     PostDTO sharePost(PostDTO sharePost);
      PostResponseDTO updatePost(PostRequestUpdateDTO postRequestUpdateDTO);
      PostDTO editPost(PostDTO updatePost);
 }
