@@ -46,9 +46,5 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.saveAll(postsList).stream().map(item->EntityMapper.mapToDto(item,ImageDTO.class)).toList();
     }
 
-    @Override
-    public void deleteImage(List<ImageDTO> imagesToDelete, String id) {
-        List<Images> postsList = imagesToDelete.stream().map(item -> EntityMapper.mapToEntity(item,Images.class)).toList();
-            imageRepository.deleteAll(postsList);
-    }
+
 }

@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 @Slf4j
 public class StorageService {
-    private final String bucketName = "social-images-bucket";
+    private  final  String bucketName = "social-images-bucket";
     private final S3Client s3Client;
 
     public String uploadFile(MultipartFile uploadFile) {

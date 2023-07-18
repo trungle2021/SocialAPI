@@ -44,8 +44,4 @@ public class CommentServiceImpl implements CommentService {
         return EntityMapper.mapToDto(commentRepository.save(comments),CommentDTO.class);
     }
 
-    @Override
-    public void deleteComment(String commentId) {
-        commentRepository.deleteById(commentId);
-    }
 }

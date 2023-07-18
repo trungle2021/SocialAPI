@@ -14,5 +14,4 @@ public interface PostService {
      PostDTO insertPost(PostDTO newPost);
      PostResponseDTO updatePost(PostRequestUpdateDTO postRequestUpdateDTO);
      PostDTO editPost(PostDTO updatePost);
-     void deletePost(String postId);
 }

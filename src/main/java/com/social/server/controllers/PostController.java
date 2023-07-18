@@ -2,6 +2,7 @@ package com.social.server.controllers;
 
 import com.social.server.dtos.*;
 import com.social.server.services.CommentService;
+import com.social.server.services.PostBaseService;
 import com.social.server.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("api/posts")
 public class PostController {
+    private final PostBaseService postBaseService;
     private final PostService postService;
     private final CommentService commentService;
 
@@ -46,7 +48,7 @@ public class PostController {
     }
     @DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable String postId){
-        postService.deletePost(postId);
+        postBaseService.deleteChild(postId);
        return ResponseEntity.ok("Deleted successfully");
     }
 

@@ -10,5 +10,4 @@ public interface ImageService {
     ImageDTO getImage(String postId,String imageId);
     List<ImageDTO> createImage(List<ImageDTO> files, String postId,String privacyId);
     List<ImageDTO>  updateImage(List<ImageDTO> imagesToUpdate, String postId,String privacyId);
-    void deleteImage(List<ImageDTO> imagesToDelete, String id);
 }

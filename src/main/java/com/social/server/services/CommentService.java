@@ -7,5 +7,5 @@ public interface CommentService {
     Page<CommentDTO> getCommentByParentId(String parentId, int offset, int limit);
     CommentDTO createComment(String postId,CommentDTO comment);
     CommentDTO updateComment(CommentDTO comment);
-    void deleteComment(String commentId);
+
 }

@@ -5,10 +5,7 @@ import com.social.server.entities.Post.Posts;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.repositories.Post.PostRepository;
-import com.social.server.services.CommentService;
-import com.social.server.services.ImageService;
-import com.social.server.services.PostService;
-import com.social.server.services.PostTaggedUserService;
+import com.social.server.services.*;
 import com.social.server.utils.EntityMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +21,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
+    private final PostBaseService postBaseService;
     private final PostRepository postRepository;
     private final CommentService commentService;
     private final ImageService imageService;
     private final PostTaggedUserService postTaggedUserService;
-
-
-
 
     @Override
     public Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field) {
@@ -46,7 +41,10 @@ public class PostServiceImpl implements PostService {
                 .stream()
                 .map(item -> EntityMapper.mapToDto(item,PostDTO.class))
                 .toList();
-        String postId = postDTOS.stream().findFirst().get().getId();
+
+        String postId;
+
+        postId = getPostId(postDTOS);
         //get images of post
         List<ImageDTO> imageDTOS = imageService.getImagesByPostId(postId);
         //get comments
@@ -60,6 +58,20 @@ public class PostServiceImpl implements PostService {
         ).toList();
         return new PageImpl<>(postResponseDTO);
     }
+
+    private static String getPostId(List<PostDTO> postDTOS) {
+        String postId;
+        Optional<PostDTO> firstPost = postDTOS.stream()
+                .findFirst();
+
+        if(firstPost.isPresent()) {
+            postId = firstPost.get().getId();
+        }else{
+            throw new SocialAppException(HttpStatus.BAD_REQUEST,"PostId cannot be null");
+        }
+        return postId;
+    }
+
     private static List<CommentDTO> getComments(List<CommentDTO> commentDTOS, PostDTO postDTO) {
         return  commentDTOS.stream().filter(comment -> comment.getPostId().equals(postDTO.getId())).toList();
     }
@@ -83,7 +95,7 @@ public class PostServiceImpl implements PostService {
         return postRepository.getPostById(postId).orElseThrow(()->new ResourceNotFoundException("Post not found","id",postId));
     }
 
-    @Override
+  @Override
     @Transactional
     public PostResponseDTO createPost(PostRequestCreateDTO postRequestCreateDTO) {
          //insert a new post
@@ -129,12 +141,12 @@ public class PostServiceImpl implements PostService {
         //handle images updates
         if(!imagesToDelete.isEmpty() && !imagesToUpdate.isEmpty()){
             // Delete images first, then update (by creating new images)
-            imageService.deleteImage(imagesToDelete,postId);
+            postBaseService.deleteAll(imagesToDelete);
             List<ImageDTO> updatedImages =  imageService.updateImage(imagesToUpdate,postId,updatedPostDTO.getPrivacyId());
             updateDTO.setImagesToUpdate(updatedImages);
         }else if(!imagesToDelete.isEmpty()){
             // Only delete images
-            imageService.deleteImage(imagesToDelete,postId);
+            postBaseService.deleteAll(imagesToDelete);
         }else{
             // Only update images
             List<ImageDTO> updatedImages =  imageService.updateImage(imagesToUpdate,postId,updatedPostDTO.getPrivacyId());
@@ -168,9 +180,4 @@ public class PostServiceImpl implements PostService {
        return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
     }
 
-
-    @Override
-    public void deletePost(String postId) {
-        postRepository.deleteById(postId);
-    }
 }
