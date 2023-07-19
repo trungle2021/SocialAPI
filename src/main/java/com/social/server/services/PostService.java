@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 public interface PostService {
      //this method will retrieve list of posts
      Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field);
+     PostResponseDTO getOnePostParentByPostId(String postParentId);
      Page<PostDTO> getPostsByUserIdWithSorting(String userId, String sortBy);
 
      Posts getPostById(String postId);
@@ -14,5 +15,5 @@ public interface PostService {
      PostDTO insertPost(PostDTO newPost);
      PostDTO sharePost(PostDTO sharePost);
      PostResponseDTO updatePost(PostRequestUpdateDTO postRequestUpdateDTO);
-     PostDTO editPost(PostDTO updatePost);
+     PostDTO editPost(PostDTO updatePostDTO);
 }

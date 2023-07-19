@@ -17,10 +17,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @IdClass(LikePK.class)
 public class Likes {
-    @Id
-    @Column(name = "id", nullable = false, length = 36)
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+
     @Basic
     @Id
     @Column(name = "user_id", nullable = true, length = 36)

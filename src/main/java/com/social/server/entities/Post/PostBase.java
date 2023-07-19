@@ -1,6 +1,7 @@
 package com.social.server.entities.Post;
 
 
+import com.social.server.entities.Privacies;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +31,6 @@ public abstract class PostBase {
     protected String owner;
     @Column(name = "parent_id")
     protected String parentId;
-    @Column(name = "post_id")
-    protected String postId;
     @Column(name="type",insertable = false,updatable = false)
     protected String type;
     @Column(name = "is_deleted")
@@ -42,4 +41,5 @@ public abstract class PostBase {
     protected Instant updatedAt;
     @Column(name = "like_count")
     protected Integer likeCount;
+
 }

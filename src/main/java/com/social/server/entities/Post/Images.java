@@ -19,8 +19,6 @@ import lombok.experimental.SuperBuilder;
 public class Images extends PostBase{
     @Column(name = "image_url")
     private String imageUrl;
-    @Column(name = "order_image")
-    private Integer orderImage;
-    @Column(name = "privacy_id")
-    private String privacyId;
+    @Column(name = "image_order")
+    private Integer imageOrder;
 }

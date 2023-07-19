@@ -2,15 +2,14 @@ package com.social.server.services.implement;
 
 import com.social.server.dtos.*;
 import com.social.server.entities.Post.Posts;
+import com.social.server.entities.Privacies;
 import com.social.server.exceptions.ResourceNotFoundException;
-import com.social.server.exceptions.SocialAppException;
 import com.social.server.repositories.Post.PostRepository;
 import com.social.server.services.*;
 import com.social.server.utils.EntityMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -22,28 +21,58 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
+    private final PrivacyService privacyService;
     private final PostBaseService postBaseService;
     private final PostRepository postRepository;
     private final CommentService commentService;
     private final ImageService imageService;
+    private final LikeService likeService;
     private final PostTaggedUserService postTaggedUserService;
+
+    private static String getPostParentId(List<PostDTO> postDTOS) {
+        String postId;
+        Optional<PostDTO> firstPost = postDTOS.stream()
+                .filter(item -> item.getType().equals("POST") && item.getParentId() == null)
+                .findFirst();
+
+        if (firstPost.isPresent()) {
+            postId = firstPost.get().getId();
+        }else{
+            return "";
+        }
+        return postId;
+    }
+
+    private static List<CommentDTO> getCommentsByPostId(Page<CommentDTO> commentDTOS, PostDTO postDTO) {
+        if (commentDTOS.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return commentDTOS.stream().filter(comment -> comment.getPostId().equals(postDTO.getId())).toList();
+    }
+
+    private static List<ImageDTO> getImagesByPostId(List<ImageDTO> imageDTOS, PostDTO postDTO) {
+        if (imageDTOS.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return imageDTOS.stream().filter(image -> image.getParentId().equals(postDTO.getId())).toList();
+    }
 
     @Override
     public Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field) {
         Pageable pageable;
-        if(StringUtils.hasText(field)){
-            pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.DESC, field));
-        }else{
-             pageable = PageRequest.of(offset,limit,Sort.by(Sort.Direction.DESC, "posted_at"));
+        if (StringUtils.hasText(field)) {
+            pageable = PageRequest.of(offset, limit, Sort.by(Sort.Direction.DESC, field));
+        } else {
+            pageable = PageRequest.of(offset, limit, Sort.by(Sort.Direction.DESC, "posted_at"));
         }
 
-        //get new Post
-        List<PostDTO> postDTOS = postRepository.findAllPostsByUserId(userId,pageable)
+        //get all posts of user by userId
+        List<PostDTO> postDTOS = postRepository.findAllByOwner(userId, pageable)
                 .stream()
-                .map(item -> EntityMapper.mapToDto(item,PostDTO.class))
+                .map(item -> EntityMapper.mapToDto(item, PostDTO.class))
                 .toList();
 
-        int shareCount = (int)postDTOS.stream().filter(item-> item.getParentId() != null).count();
+        int shareCount = (int) postDTOS.stream().filter(item -> item.getParentId() != null).count();
 
 //        Map<String, Object> result = postRepository.findAllPostsByUserId(userId, pageable)
 //                .stream()
@@ -62,80 +91,76 @@ public class PostServiceImpl implements PostService {
 
         String postId;
 
-        postId = getPostId(postDTOS);
+        postId = getPostParentId(postDTOS);
         //get images of post
         List<ImageDTO> imageDTOS = imageService.getImagesByPostId(postId);
         //get comments
-        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postId,0,5);
+        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postId, 0, 5);
         //get tagged users
         List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.getTaggedUsersByPostId(postId);
 
 
-
         List<PostResponseDTO> postResponseDTO = postDTOS.parallelStream().map(
-                postDTO -> new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO),shareCount)
+                postDTO -> new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO), shareCount)
         ).toList();
         return new PageImpl<>(postResponseDTO);
     }
 
-    private static String getPostId(List<PostDTO> postDTOS) {
-        String postId;
-        Optional<PostDTO> firstPost = postDTOS.stream()
-                .filter(item -> item.getType().equals("POST"))
-                .findFirst();
+    @Override
+    public PostResponseDTO getOnePostParentByPostId(String postParentId) {
+        //get one posts by postParentId
+        Posts posts = getPostById(postParentId);
+        int likeCount = likeService.getLikeCountOfParentByParentId(postParentId);
+        PostDTO postDTO = EntityMapper.mapToDto(posts, PostDTO.class);
+        postDTO.setLikeCount(likeCount);
+        postDTO.setPrivacyStatus(posts.getPrivacies().getPrivacyType());
 
-        if(firstPost.isPresent()) {
-            postId = firstPost.get().getId();
-        }else{
-            throw new SocialAppException(HttpStatus.BAD_REQUEST,"PostId cannot be null");
-        }
-        return postId;
-    }
+        int shareCount = postRepository.getShareCountByPostId(postParentId);
+        //get images of post
+        List<ImageDTO> imageDTOS = imageService.getImagesByPostId(postParentId);
+        //get comments
+        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postParentId, 0, 5);
+        //get tagged users
+        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.getTaggedUsersByPostId(postParentId);
 
-    private static List<CommentDTO> getCommentsByPostId(Page<CommentDTO> commentDTOS, PostDTO postDTO) {
-        if(commentDTOS.isEmpty()){
-            return new ArrayList<>();
-        }
-        return  commentDTOS.stream().filter(comment -> comment.getPostId().equals(postDTO.getId())).toList();
-    }
-
-    private static List<ImageDTO> getImagesByPostId(List<ImageDTO> imageDTOS, PostDTO postDTO) {
-        if(imageDTOS.isEmpty()){
-            return new ArrayList<>();
-        }
-        return imageDTOS.stream().filter(image -> image.getParentId().equals(postDTO.getId())).toList();
+         return new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO), shareCount);
     }
 
     @Override
     public Page<PostDTO> getPostsByUserIdWithSorting(String userId, String field) {
-       List<PostDTO> postDTOS =  postRepository.findAllPostsByOwner(userId,Sort.by(Sort.Direction.ASC,field))
-               .stream()
-               .map(item -> EntityMapper.mapToDto(item,PostDTO.class))
-               .toList();
+        List<PostDTO> postDTOS = postRepository.findAllByOwner(userId, Sort.by(Sort.Direction.ASC, field))
+                .stream()
+                .map(item -> EntityMapper.mapToDto(item, PostDTO.class))
+                .toList();
         return new PageImpl<>(postDTOS);
     }
 
     @Override
     public Posts getPostById(String postId) {
-        Optional.ofNullable(postId).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "PostId cannot be null"));
-        return postRepository.getPostById(postId).orElseThrow(()->new ResourceNotFoundException("Post not found","id",postId));
+        return postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found", "id", postId));
     }
 
-  @Override
+    @Override
     @Transactional
     public PostResponseDTO createPost(PostRequestCreateDTO postRequestCreateDTO) {
-         //insert a new post
-       PostDTO postDTO = insertPost(postRequestCreateDTO.getNewPost());
+        PostDTO newPost = postRequestCreateDTO.getNewPost();
+        List<ImageDTO> postImages = postRequestCreateDTO.getPostImages();
+        List<PostTaggedUserDTO> postTaggedUsers = postRequestCreateDTO.getPostTaggedUsers();
+
+        //insert a new post
+        PostDTO postDTO = insertPost(newPost);
+        String postDTOId = postDTO.getId();
+
         // insert images of the post
-      List<ImageDTO> imageURLs = null;
-      if(postRequestCreateDTO.getPostImages() != null){
-          imageURLs = imageService.createImage(postRequestCreateDTO.getPostImages(), postDTO.getId(),postDTO.getPrivacyId());
-      }
-       // insert users tagged in post
-      List<PostTaggedUserDTO> taggedUsers = null;
-      if(postRequestCreateDTO.getPostTaggedUsers() != null){
-          taggedUsers = postTaggedUserService.createTaggedUsers(postRequestCreateDTO.getPostTaggedUsers(),postDTO.getId());
-      }
+        List<ImageDTO> imageURLs = null;
+        if (postImages != null) {
+            imageURLs = imageService.createImage(postImages, postDTOId);
+        }
+        // insert users tagged in post
+        List<PostTaggedUserDTO> taggedUsers = null;
+        if (postTaggedUsers != null) {
+            taggedUsers = postTaggedUserService.createTaggedUsers(postTaggedUsers, postDTOId);
+        }
 
         return PostResponseDTO.builder()
                 .post(postDTO)
@@ -147,17 +172,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO insertPost(PostDTO newPost) {
+        String privacyStatus = newPost.getPrivacyStatus();
+        Privacies privacies = EntityMapper.mapToEntity(privacyService.findByType(privacyStatus), Privacies.class);
         Posts post = Posts.builder()
                 .content(newPost.getContent())
                 .owner(newPost.getOwner())
                 .parentId(Optional.ofNullable(newPost.getParentId()).orElse(null))
                 .parentId(newPost.getParentId())
-                .privacyId(newPost.getPrivacyId())
+                .privacies(privacies)
                 .postedAt(Instant.now())
                 .isDeleted(false)
                 .likeCount(0)
                 .build();
-        return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
+        PostDTO postDTO = EntityMapper.mapToDto(postRepository.save(post), PostDTO.class);
+        postDTO.setPrivacyStatus(privacies.getPrivacyType());
+        return postDTO;
     }
 
     @Override
@@ -174,28 +203,27 @@ public class PostServiceImpl implements PostService {
         List<ImageDTO> imagesToUpdate = updateDTO.getImagesToUpdate();
 
         // Check if postId is present
-        Optional.ofNullable(postId).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST,"Missing PostId to update"));
         PostDTO updatedPostDTO = editPost(postToUpdate);
 
         //handle images updates
-        if(!imagesToDelete.isEmpty() && !imagesToUpdate.isEmpty()){
+        if (!imagesToDelete.isEmpty() && !imagesToUpdate.isEmpty()) {
             // Delete images first, then update (by creating new images)
             postBaseService.deleteAll(imagesToDelete);
-            List<ImageDTO> updatedImages =  imageService.updateImage(imagesToUpdate,postId,updatedPostDTO.getPrivacyId());
+            List<ImageDTO> updatedImages = imageService.updateImage(imagesToUpdate, postId);
             updateDTO.setImagesToUpdate(updatedImages);
-        }else if(!imagesToDelete.isEmpty()){
+        } else if (!imagesToDelete.isEmpty()) {
             // Only delete images
             postBaseService.deleteAll(imagesToDelete);
-        }else{
+        } else {
             // Only update images
-            List<ImageDTO> updatedImages =  imageService.updateImage(imagesToUpdate,postId,updatedPostDTO.getPrivacyId());
+            List<ImageDTO> updatedImages = imageService.updateImage(imagesToUpdate, postId);
             updateDTO.setImagesToUpdate(updatedImages);
         }
 
         //update user tagged
         List<PostTaggedUserDTO> updatedTaggedUsers = null;
-        if(!taggedUsersToUpdate.isEmpty()){
-            updatedTaggedUsers =  postTaggedUserService.updateTaggedUsers(updateDTO.getPostTaggedUsers());
+        if (!taggedUsersToUpdate.isEmpty()) {
+            updatedTaggedUsers = postTaggedUserService.updateTaggedUsers(updateDTO.getPostTaggedUsers());
         }
         return PostResponseDTO.builder()
                 .post(updatedPostDTO)
@@ -206,17 +234,17 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public PostDTO editPost(PostDTO updatePost) {
-        String postId = updatePost.getId();
-
-        Posts post = getPostById(postId);
-        String content = updatePost.getContent() == null ? post.getContent() : updatePost.getContent();
-        String privacyStatus =  updatePost.getPrivacyId() == null ? post.getPrivacyId() : updatePost.getPrivacyId();
-        Boolean isDeleted =  updatePost.getIsDeleted() == null ? post.getIsDeleted() : updatePost.getIsDeleted();
+    public PostDTO editPost(PostDTO updatePostDTO) {
+        String updatedPostId = updatePostDTO.getId();
+        Privacies updatedPrivacy = EntityMapper.mapToEntity(privacyService.findByType(updatePostDTO.getPrivacyStatus()), Privacies.class);
+        Posts post = getPostById(updatedPostId);
+        String content = updatePostDTO.getContent() == null ? post.getContent() : updatePostDTO.getContent();
+        Privacies privacy = updatePostDTO.getPrivacyStatus() == null ? post.getPrivacies() : updatedPrivacy;
+        Boolean isDeleted = updatePostDTO.getIsDeleted() == null ? post.getIsDeleted() : updatePostDTO.getIsDeleted();
         post.setContent(content);
-        post.setPrivacyId(privacyStatus);
+        post.setPrivacies(privacy);
         post.setIsDeleted(isDeleted);
-       return EntityMapper.mapToDto(postRepository.save(post),PostDTO.class);
+        return EntityMapper.mapToDto(postRepository.save(post), PostDTO.class);
     }
 
 }

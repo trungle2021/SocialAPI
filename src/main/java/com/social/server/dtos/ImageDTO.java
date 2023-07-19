@@ -1,5 +1,6 @@
 package com.social.server.dtos;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.Instant;
@@ -12,17 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ImageDTO {
     private String id;
-    private String postId;
-    private Integer orderImage;
+    @NotEmpty(message = "Image Order cannot be null")
+    private Integer imageOrder;
     private String content;
     private String imageUrl;
     private String owner;
     private String parentId;
     private Integer likeCount;
-    private String privacyStatus;
     private Instant postedAt;
     private Instant updatedAt;
     private Boolean isDeleted;
-    private List<LikeDTO> likesList;
-
 }

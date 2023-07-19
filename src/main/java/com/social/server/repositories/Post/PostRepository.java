@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Posts, String> {
-    @Query("Select p from Posts p where p.owner = :userId")
-    List<Posts> findAllPostsByUserId(String userId, Pageable pageable);
-    List<Posts> findAllPostsByOwner(String userId, Sort pageable);
-
+//    @Query("Select p from Posts p where p.owner = :userId")
+    List<Posts> findAllByOwner(String userId, Pageable pageable);
+    List<Posts> findAllByOwner(String userId, Sort pageable);
     Optional<Posts> getPostById(String postId);
+
+    @Query("select count(*) from Posts p where p.parentId = :postId")
+    int getShareCountByPostId(String postId);
 }

@@ -27,6 +27,12 @@ public class PostController {
     public ResponseEntity<Page<PostResponseDTO>> getPostsWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit, @PathVariable(required = false) String sortBy){
         return ResponseEntity.ok(postService.getPostsByUserIdWithPagination(userId,offset,limit, sortBy));
     }
+
+    @GetMapping("/{postParentId}")
+    public ResponseEntity<PostResponseDTO> getOnePostParentByPostId(@PathVariable String postParentId){
+        return ResponseEntity.ok(postService.getOnePostParentByPostId(postParentId));
+    }
+
     @GetMapping("/{postId}/comments/{offset}/{limit}")
     public ResponseEntity<Page<CommentDTO>> getComments(@PathVariable String postId, @PathVariable int offset, @PathVariable int limit){
         return ResponseEntity.ok(commentService.getCommentByParentId(postId,offset,limit));

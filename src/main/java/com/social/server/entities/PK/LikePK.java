@@ -13,9 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class LikePK implements Serializable {
-    @Column(name = "id", nullable = false, length = 36)
-    @Id
-    private String id;
     @Basic
     @Id
     @Column(name = "user_id", length = 36)

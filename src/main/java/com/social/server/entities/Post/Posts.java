@@ -1,6 +1,5 @@
 package com.social.server.entities.Post;
 
-import com.social.server.entities.Post.PostBase;
 import com.social.server.entities.Privacies;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @DiscriminatorValue(value = "POST")
 public class Posts extends PostBase {
-    @Column(name = "privacy_id")
-    public String privacyId;
+    @ManyToOne
+    @JoinColumn(name = "privacy_id")
+    public Privacies privacies;
 }

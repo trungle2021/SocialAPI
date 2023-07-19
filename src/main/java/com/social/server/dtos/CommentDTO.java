@@ -23,6 +23,5 @@ public class CommentDTO {
     private Boolean isDeleted;
     private Instant postedAt;
     private Instant updatedAt;
-    private List<LikeDTO> likesList;
     private List<CommentDTO> replies;
 }

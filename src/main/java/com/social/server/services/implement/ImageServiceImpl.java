@@ -5,6 +5,7 @@ import com.social.server.entities.Post.Images;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.repositories.Post.ImageRepository;
 import com.social.server.services.ImageService;
+import com.social.server.services.LikeService;
 import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -16,9 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
+    private final LikeService likeService;
     @Override
     public List<ImageDTO> getImagesByPostId(String postId) {
-        return imageRepository.findAllByParentId(postId, Sort.by(Sort.Direction.ASC,"orderImage")).stream().map(item -> EntityMapper.mapToDto(item,ImageDTO.class)).toList();
+               return imageRepository.findAllByParentId(postId, Sort.by(Sort.Direction.ASC,"imageOrder")).stream()
+                       .map(item -> EntityMapper.mapToDto(item,ImageDTO.class))
+                       .peek(item -> item.setLikeCount(likeService.getLikeCountOfParentByParentId(item.getId())))
+                       .toList();
     }
 
     @Override
@@ -28,11 +33,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDTO> createImage(List<ImageDTO> data, String postId,String privacyId) {
+    public List<ImageDTO> createImage(List<ImageDTO> data, String postId) {
 
         List<Images> images = data.stream()
                 .map(item -> EntityMapper.mapToEntity(item,Images.class))
-                .peek(item -> item.setPrivacyId(privacyId))
                 .peek(item->item.setParentId(postId))
                 .toList();
 
@@ -42,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDTO> updateImage(List<ImageDTO> imagesToUpdate, String postId,String privacyId) {
+    public List<ImageDTO> updateImage(List<ImageDTO> imagesToUpdate, String postId) {
         List<Images> postsList = imagesToUpdate.stream().map(item -> EntityMapper.mapToEntity(item,Images.class)).toList();
         return imageRepository.saveAll(postsList).stream().map(item->EntityMapper.mapToDto(item,ImageDTO.class)).toList();
     }

@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 @Data
 public class LikeDTO {
-    private String id;
     private String userId;
     private String username;
     private Instant likedAt;
