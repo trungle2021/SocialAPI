@@ -27,8 +27,5 @@ public class SocialAPIApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(SocialAPIApplication.class, args);
-        List<String> words = Arrays.asList("apple", "1", "cherry", "1", "elderberry");
-
-
     }
 }

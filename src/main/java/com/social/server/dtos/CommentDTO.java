@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.List;
 
 @Builder
 @Data
@@ -23,5 +22,5 @@ public class CommentDTO {
     private Boolean isDeleted;
     private Instant postedAt;
     private Instant updatedAt;
-    private List<CommentDTO> replies;
+    private Long childCommentCount;
 }

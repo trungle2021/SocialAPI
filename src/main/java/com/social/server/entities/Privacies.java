@@ -24,13 +24,6 @@ public class Privacies {
     @Basic
     @Column(name = "privacy_type", nullable = true, length = 45)
     private String privacyType;
-    @OneToMany(mappedBy = "privaciesByPrivacyStatusId")
-    private Collection<UserMaritalStatus> userMaritalStatusesById;
-    @OneToMany(mappedBy = "privaciesByPrivacyStatusId")
-    private Collection<UserWorkplaces> userWorkplacesById;
-    @OneToMany(mappedBy = "privaciesByPrivacyStatusId")
-    private Collection<UserSchools> userSchoolsById;
-
     @PrePersist
     public void prePersist() {
         this.id = UUID.randomUUID().toString();

@@ -33,7 +33,8 @@ public class PrivacyServiceImpl implements PrivacyService {
 
     @Override
     public PrivaciesDTO findByType(String type) {
-        return privacyRepository.findByPrivacyType(type).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "Privacy Type not exists"));
+        Privacies privacies = privacyRepository.findByPrivacyType(type).orElseThrow(() -> new SocialAppException(HttpStatus.BAD_REQUEST, "Privacy Type not exists"));
+        return EntityMapper.mapToDto(privacies, PrivaciesDTO.class);
     }
 
     @Override

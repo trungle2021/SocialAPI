@@ -67,7 +67,6 @@ public class Users {
 
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<UserSchools> userSchoolsById;
-    @JsonManagedReference
     @OneToMany(mappedBy = "usersByTaggedUserId")
     private Collection<PostTaggedUsers> postTaggedUsersById;
 

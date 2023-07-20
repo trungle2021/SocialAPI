@@ -11,6 +11,7 @@ import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,15 @@ public class PostTaggedUserServiceImpl implements PostTaggedUserService {
     @Override
     public List<PostTaggedUserDTO> getTaggedUsersByPostId(String postId) {
         Posts post = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post not found","id",postId));
-        return postTaggedRepository.getTaggedUsersByPostId(post.getId()).stream().map(item->EntityMapper.mapToDto(item,PostTaggedUserDTO.class)).toList();
+        List<PostTaggedUsers> allByPostId = postTaggedRepository.findAllByPostId(post.getId());
+        if(!allByPostId.isEmpty()){
+            return allByPostId
+                    .stream()
+                    .map(item -> EntityMapper.mapToDto(item, PostTaggedUserDTO.class))
+                    .toList();
+        }
+
+        return new ArrayList<>();
     }
 
     @Override

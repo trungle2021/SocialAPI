@@ -49,6 +49,7 @@ public class FriendServiceImpl implements FriendService {
                 .map(user -> EntityMapper.mapToDto(user, FriendDTO.class))
                 .toList();
 
+
         return MutualFriendDTO.builder()
                         .mutualFriendList(friendDTOList)
                         .ownerId(userId)

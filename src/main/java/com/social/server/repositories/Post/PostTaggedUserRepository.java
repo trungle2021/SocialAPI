@@ -9,6 +9,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PostTaggedUserRepository extends JpaRepository<PostTaggedUsers, String> {
-    @Query("SELECT p from PostTaggedUsers p  WHERE p.postId = :postId")
-        List<PostTaggedUsers> getTaggedUsersByPostId(String postId);
+        List<PostTaggedUsers>  findAllByPostId(String postId);
 }

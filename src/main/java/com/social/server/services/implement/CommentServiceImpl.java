@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +30,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Page<CommentDTO> getCommentByParentId(String parentId, int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
-        List<CommentDTO> comments = commentRepository.findAllByParentId(parentId,pageable)
+        List<CommentDTO> comments =
+                commentRepository.findAllParentCommentsByParentIdAndType(parentId,"COMMENT",pageable)
                 .stream()
-                .map(item->EntityMapper.mapToDto(item,CommentDTO.class))
                 .peek(item -> item.setLikeCount(likeService.getLikeCountOfParentByParentId(item.getId())))
                 .toList();
         return new PageImpl<>(comments);
