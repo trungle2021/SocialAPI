@@ -1,5 +1,6 @@
 package com.social.server.dtos;
 
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,6 @@ public class CommentDTO {
     private String imageUrl;
     private String owner;
     private String parentId;
-    private Integer likeCount;
     private Boolean isDeleted;
     private Instant postedAt;
     private Instant updatedAt;

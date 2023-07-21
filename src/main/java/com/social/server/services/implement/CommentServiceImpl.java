@@ -4,7 +4,7 @@ import com.social.server.dtos.CommentDTO;
 import com.social.server.entities.Post.Comments;
 import com.social.server.entities.Post.Posts;
 import com.social.server.exceptions.ResourceNotFoundException;
-import com.social.server.repositories.CommentRepository;
+import com.social.server.repositories.Post.CommentRepository;
 import com.social.server.repositories.Post.PostRepository;
 import com.social.server.services.CommentService;
 import com.social.server.services.LikeService;
@@ -17,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDTO> comments =
                 commentRepository.findAllParentCommentsByParentIdAndType(parentId,"COMMENT",pageable)
                 .stream()
-                .peek(item -> item.setLikeCount(likeService.getLikeCountOfParentByParentId(item.getId())))
+//                .peek(item -> item.setLikeCount(likeService.getLikeCountOfParentByParentId(item.getId())))
                 .toList();
         return new PageImpl<>(comments);
     }

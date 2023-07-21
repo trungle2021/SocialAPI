@@ -39,6 +39,4 @@ public abstract class PostBase {
     protected Instant postedAt;
     @Column(name = "updated_at")
     protected Instant updatedAt;
-    @Column(name = "like_count")
-    protected Integer likeCount;
 }

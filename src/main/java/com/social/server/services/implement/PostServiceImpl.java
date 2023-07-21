@@ -182,7 +182,6 @@ public class PostServiceImpl implements PostService {
                 .privacies(privacies)
                 .postedAt(Instant.now())
                 .isDeleted(false)
-                .likeCount(0)
                 .build();
         PostDTO postDTO = EntityMapper.mapToDto(postRepository.save(post), PostDTO.class);
         postDTO.setPrivacyStatus(privacies.getPrivacyType());
