@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,39 +30,27 @@ public class PostServiceImpl implements PostService {
     private final LikeService likeService;
     private final PostTaggedUserService postTaggedUserService;
 
-    private static String getPostParentId(List<PostDTO> postDTOS) {
-        String postId;
-        Optional<PostDTO> firstPost = postDTOS.stream()
-                .filter(item -> item.getType().equals("POST") && item.getParentId() == null)
-                .findFirst();
-
-        if (firstPost.isPresent()) {
-            postId = firstPost.get().getId();
-        }else{
-            return "";
-        }
-        return postId;
-    }
-
     private static List<CommentDTO> getCommentsByPostId(Page<CommentDTO> commentDTOS, PostDTO postDTO) {
         if (commentDTOS.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
         return commentDTOS.stream().filter(comment -> comment.getPostId().equals(postDTO.getId())).toList();
     }
 
     private static List<ImageDTO> getImagesByPostId(List<ImageDTO> imageDTOS, PostDTO postDTO) {
         if (imageDTOS.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
         return imageDTOS.stream().filter(image -> image.getParentId().equals(postDTO.getId())).toList();
     }
 
+
+
     @Override
-    public Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field) {
+    public Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String sortBy) {
         Pageable pageable;
-        if (StringUtils.hasText(field)) {
-            pageable = PageRequest.of(offset, limit, Sort.by(Sort.Direction.DESC, field));
+        if (StringUtils.hasText(sortBy)) {
+            pageable = PageRequest.of(offset, limit, Sort.by(Sort.Direction.DESC, sortBy));
         } else {
             pageable = PageRequest.of(offset, limit, Sort.by(Sort.Direction.DESC, "posted_at"));
         }
@@ -72,44 +61,31 @@ public class PostServiceImpl implements PostService {
                 .map(item -> EntityMapper.mapToDto(item, PostDTO.class))
                 .toList();
 
-        int shareCount = (int) postDTOS.stream().filter(item -> item.getParentId() != null).count();
 
-//        Map<String, Object> result = postRepository.findAllPostsByUserId(userId, pageable)
-//                .stream()
-//                .collect(Collectors.collectingAndThen(
-//                        Collectors.partitioningBy(
-//                                item -> item.getParentId() == null,
-//                                Collectors.mapping(item -> EntityMapper.mapToDto(item, PostDTO.class), Collectors.toList())
-//                        ),
-//                        map -> {
-//                            Map<String, Object> resultMap = new HashMap<>();
-//                            resultMap.put("shareCount", map.get(true).size());
-//                            resultMap.put("postDTOList", map.get(false));
-//                            return resultMap;
-//                        }
-//                ));
+        List<String> listPostId = getListPostId(postDTOS);
+        if (listPostId.isEmpty()) {
+            return new PageImpl<>(Collections.emptyList());
+        }
+        List<PostResponseDTO> postResponseDTOList = listPostId.parallelStream().map(item -> getPostByPostId(item, 0, 3)).toList();
+        return new PageImpl<>(postResponseDTOList);
+    }
 
-        String postId;
-
-        postId = getPostParentId(postDTOS);
-        //get images of post
-        List<ImageDTO> imageDTOS = imageService.getImagesByPostId(postId);
-        //get comments
-        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postId, 0, 5);
-        //get tagged users
-        List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.getTaggedUsersByPostId(postId);
-
-
-        List<PostResponseDTO> postResponseDTO = postDTOS.parallelStream().map(
-                postDTO -> new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO), shareCount)
-        ).toList();
-        return new PageImpl<>(postResponseDTO);
+    private static List<String> getListPostId(List<PostDTO> postDTOS) {
+        List<String> listPostId = postDTOS.stream()
+                .filter(item -> item.getType().equals("POST") && item.getParentId() == null)
+                .map(PostDTO::getId)
+                .toList();
+        if (listPostId.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return listPostId;
+        }
     }
 
     @Override
-    public PostResponseDTO getOnePostParentByPostId(String postParentId) {
+    public PostResponseDTO getPostByPostId(String postParentId, int offsetComment, int limitComment) {
         //get one posts by postParentId
-        Posts posts = getPostById(postParentId);
+        Posts posts = findPostById(postParentId);
         int likeCount = likeService.getLikeCountOfParentByParentId(postParentId);
         PostDTO postDTO = EntityMapper.mapToDto(posts, PostDTO.class);
         postDTO.setLikeCount(likeCount);
@@ -119,24 +95,15 @@ public class PostServiceImpl implements PostService {
         //get images of post
         List<ImageDTO> imageDTOS = imageService.getImagesByPostId(postParentId);
         //get comments
-        Page<CommentDTO> commentDTOS = commentService.getCommentByParentId(postParentId, 0, 5);
+        Page<CommentDTO> commentDTOS = commentService.getChildCommentByParentId(postParentId, offsetComment, limitComment);
         //get tagged users
         List<PostTaggedUserDTO> taggedUsers = postTaggedUserService.getTaggedUsersByPostId(postParentId);
 
-         return new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO), shareCount);
+        return new PostResponseDTO(postDTO, getImagesByPostId(imageDTOS, postDTO), taggedUsers, getCommentsByPostId(commentDTOS, postDTO), shareCount);
     }
 
-    @Override
-    public Page<PostDTO> getPostsByUserIdWithSorting(String userId, String field) {
-        List<PostDTO> postDTOS = postRepository.findAllByOwner(userId, Sort.by(Sort.Direction.ASC, field))
-                .stream()
-                .map(item -> EntityMapper.mapToDto(item, PostDTO.class))
-                .toList();
-        return new PageImpl<>(postDTOS);
-    }
 
-    @Override
-    public Posts getPostById(String postId) {
+    public Posts findPostById(String postId) {
         return postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found", "id", postId));
     }
 
@@ -236,7 +203,7 @@ public class PostServiceImpl implements PostService {
     public PostDTO editPost(PostDTO updatePostDTO) {
         String updatedPostId = updatePostDTO.getId();
         Privacies updatedPrivacy = EntityMapper.mapToEntity(privacyService.findByType(updatePostDTO.getPrivacyStatus()), Privacies.class);
-        Posts post = getPostById(updatedPostId);
+        Posts post = findPostById(updatedPostId);
         String content = updatePostDTO.getContent() == null ? post.getContent() : updatePostDTO.getContent();
         Privacies privacy = updatePostDTO.getPrivacyStatus() == null ? post.getPrivacies() : updatedPrivacy;
         Boolean isDeleted = updatePostDTO.getIsDeleted() == null ? post.getIsDeleted() : updatePostDTO.getIsDeleted();

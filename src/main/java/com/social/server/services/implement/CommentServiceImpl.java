@@ -26,12 +26,11 @@ public class CommentServiceImpl implements CommentService {
     private final LikeService likeService;
 
     @Override
-    public Page<CommentDTO> getCommentByParentId(String parentId, int offset, int limit) {
+    public Page<CommentDTO> getChildCommentByParentId(String parentId, int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         List<CommentDTO> comments =
                 commentRepository.findAllParentCommentsByParentIdAndType(parentId,"COMMENT",pageable)
                 .stream()
-//                .peek(item -> item.setLikeCount(likeService.getLikeCountOfParentByParentId(item.getId())))
                 .toList();
         return new PageImpl<>(comments);
     }

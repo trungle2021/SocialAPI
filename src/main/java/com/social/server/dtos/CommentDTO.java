@@ -19,8 +19,11 @@ public class CommentDTO {
     private String imageUrl;
     private String owner;
     private String parentId;
+    private Long likeCount;
     private Boolean isDeleted;
     private Instant postedAt;
     private Instant updatedAt;
     private Long childCommentCount;
+
+
 }

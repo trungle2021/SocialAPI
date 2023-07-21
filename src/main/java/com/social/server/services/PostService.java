@@ -7,10 +7,9 @@ import org.springframework.data.domain.Page;
 public interface PostService {
      //this method will retrieve list of posts
      Page<PostResponseDTO> getPostsByUserIdWithPagination(String userId, int offset, int limit, String field);
-     PostResponseDTO getOnePostParentByPostId(String postParentId);
-     Page<PostDTO> getPostsByUserIdWithSorting(String userId, String sortBy);
+     PostResponseDTO getPostByPostId(String postParentId,int offsetComment, int limitComment);
 
-     Posts getPostById(String postId);
+     Posts findPostById(String postId);
      PostResponseDTO createPost(PostRequestCreateDTO postRequestCreateDTO);
      PostDTO insertPost(PostDTO newPost);
      PostDTO sharePost(PostDTO sharePost);

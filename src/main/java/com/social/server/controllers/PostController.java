@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/posts")
@@ -19,23 +17,20 @@ public class PostController {
     private final PostService postService;
     private final CommentService commentService;
 
-    @GetMapping(value = "/{userId}/{sortBy}")
-    public ResponseEntity<Page<PostDTO>> getPosts(@PathVariable String userId, @PathVariable String sortBy){
-        return ResponseEntity.ok(postService.getPostsByUserIdWithSorting(userId,sortBy));
-    }
+
     @GetMapping("/pagination/{userId}/{offset}/{limit}/{sortBy}")
-    public ResponseEntity<Page<PostResponseDTO>> getPostsWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit, @PathVariable(required = false) String sortBy){
+    public ResponseEntity<Page<PostResponseDTO>> getPostsByUserIdWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit, @PathVariable(required = false) String sortBy){
         return ResponseEntity.ok(postService.getPostsByUserIdWithPagination(userId,offset,limit, sortBy));
     }
 
-    @GetMapping("/{postParentId}")
-    public ResponseEntity<PostResponseDTO> getOnePostParentByPostId(@PathVariable String postParentId){
-        return ResponseEntity.ok(postService.getOnePostParentByPostId(postParentId));
+    @GetMapping("/{postId}/comment/{offset}/{limit}")
+    public ResponseEntity<PostResponseDTO> getPostByPostId(@PathVariable String postId,@PathVariable int offset,@PathVariable int limit){
+        return ResponseEntity.ok(postService.getPostByPostId(postId,offset,limit));
     }
 
-    @GetMapping("/{postId}/comments/{offset}/{limit}")
-    public ResponseEntity<Page<CommentDTO>> getComments(@PathVariable String postId, @PathVariable int offset, @PathVariable int limit){
-        return ResponseEntity.ok(commentService.getCommentByParentId(postId,offset,limit));
+    @GetMapping("/comments/{parentId}/{offset}/{limit}/child")
+    public ResponseEntity<Page<CommentDTO>> getChildCommentByParentId(@PathVariable String parentId, @PathVariable int offset, @PathVariable int limit){
+        return ResponseEntity.ok(commentService.getChildCommentByParentId(parentId,offset,limit));
     }
     @PostMapping
     public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequestCreateDTO postRequestCreateDTO){
