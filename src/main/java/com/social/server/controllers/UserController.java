@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final KafkaTemplate kafkaTemplate;
     private final FriendService friendService;
     private final UserService userService;
 
@@ -36,6 +35,11 @@ public class UserController {
 
     @PostMapping("/sendFriendRequest")
     public void sendFriendRequest(@RequestBody FriendRequest friendRequest){
-        kafkaTemplate.send("FriendRequest",friendRequest);
+        friendService.sendFriendRequest(friendRequest);
+    }
+
+    @PostMapping("/acceptFriendRequest")
+    public void acceptFriendRequest(@RequestBody FriendRequest friendRequest){
+        friendService.acceptFriendRequest(friendRequest);
     }
 }

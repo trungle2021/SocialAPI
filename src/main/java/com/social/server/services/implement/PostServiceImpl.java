@@ -7,6 +7,7 @@ import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.repositories.Post.PostRepository;
 import com.social.server.services.*;
 import com.social.server.utils.EntityMapper;
+import com.social.server.utils.FriendStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -28,6 +29,7 @@ public class PostServiceImpl implements PostService {
     private final CommentService commentService;
     private final ImageService imageService;
     private final LikeService likeService;
+    private final FriendService friendService;
     private final PostTaggedUserService postTaggedUserService;
 
     private static List<CommentDTO> getCommentsByPostId(Page<CommentDTO> commentDTOS, PostDTO postDTO) {
@@ -211,6 +213,30 @@ public class PostServiceImpl implements PostService {
         post.setPrivacies(privacy);
         post.setIsDeleted(isDeleted);
         return EntityMapper.mapToDto(postRepository.save(post), PostDTO.class);
+    }
+
+    @Override
+    public Page<PostResponseDTO> getNewsFeed(String userId, int offset, int limit) {
+        //get all friend list
+        List<String> friendIdList = getFriendIdList(userId);
+        //get post for each friend
+        List<PostResponseDTO> postResponseDTOS = getPostForEachFriend(friendIdList);
+
+        return new PageImpl<>(postResponseDTOS);
+    }
+
+    private List<PostResponseDTO> getPostForEachFriend(List<String> friendIdList) {
+        return friendIdList.stream()
+                .flatMap(item -> getPostsByUserIdWithPagination(item,0,1,"postedAt").stream())
+                .toList();
+    }
+
+    private List<String> getFriendIdList(String userId) {
+        FriendListDTO friendList =  friendService.getFriendListByStatus(userId, FriendStatus.ACCEPTED.toString());
+        return friendList.getFriendList()
+                .stream()
+                .map(FriendDTO::getId)
+                .toList();
     }
 
 }

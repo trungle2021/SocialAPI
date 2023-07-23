@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/posts")
@@ -17,6 +19,10 @@ public class PostController {
     private final PostService postService;
     private final CommentService commentService;
 
+    @GetMapping("/newsfeed/{userId}/{offset}/{limit}")
+    public ResponseEntity<Page<PostResponseDTO>> getNewsFeed(@PathVariable String userId, @PathVariable int offset,@PathVariable int limit){
+        return ResponseEntity.ok(postService.getNewsFeed(userId,offset,limit));
+    }
 
     @GetMapping("/pagination/{userId}/{offset}/{limit}/{sortBy}")
     public ResponseEntity<Page<PostResponseDTO>> getPostsByUserIdWithPagination(@PathVariable String userId, @PathVariable int offset, @PathVariable int limit, @PathVariable(required = false) String sortBy){
