@@ -225,12 +225,6 @@ public class PostServiceImpl implements PostService {
         return new PageImpl<>(postResponseDTOS);
     }
 
-    private List<PostResponseDTO> getPostForEachFriend(List<String> friendIdList) {
-        return friendIdList.stream()
-                .flatMap(item -> getPostsByUserIdWithPagination(item,0,1,"postedAt").stream())
-                .toList();
-    }
-
     private List<String> getFriendIdList(String userId) {
         FriendListDTO friendList =  friendService.getFriendListByStatus(userId, FriendStatus.ACCEPTED.toString());
         return friendList.getFriendList()
@@ -238,6 +232,14 @@ public class PostServiceImpl implements PostService {
                 .map(FriendDTO::getId)
                 .toList();
     }
+
+    private List<PostResponseDTO> getPostForEachFriend(List<String> friendIdList) {
+        return friendIdList.stream()
+                .flatMap(item -> getPostsByUserIdWithPagination(item,0,1,"postedAt").stream())
+                .toList();
+    }
+
+
 
 }
 

@@ -2,9 +2,11 @@ package com.social.server.dtos;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @Builder
-
+@NoArgsConstructor
 public class FriendDTO {
     private String id;
     private String accountId;
@@ -12,9 +14,6 @@ public class FriendDTO {
     private String lastName;
     private Boolean isDeleted;
     private Long mutualFriend;
-
-    public FriendDTO() {
-    }
 
     public FriendDTO(String id, String firstName, String lastName, String accountId, Boolean isDeleted, Long mutualFriend) {
         this.id = id;
