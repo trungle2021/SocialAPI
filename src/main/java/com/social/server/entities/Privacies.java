@@ -1,13 +1,8 @@
 package com.social.server.entities;
 
-import com.social.server.entities.Post.Posts;
-import com.social.server.entities.User.UserMaritalStatus;
-import com.social.server.entities.User.UserSchools;
-import com.social.server.entities.User.UserWorkplaces;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
 import java.util.UUID;
 
 @Entity

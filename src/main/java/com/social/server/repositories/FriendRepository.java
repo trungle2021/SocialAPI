@@ -71,7 +71,7 @@ public interface FriendRepository extends JpaRepository<Friends, String> {
             """)
     List<FriendDTO> getMutualFriend(String userId, String partnerId);
 
-    Friends findByUserIdAndUserFriendId(String userFriendId, String userFriendId1);
+    Friends findByUserIdAndUserFriendId(String userId, String userFriendId);
 }
 
 
