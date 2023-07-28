@@ -1,5 +1,6 @@
 package com.social.server.securities.JWT;
 
+import com.social.server.entities.Post.Posts;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.securities.CustomUserDetailServices.CustomUserDetailService;
 import jakarta.servlet.FilterChain;
@@ -33,6 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String token;
 
         token = jwtService.getTokenFromHeader(request);
+
+
+
+
+
 
         if(token == null){
             filterChain.doFilter(request,response);

@@ -1,0 +1,16 @@
+package com.social.server.configs.StorageFile;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+
+@Configuration
+public class StorageConfig {
+    @Bean
+    public S3Client s3Client(){
+        return S3Client.builder()
+                .region(Region.AP_SOUTHEAST_1)
+                .build();
+    }
+}

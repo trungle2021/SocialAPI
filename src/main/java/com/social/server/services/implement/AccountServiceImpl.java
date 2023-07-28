@@ -1,6 +1,6 @@
 package com.social.server.services.implement;
 
-import com.social.server.entities.Accounts;
+import com.social.server.entities.User.Accounts;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.repositories.AccountRepository;

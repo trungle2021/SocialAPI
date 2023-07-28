@@ -13,3 +13,20 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME:  172.29.48.1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  es01:
+    image: https://docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  es02:
+    image: https://docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    ports:
+      - "9201:9201"
+      - "9301:9301"
+  es03:
+    image: https://docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    ports:
+      - "9202:9202"
+      - "9302:9302"
+
+

@@ -1,5 +1,6 @@
 package com.social.server.entities;
 
+import com.social.server.entities.User.Accounts;
 import jakarta.persistence.*;
 import lombok.*;
 

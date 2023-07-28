@@ -6,6 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @SpringBootApplication
 public class SocialAPIApplication {
 
@@ -19,8 +24,8 @@ public class SocialAPIApplication {
         return new BCryptPasswordEncoder();
     }
 
-
     public static void main(String[] args) {
+
         SpringApplication.run(SocialAPIApplication.class, args);
     }
 }
