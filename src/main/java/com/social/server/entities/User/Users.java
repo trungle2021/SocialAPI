@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.social.server.entities.Post.*;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@Document(indexName = "users")
 public class Users {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
@@ -54,11 +56,6 @@ public class Users {
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "usersByUserPartnerId")
-    private Collection<UserMaritalStatus> userMaritalStatusesById;
-    @OneToMany(mappedBy = "usersByUserId")
-    private Collection<UserWorkplaces> userWorkplacesById;
 
     @ManyToOne
     @JsonBackReference
