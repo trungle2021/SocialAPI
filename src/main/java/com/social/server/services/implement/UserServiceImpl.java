@@ -5,28 +5,26 @@ import com.social.server.entities.User.Users;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.UserNotFoundException;
+import com.social.server.configs.ElasticSearch.repos.ESUserRepository;
 import com.social.server.repositories.UserRepository;
 import com.social.server.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static com.social.server.utils.SD.ACCOUNT;
-import static org.elasticsearch.index.query.QueryBuilders.regexpQuery;
 
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ElasticsearchOperations elasticsearchOperations;
+    private final ESUserRepository esUserRepository;
 
     @Override
     public List<Users> getAll() {
@@ -48,17 +46,16 @@ public class UserServiceImpl implements UserService {
         user.setIsDeleted(false);
 
         //save to Elasticsearch
-        elasticsearchOperations.save(user);
+        esUserRepository.save(user);
 
         return userRepository.save(user);
     }
 
     @Override
-    public SearchHits<Users> findByName(String name) {
-        Query searchQuery = new NativeSearchQueryBuilder()
-                .withFilter(regexpQuery("title", ".*data.*"))
-                .build();
-        return elasticsearchOperations.search(searchQuery, Users.class, IndexCoordinates.of("users"));
+    public SearchPage<Users> findByUsername(String username) {
+        Pageable pageable = PageRequest.of(0, 10);
+        SearchPage<Users> result = esUserRepository.findByUsername(username,pageable);
+        return result;
     }
 
     @Override

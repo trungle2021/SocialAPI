@@ -6,10 +6,14 @@ import com.social.server.entities.Post.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.UUID;
+
+import static com.social.server.configs.ElasticSearch.Indices.USER_INDEX;
 
 @Entity
 @AllArgsConstructor
@@ -17,12 +21,20 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@Document(indexName = "users")
+@Document(indexName = USER_INDEX)
 public class Users {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     @Column(name = "id", nullable = false, length = 36)
+    @Field(type = FieldType.Keyword)
     private String id;
+
+
+    @Basic
+    @Column(name = "username", nullable = true, length = 45)
+    @Field(type = FieldType.Text)
+    private String username;
+
     @Basic
     @Column(name = "first_name", nullable = true, length = 30)
     private String firstName;
@@ -45,9 +57,6 @@ public class Users {
     @Column(name = "origin", nullable = true, length = 45)
     private String origin;
 
-    @Basic
-    @Column(name = "username", nullable = true, length = 45)
-    private String username;
 
     @Basic
     @Column(name = "account_id", nullable = true, length = 36)
