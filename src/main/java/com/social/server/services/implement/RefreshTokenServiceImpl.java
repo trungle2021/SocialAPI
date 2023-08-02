@@ -5,22 +5,21 @@ import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.repositories.JpaRepositories.RefreshTokenRepository;
 import com.social.server.services.RefreshTokenService;
+import com.social.server.utils.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static com.social.server.utils.SD.REFRESH_TOKEN;
-
+import static com.social.server.utils.TokenType.REFRESH_TOKEN;
 
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenServiceImpl implements RefreshTokenService {
-
+    private final String REFRESH_TOKEN = TokenType.REFRESH_TOKEN.toString();
 
     private final RefreshTokenRepository refreshTokenRepository;
 

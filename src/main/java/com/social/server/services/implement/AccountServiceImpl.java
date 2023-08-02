@@ -1,6 +1,7 @@
 package com.social.server.services.implement;
 
 import com.social.server.entities.User.Accounts;
+import com.social.server.exceptions.DuplicateRecordException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.repositories.JpaRepositories.AccountRepository;
@@ -12,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.social.server.utils.SD.ACCOUNT;
 
@@ -31,8 +34,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Accounts getOneById(String id) {
-
-        return null;
+        return accountRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Account","id",id));
     }
 
     @Override
@@ -50,21 +52,26 @@ public class AccountServiceImpl implements AccountService {
         if(!errorList.isEmpty()){
             throw new SocialAppException(HttpStatus.BAD_REQUEST,errorList.toString());
         }
-        Accounts newAccount = new Accounts();
-        newAccount.setEmail(accounts.getEmail());
-        newAccount.setIsDeleted(false);
-        newAccount.setPassword(passwordEncoder.encode(accounts.getPassword()));
-        newAccount.setRoleId(roleId);
+        accountRepository.findByEmail(email)
+                .ifPresent(account -> {
+                    throw new DuplicateRecordException("Account", "email", email);
+                });
+
+        Accounts newAccount = Accounts.builder()
+                .email(accounts.getEmail())
+                .isDeleted(false)
+                .password(passwordEncoder.encode(accounts.getPassword()))
+                .roleId(roleId)
+                .build();
         return accountRepository.save(newAccount);
     }
 
     @Override
     public Accounts getOneByEmail(String email) {
-        Accounts accounts = accountRepository.findByEmail(email);
-        if(accounts == null){
-            throw new ResourceNotFoundException("Email not exists");
-        }
-        return EntityMapper.mapToDto(accounts,Accounts.class);
+        return accountRepository
+                .findByEmail(email)
+                .map(account -> EntityMapper.mapToDto(account,Accounts.class))
+                .orElseThrow(()->new ResourceNotFoundException("Email not exists"));
     }
 
     @Override

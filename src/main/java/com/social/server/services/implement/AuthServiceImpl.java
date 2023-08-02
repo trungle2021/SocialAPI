@@ -60,8 +60,11 @@ public class AuthServiceImpl implements AuthService {
                 .rolesByRoleId(roleDTO).build();
         accounts = accountService.create(accounts);
         userService.create(accounts.getId());
+       return RegisterDTO.builder()
+                .email(accounts.getEmail())
+                .roleType(roleDTO.getRoleType())
+                .build();
 
-        return null;
     }
 
     @Override

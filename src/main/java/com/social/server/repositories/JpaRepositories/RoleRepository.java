@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Roles,String> {
-    List<Roles> findByRoleType(String roleType);
+    Roles findByRoleType(String roleType);
     @Query("SELECT r FROM Roles r JOIN Accounts a ON a.roleId = r.id where a.id =:accountId")
     Roles findByAccountId(String accountId);
 }

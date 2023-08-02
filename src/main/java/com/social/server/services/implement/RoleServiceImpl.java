@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Roles getOneByRoleType(String roleName) {
-        Roles role = roleRepository.findByRoleType(roleName).get(0);
+        Roles role = roleRepository.findByRoleType(roleName);
         if(role == null){
             throw new ResourceNotFoundException(ROLE,"role_name",roleName);
         }
