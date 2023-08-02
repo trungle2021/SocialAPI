@@ -2,14 +2,14 @@ package com.social.server.services.implement;
 
 
 import com.social.server.entities.User.Accounts;
-import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Tokens;
 import com.social.server.entities.Roles;
 import com.social.server.securities.JWT.JwtService;
 import com.social.server.services.*;
-import com.social.server.utils.SD;
 import com.social.server.dtos.AuthResponse;
 import com.social.server.dtos.LoginDTO;
 import com.social.server.dtos.RegisterDTO;
+import com.social.server.utils.TokenType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +26,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final RoleService roleService;
     private final JwtService jwtService;
+    private final String ACCESS_TOKEN = TokenType.ACCESS_TOKEN.toString();
+    private final String REFRESH_TOKEN = TokenType.REFRESH_TOKEN.toString();
 
     @Override
     public AuthResponse login(LoginDTO loginDTO) {
@@ -35,8 +37,8 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
         Accounts accounts = accountService.getOneByEmail(email);
         if(accounts != null){
-            String accessToken = jwtService.generateToken(SD.ACCESS_TOKEN,accounts);
-            String refreshToken = jwtService.generateToken(SD.REFRESH_TOKEN,accounts);
+            String accessToken = jwtService.generateToken(ACCESS_TOKEN,accounts);
+            String refreshToken = jwtService.generateToken(REFRESH_TOKEN,accounts);
             return AuthResponse.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
@@ -64,8 +66,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse refreshToken(String refreshToken) {
-        RefreshTokens token = refreshTokenService.findByRefreshToken(refreshToken);
-       String newAccessToken = jwtService.generateToken(SD.ACCESS_TOKEN,token.getAccountsByAccountId());
+        Tokens token = refreshTokenService.findByRefreshToken(refreshToken);
+       String newAccessToken = jwtService.generateToken(ACCESS_TOKEN,token.getAccountsByAccountId());
         return AuthResponse.builder()
                    .accessToken(newAccessToken)
                    .build();

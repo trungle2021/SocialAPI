@@ -1,4 +1,4 @@
-package com.social.server.repositories;
+package com.social.server.repositories.JpaRepositories;
 
 import com.social.server.entities.Post.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;

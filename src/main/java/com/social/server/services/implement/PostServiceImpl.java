@@ -4,7 +4,7 @@ import com.social.server.dtos.*;
 import com.social.server.entities.Post.Posts;
 import com.social.server.entities.Privacies;
 import com.social.server.exceptions.ResourceNotFoundException;
-import com.social.server.repositories.Post.PostRepository;
+import com.social.server.repositories.JpaRepositories.Post.PostRepository;
 import com.social.server.services.*;
 import com.social.server.utils.EntityMapper;
 import com.social.server.utils.FriendStatus;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

@@ -5,8 +5,8 @@ import com.social.server.entities.User.Users;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.UserNotFoundException;
-import com.social.server.configs.ElasticSearch.repos.ESUserRepository;
-import com.social.server.repositories.UserRepository;
+import com.social.server.repositories.ElasticsearchRepositories.UserESRepository;
+import com.social.server.repositories.JpaRepositories.UserRepository;
 import com.social.server.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import static com.social.server.utils.SD.ACCOUNT;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ESUserRepository esUserRepository;
+    private final UserESRepository userESRepository;
 
     @Override
     public List<Users> getAll() {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         user.setIsDeleted(false);
 
         //save to Elasticsearch
-        esUserRepository.save(user);
+        userESRepository.save(user);
 
         return userRepository.save(user);
     }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public SearchPage<Users> findByUsername(String username) {
         Pageable pageable = PageRequest.of(0, 10);
-        SearchPage<Users> result = esUserRepository.findByUsername(username,pageable);
+        SearchPage<Users> result = userESRepository.findByUsername(username,pageable);
         return result;
     }
 

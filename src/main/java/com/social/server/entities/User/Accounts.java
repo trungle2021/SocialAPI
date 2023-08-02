@@ -1,7 +1,7 @@
 package com.social.server.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Tokens;
 import com.social.server.entities.Roles;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,7 +43,7 @@ public class Accounts implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Roles rolesByRoleId;
     @OneToMany(mappedBy = "accountsByAccountId")
-    private Collection<RefreshTokens> refreshTokensById;
+    private Collection<Tokens> tokensByTokenId;
 
     @PrePersist
     public void prePersist() {

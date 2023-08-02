@@ -4,7 +4,7 @@ package com.social.server.services.implement;
 import com.social.server.entities.Roles;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
-import com.social.server.repositories.RoleRepository;
+import com.social.server.repositories.JpaRepositories.RoleRepository;
 import com.social.server.services.RoleService;
 import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;

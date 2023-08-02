@@ -3,7 +3,7 @@ package com.social.server.services.implement;
 import com.social.server.entities.User.Accounts;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.ResourceNotFoundException;
-import com.social.server.repositories.AccountRepository;
+import com.social.server.repositories.JpaRepositories.AccountRepository;
 import com.social.server.services.AccountService;
 import com.social.server.utils.EntityMapper;
 import jakarta.transaction.Transactional;

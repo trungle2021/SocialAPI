@@ -7,6 +7,7 @@ import com.social.server.entities.User.Users;
 import com.social.server.services.FriendService;
 import com.social.server.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,11 @@ public class UserController {
     public ResponseEntity<Users> getUserInfo(@PathVariable("userId") String userId){
         return ResponseEntity.ok(userService.getOneById(userId));
     }
+    @GetMapping("/search/{username}")
+    public ResponseEntity<SearchPage<Users>> searchUserByUsername(@PathVariable("username") String username){
+        return ResponseEntity.ok(userService.findByUsername(username));
+    }
+
 
     @PostMapping("/sendFriendRequest")
     public void sendFriendRequest(@RequestBody FriendRequest friendRequest){

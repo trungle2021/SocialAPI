@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-
+@EnableAsync
 public class SocialAPIApplication {
 
     @Bean

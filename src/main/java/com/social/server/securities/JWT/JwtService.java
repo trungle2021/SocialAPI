@@ -1,11 +1,11 @@
 package com.social.server.securities.JWT;
 
 import com.social.server.entities.User.Accounts;
-import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Tokens;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.services.AccountService;
 import com.social.server.services.RefreshTokenService;
-import com.social.server.utils.SD;
+import com.social.server.utils.TokenType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,6 +34,8 @@ public class JwtService {
 
     private final RefreshTokenService refreshTokenService;
     private final AccountService accountService;
+    private final String ACCESS_TOKEN = TokenType.ACCESS_TOKEN.toString();
+    private final String REFRESH_TOKEN = TokenType.REFRESH_TOKEN.toString();
 
 
     private Key getSignInKey(){
@@ -50,9 +52,9 @@ public class JwtService {
         String email = userDetails.getUsername();
         if(tokenType == null) {
             throw new SocialAppException(HttpStatus.INTERNAL_SERVER_ERROR, "Token Type Is Required");
-        }else if(tokenType.equals(SD.ACCESS_TOKEN)){
+        }else if(tokenType.equals(ACCESS_TOKEN)){
             timeExpired = System.currentTimeMillis() + jwtExpiry;
-       }else if(tokenType.equals(SD.REFRESH_TOKEN)){
+       }else if(tokenType.equals(REFRESH_TOKEN)){
             //expiry time of refresh token greater than 3 times access token
             //example access token expiry time is 1 day so refresh token is 3 days.
             timeExpired = System.currentTimeMillis() + jwtExpiry*3;
@@ -67,10 +69,11 @@ public class JwtService {
                 .compact();
 
 
-        if(tokenType.equals(SD.REFRESH_TOKEN)){
+        if(tokenType.equals(REFRESH_TOKEN)){
             Accounts account = accountService.getOneByEmail(email);
-            RefreshTokens refreshTokens = RefreshTokens.builder()
-                    .refreshToken(token)
+            Tokens refreshTokens = Tokens.builder()
+                    .token(token)
+                    .tokenType(REFRESH_TOKEN)
                     .expiryTime(new Date(timeExpired))
                     .accountId(account.getId())
                     .createdAt(issuedAt)

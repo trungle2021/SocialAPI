@@ -7,7 +7,7 @@ import com.social.server.entities.User.FriendRequest;
 import com.social.server.entities.User.Friends;
 import com.social.server.exceptions.FriendRequestException;
 import com.social.server.exceptions.SocialAppException;
-import com.social.server.repositories.FriendRepository;
+import com.social.server.repositories.JpaRepositories.FriendRepository;
 import com.social.server.services.FriendService;
 import com.social.server.utils.EntityMapper;
 import com.social.server.utils.FriendStatus;

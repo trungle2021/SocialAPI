@@ -1,9 +1,9 @@
 package com.social.server.services.implement;
 
-import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Tokens;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
-import com.social.server.repositories.RefreshTokenRepository;
+import com.social.server.repositories.JpaRepositories.RefreshTokenRepository;
 import com.social.server.services.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,13 +25,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
-    public List<RefreshTokens> getAll() {
+    public List<Tokens> getAll() {
         return refreshTokenRepository.findAll();
     }
 
     @Override
-    public RefreshTokens getOneById(String id) {
-        RefreshTokens token = refreshTokenRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(REFRESH_TOKEN,"id",id));
+    public Tokens getOneById(String id) {
+        Tokens token = refreshTokenRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(REFRESH_TOKEN,"id",id));
         int compareTime = token.getExpiryTime().compareTo(new Date());
         if(compareTime >= 0){
             // >= 0 means this token expired
@@ -42,13 +42,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
-    public RefreshTokens save(RefreshTokens refreshTokens) {
+    public Tokens save(Tokens refreshTokens) {
         return refreshTokenRepository.save(refreshTokens);
     }
 
     @Override
-    public RefreshTokens findByRefreshToken(String refreshToken) {
-        RefreshTokens token =
+    public Tokens findByRefreshToken(String refreshToken) {
+        Tokens token =
                 refreshTokenRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(()->new ResourceNotFoundException(REFRESH_TOKEN,"token",refreshToken));
 
@@ -71,7 +71,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public void delete(String id) {
-        RefreshTokens refreshToken = refreshTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(REFRESH_TOKEN,"id",id));
+        Tokens refreshToken = refreshTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(REFRESH_TOKEN,"id",id));
         refreshTokenRepository.delete(refreshToken);
     }
 }

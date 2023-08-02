@@ -1,4 +1,4 @@
-package com.social.server.repositories;
+package com.social.server.repositories.JpaRepositories;
 
 import com.social.server.dtos.PrivaciesDTO;
 import com.social.server.entities.Privacies;

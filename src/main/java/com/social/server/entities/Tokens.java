@@ -8,19 +8,23 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "refresh_tokens", schema = "social")
+@Table(name = "tokens", schema = "social")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RefreshTokens {
+public class Tokens {
     @Id
     @Column(name = "id", nullable = false, length = 36)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Basic
-    @Column(name = "refresh_token", nullable = false, length = 255)
-    private String refreshToken;
+    @Column(name = "token", nullable = false, length = 255)
+    private String token;
+    @Basic
+    @Column(name = "token_type", nullable = false, length = 30)
+    private String tokenType;
     @Basic
     @Column(name = "expiry_time", nullable = false)
     private Date expiryTime;

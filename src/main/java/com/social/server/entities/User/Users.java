@@ -1,7 +1,6 @@
 package com.social.server.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.social.server.entities.Post.*;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import static com.social.server.configs.ElasticSearch.Indices.USER_INDEX;
@@ -57,14 +57,12 @@ public class Users {
     @Column(name = "origin", nullable = true, length = 45)
     private String origin;
 
-
     @Basic
     @Column(name = "account_id", nullable = true, length = 36)
     private String accountId;
     @Basic
     @Column(name = "is_deleted", nullable = true)
     private Boolean isDeleted;
-
 
     @ManyToOne
     @JsonBackReference

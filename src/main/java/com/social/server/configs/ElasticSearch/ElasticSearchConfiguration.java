@@ -7,19 +7,20 @@ import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.lang.NonNullApi;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.social.server.repositories")
-@EnableElasticsearchRepositories(basePackages = "com.social.server.configs.ElasticSearch.repos")
+@EnableJpaRepositories(basePackages = "com.social.server.repositories.JpaRepositories")
+@EnableElasticsearchRepositories(basePackages = "com.social.server.repositories.ElasticsearchRepositories")
 public class ElasticSearchConfiguration extends ElasticsearchConfiguration {
 
-//    @Value("{spring.elasticsearch.uris}")
-//    private String elasticsearchUrl;
+    @Value("${spring.elasticsearch.uris}")
+    private String elasticsearchUrl;
 
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
-                .connectedTo("localhost:9200")
+                .connectedTo(elasticsearchUrl)
                 .build();
     }
 }

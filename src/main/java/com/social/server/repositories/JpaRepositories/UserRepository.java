@@ -1,4 +1,4 @@
-package com.social.server.repositories;
+package com.social.server.repositories.JpaRepositories;
 
 import com.social.server.entities.User.Users;
 import org.springframework.data.jpa.repository.JpaRepository;

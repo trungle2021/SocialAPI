@@ -1,4 +1,4 @@
-package com.social.server.repositories.Post;
+package com.social.server.repositories.JpaRepositories.Post;
 
 import com.social.server.entities.Post.Posts;
 import org.springframework.data.domain.Pageable;

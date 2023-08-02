@@ -4,7 +4,7 @@ import com.social.server.dtos.PrivaciesDTO;
 import com.social.server.entities.Privacies;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
-import com.social.server.repositories.PrivacyRepository;
+import com.social.server.repositories.JpaRepositories.PrivacyRepository;
 import com.social.server.services.PrivacyService;
 import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

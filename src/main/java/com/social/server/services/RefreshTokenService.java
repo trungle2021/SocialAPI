@@ -1,14 +1,14 @@
 package com.social.server.services;
 
 
-import com.social.server.entities.RefreshTokens;
+import com.social.server.entities.Tokens;
 
 import java.util.List;
 
 public interface RefreshTokenService {
-    List<RefreshTokens> getAll();
-    RefreshTokens getOneById(String id);
-    RefreshTokens save(RefreshTokens refreshTokens);
-    RefreshTokens findByRefreshToken(String token);
+    List<Tokens> getAll();
+    Tokens getOneById(String id);
+    Tokens save(Tokens refreshTokens);
+    Tokens findByRefreshToken(String token);
     void delete(String id);
 }
