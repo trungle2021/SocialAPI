@@ -22,15 +22,16 @@ import static com.social.server.configs.ElasticSearch.Indices.USER_INDEX;
 @Getter
 @Setter
 @Document(indexName = USER_INDEX)
+@Table(name = "users")
 public class Users {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     @Column(name = "id", nullable = false, length = 36)
-//    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword)
     private String id;
     @Basic
     @Column(name = "username", nullable = true, length = 45)
-//    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text)
     private String username;
     @Basic
     @Column(name = "first_name", nullable = true, length = 30)

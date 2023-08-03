@@ -6,16 +6,12 @@ import com.social.server.entities.User.Users;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.UserNotFoundException;
-import com.social.server.repositories.JpaRepositories.UserRepository;
+import com.social.server.repositories.JPA.UserRepository;
 import com.social.server.services.AccountService;
-import com.social.server.services.ElasticSearch.UserElasticsearchService;
 import com.social.server.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.social.server.services.implement;
 
 import com.social.server.entities.Post.PostBase;
-import com.social.server.repositories.JpaRepositories.Post.PostBaseRepository;
+import com.social.server.repositories.JPA.Post.PostBaseRepository;
 import com.social.server.services.PostBaseService;
 import com.social.server.utils.EntityMapper;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.social.server.repositories.JpaRepositories.Post;
+package com.social.server.repositories.JPA.Post;
 
 
 import com.social.server.entities.Post.Images;

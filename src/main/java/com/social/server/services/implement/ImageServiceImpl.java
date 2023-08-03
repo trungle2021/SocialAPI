@@ -3,7 +3,7 @@ package com.social.server.services.implement;
 import com.social.server.dtos.ImageDTO;
 import com.social.server.entities.Post.Images;
 import com.social.server.exceptions.ResourceNotFoundException;
-import com.social.server.repositories.JpaRepositories.Post.ImageRepository;
+import com.social.server.repositories.JPA.Post.ImageRepository;
 import com.social.server.services.ImageService;
 import com.social.server.services.LikeService;
 import com.social.server.utils.EntityMapper;

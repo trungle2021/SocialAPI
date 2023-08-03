@@ -4,7 +4,7 @@ import com.social.server.dtos.*;
 import com.social.server.entities.Post.Posts;
 import com.social.server.entities.Privacies;
 import com.social.server.exceptions.ResourceNotFoundException;
-import com.social.server.repositories.JpaRepositories.Post.PostRepository;
+import com.social.server.repositories.JPA.Post.PostRepository;
 import com.social.server.services.*;
 import com.social.server.utils.EntityMapper;
 import com.social.server.utils.FriendStatus;

@@ -1,7 +1,7 @@
 package com.social.server.services.implement;
 
 import com.social.server.entities.Post.Likes;
-import com.social.server.repositories.JpaRepositories.LikeRepository;
+import com.social.server.repositories.JPA.LikeRepository;
 import com.social.server.services.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
