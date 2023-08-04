@@ -21,7 +21,6 @@ import static com.social.server.configs.ElasticSearch.Indices.USER_INDEX;
 @Builder
 @Getter
 @Setter
-@Document(indexName = USER_INDEX)
 @Table(name = "users")
 public class Users {
     @GeneratedValue(strategy = GenerationType.UUID)

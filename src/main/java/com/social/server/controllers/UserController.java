@@ -2,6 +2,7 @@ package com.social.server.controllers;
 
 import com.social.server.dtos.FriendListDTO;
 import com.social.server.dtos.MutualFriendDTO;
+import com.social.server.dtos.UserDTO;
 import com.social.server.entities.User.FriendRequest;
 import com.social.server.entities.User.Users;
 import com.social.server.services.FriendService;
@@ -32,11 +33,11 @@ public class UserController {
     }
 
     @GetMapping("/getUserInfo/{userId}")
-    public ResponseEntity<Users> getUserInfo(@PathVariable("userId") String userId){
+    public ResponseEntity<UserDTO> getUserInfo(@PathVariable("userId") String userId){
         return ResponseEntity.ok(userService.getOneById(userId));
     }
     @GetMapping("/search/{username}")
-    public ResponseEntity<Page<Users>> searchUserByUsername(@PathVariable("username") String username){
+    public ResponseEntity<Page<UserDTO>> searchUserByUsername(@PathVariable("username") String username){
         return ResponseEntity.ok(userService.findByUsername(username));
     }
 
