@@ -1,11 +1,10 @@
 package com.social.server.dtos;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -18,8 +17,9 @@ import static com.social.server.configs.ElasticSearch.Indices.USER_INDEX;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(indexName = USER_INDEX)
+@Document(indexName = USER_INDEX,createIndex = true)
 public class UserDTO {
+    @Id
     private String id;
     @Field(type = FieldType.Text)
     private String username;

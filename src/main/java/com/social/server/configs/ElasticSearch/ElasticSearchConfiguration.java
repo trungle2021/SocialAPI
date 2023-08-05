@@ -18,4 +18,6 @@ public class ElasticSearchConfiguration extends ElasticsearchConfiguration {
                 .connectedTo(elasticsearchUrl)
                 .build();
     }
+
+
 }

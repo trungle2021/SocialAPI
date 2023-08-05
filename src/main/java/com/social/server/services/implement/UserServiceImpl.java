@@ -7,6 +7,7 @@ import com.social.server.entities.User.Users;
 import com.social.server.exceptions.ResourceNotFoundException;
 import com.social.server.exceptions.SocialAppException;
 import com.social.server.exceptions.UserNotFoundException;
+import com.social.server.repositories.ElasticSearch.UserElasticsearchRepository;
 import com.social.server.repositories.JPA.UserRepository;
 import com.social.server.services.AccountService;
 import com.social.server.services.UserService;
@@ -17,8 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Query;
@@ -61,6 +64,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         UserDTO usersCreated = EntityMapper.mapToDto(userRepository.save(user),UserDTO.class);
         //save to Elasticsearch
+        checkIndexExists();
         elasticsearchOperations.save(usersCreated);
         return usersCreated;
     }
@@ -78,6 +82,15 @@ public class UserServiceImpl implements UserService {
         SearchHits<UserDTO> searchHits = elasticsearchOperations.search(query, UserDTO.class);
 
         return new PageImpl<>(searchHits.stream().map(SearchHit::getContent).toList());
+    }
+
+    private void checkIndexExists() {
+        IndexOperations indexOperations = elasticsearchOperations.indexOps(UserDTO.class);
+        if (!indexOperations.exists()) {
+            indexOperations.create();
+            indexOperations.putMapping(indexOperations.createMapping());
+            indexOperations.refresh();
+        }
     }
 
     @Override
