@@ -15,13 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableAsync
-//@EnableJpaRepositories(basePackages = "com.social.server.repositories.JPA")
-//@EnableElasticsearchRepositories(basePackages = "com.social.server.repositories.ElasticSearch")
 @EnableJpaRepositories(
         excludeFilters = @ComponentScan.Filter(
         type = FilterType.ASSIGNABLE_TYPE, classes = ElasticsearchRepository.class))
 @EnableElasticsearchRepositories(
-      excludeFilters =  @ComponentScan.Filter(
+        excludeFilters =  @ComponentScan.Filter(
         type = FilterType.ASSIGNABLE_TYPE, classes = JpaRepository.class))
 public class SocialAPIApplication {
 
