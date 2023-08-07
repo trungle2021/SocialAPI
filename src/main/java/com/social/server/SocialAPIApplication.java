@@ -19,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
         excludeFilters = @ComponentScan.Filter(
         type = FilterType.ASSIGNABLE_TYPE, classes = ElasticsearchRepository.class))
 @EnableElasticsearchRepositories(
-      excludeFilters =  @ComponentScan.Filter(
+        excludeFilters =  @ComponentScan.Filter(
         type = FilterType.ASSIGNABLE_TYPE, classes = JpaRepository.class))
 public class SocialAPIApplication {
 
