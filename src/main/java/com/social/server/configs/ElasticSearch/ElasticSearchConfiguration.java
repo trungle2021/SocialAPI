@@ -14,6 +14,7 @@ public class ElasticSearchConfiguration extends ElasticsearchConfiguration {
 
     @Override
     public @NotNull ClientConfiguration clientConfiguration() {
+
         return ClientConfiguration.builder()
                 .connectedTo(elasticsearchUrl)
                 .build();

@@ -1,6 +1,8 @@
 package com.social.server.services.implement;
 
 
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.social.server.dtos.UserDTO;
 import com.social.server.entities.User.Accounts;
 import com.social.server.entities.User.Users;
@@ -14,6 +16,7 @@ import com.social.server.services.UserService;
 import com.social.server.utils.EntityMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -71,14 +76,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserDTO> findByUsername(String username) {
-        Pageable pageable = PageRequest.of(0, 10);
-        Query query = NativeQuery.builder()
-                .withQuery(q->q.match(
-                        m->m.field("username")
-                                .query(username))
-                ).withPageable(pageable)
-                .build();
+        SearchResponse searchResponse =
 
+
+
+        Criteria criteria = new Criteria("username").matchesAll(username);
+        Query query = new CriteriaQuery(criteria);
         SearchHits<UserDTO> searchHits = elasticsearchOperations.search(query, UserDTO.class);
 
         return new PageImpl<>(searchHits.stream().map(SearchHit::getContent).toList());

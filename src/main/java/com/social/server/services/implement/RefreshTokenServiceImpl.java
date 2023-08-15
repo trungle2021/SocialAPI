@@ -32,6 +32,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         int compareTime = token.getExpiryTime().compareTo(new Date());
         if(compareTime >= 0){
             // >= 0 means this token expired
+
             throw new SocialAppException(HttpStatus.UNAUTHORIZED,"Refresh Token Expired");
         }else{
             return token;
