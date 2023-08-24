@@ -1,7 +1,7 @@
 package com.social.server.controllers;
 
 import com.social.server.dtos.PrivaciesDTO;
-import com.social.server.services.PrivacyService;
+import com.social.server.services.Privacy.PrivacyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

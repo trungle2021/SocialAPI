@@ -1,11 +1,9 @@
 package com.social.server.entities.Post;
 
-import com.social.server.entities.PK.PostTaggedUsersPK;
 import com.social.server.entities.User.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity

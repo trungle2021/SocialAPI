@@ -1,6 +1,6 @@
 package com.social.server.controllers;
 
-import com.social.server.services.StorageService;
+import com.social.server.services.Storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;

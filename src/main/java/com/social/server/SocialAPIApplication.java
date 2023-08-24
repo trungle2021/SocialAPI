@@ -15,9 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableAsync
-@EnableJpaRepositories(
-        excludeFilters = @ComponentScan.Filter(
-        type = FilterType.ASSIGNABLE_TYPE, classes = ElasticsearchRepository.class))
+//@EnableJpaRepositories(
+//        excludeFilters = @ComponentScan.Filter(
+//        type = FilterType.ASSIGNABLE_TYPE, classes = ElasticsearchRepository.class))
 @EnableElasticsearchRepositories(
         excludeFilters =  @ComponentScan.Filter(
         type = FilterType.ASSIGNABLE_TYPE, classes = JpaRepository.class))

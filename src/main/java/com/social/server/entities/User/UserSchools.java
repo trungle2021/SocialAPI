@@ -1,7 +1,6 @@
 package com.social.server.entities.User;
 
 
-import com.social.server.entities.PK.UserSchoolsPK;
 import com.social.server.entities.Privacies;
 import com.social.server.entities.Schools;
 import jakarta.persistence.*;

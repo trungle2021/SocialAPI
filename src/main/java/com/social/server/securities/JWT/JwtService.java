@@ -3,8 +3,8 @@ package com.social.server.securities.JWT;
 import com.social.server.entities.User.Accounts;
 import com.social.server.entities.Tokens;
 import com.social.server.exceptions.SocialAppException;
-import com.social.server.services.AccountService;
-import com.social.server.services.RefreshTokenService;
+import com.social.server.services.Account.AccountService;
+import com.social.server.services.Token.TokenService;
 import com.social.server.utils.TokenType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -32,7 +32,7 @@ public class JwtService {
     @Value("${app.jwt-expiration-milliseconds}")
     public Long jwtExpiry;
 
-    private final RefreshTokenService refreshTokenService;
+    private final TokenService tokenService;
     private final AccountService accountService;
     private final String ACCESS_TOKEN = TokenType.ACCESS_TOKEN.toString();
     private final String REFRESH_TOKEN = TokenType.REFRESH_TOKEN.toString();
@@ -78,7 +78,7 @@ public class JwtService {
                     .accountId(account.getId())
                     .createdAt(issuedAt)
                     .build();
-            refreshTokenService.save(refreshTokens);
+            tokenService.save(refreshTokens);
         }
         return token;
     }

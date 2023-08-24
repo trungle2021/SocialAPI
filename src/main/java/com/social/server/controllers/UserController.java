@@ -4,15 +4,11 @@ import com.social.server.dtos.FriendListDTO;
 import com.social.server.dtos.MutualFriendDTO;
 import com.social.server.dtos.UserDTO;
 import com.social.server.entities.User.FriendRequest;
-import com.social.server.entities.User.Users;
-import com.social.server.services.FriendService;
-import com.social.server.services.UserService;
+import com.social.server.services.Friend.FriendService;
+import com.social.server.services.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

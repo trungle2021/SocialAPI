@@ -1,15 +1,13 @@
 package com.social.server.controllers;
 
 import com.social.server.dtos.*;
-import com.social.server.services.CommentService;
-import com.social.server.services.PostBaseService;
-import com.social.server.services.PostService;
+import com.social.server.services.Post.Comment.CommentService;
+import com.social.server.services.Post.PostBase.PostBaseService;
+import com.social.server.services.Post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

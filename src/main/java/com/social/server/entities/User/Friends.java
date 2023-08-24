@@ -1,11 +1,9 @@
 package com.social.server.entities.User;
 
-import com.social.server.entities.PK.FriendsPK;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
 

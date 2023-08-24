@@ -4,7 +4,7 @@ package com.social.server.controllers;
 import com.social.server.dtos.AuthResponse;
 import com.social.server.dtos.LoginDTO;
 import com.social.server.dtos.RegisterDTO;
-import com.social.server.services.AuthService;
+import com.social.server.services.Auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
