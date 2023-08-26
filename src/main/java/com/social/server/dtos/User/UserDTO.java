@@ -1,4 +1,4 @@
-package com.social.server.dtos;
+package com.social.server.dtos.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
