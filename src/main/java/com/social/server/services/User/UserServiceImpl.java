@@ -66,17 +66,16 @@ public class UserServiceImpl implements UserService {
         //save to Elasticsearch
         boolean isIndexExists = checkIndexExists();
         try{
-            if(isIndexExists){
-                 IndexResponse indexResponse = esClient.index(i->
-                            i.index(USER_INDEX)
-                                    .id(usersCreated.getId())
-                                    .document(usersCreated));
-                  documentId = indexResponse.id();
-            }else{
-                    esClient.indices().create(c -> c
-                            .index(Indices.USER_INDEX)
-                    );
+            if(!isIndexExists){
+                esClient.indices().create(c -> c
+                        .index(Indices.USER_INDEX)
+                );
             }
+            IndexResponse indexResponse = esClient.index(i->
+                    i.index(USER_INDEX)
+                            .id(usersCreated.getId())
+                            .document(usersCreated));
+            documentId = indexResponse.id();
         }catch (IOException e){
             throw new SocialAppException(HttpStatus.INTERNAL_SERVER_ERROR,"Cannot insert user into ElasticSearch");
         }

@@ -6,7 +6,6 @@ import lombok.*;
 import java.io.Serializable;
 import java.sql.Date;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
