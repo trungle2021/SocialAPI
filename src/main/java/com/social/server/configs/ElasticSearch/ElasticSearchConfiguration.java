@@ -7,6 +7,10 @@ import co.elastic.clients.transport.rest_client.RestClientTransport;
 import jakarta.validation.constraints.NotNull;
 import nl.altindag.ssl.SSLFactory;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +38,13 @@ public class ElasticSearchConfiguration{
                 .setHttpClientConfigCallback(httpClientBuilder -> {
                     httpClientBuilder.setSSLContext(sslFactory.getSslContext());
                     httpClientBuilder.setSSLHostnameVerifier(sslFactory.getHostnameVerifier());
+
+                    // Add authentication credentials
+                    CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+                    credentialsProvider.setCredentials(AuthScope.ANY,
+                            new UsernamePasswordCredentials("elastic", "helloworld"));
+                    httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+
                     return httpClientBuilder;
                 })
                 .build();
